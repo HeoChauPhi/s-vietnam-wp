@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="{{site.charset}}" />
+    {% if function('is_front_page') %}
+      <title>{{site.name}} - {{site.description}}</title>
+    {% else %}
+      <title>{{ function('bloginfo') }} - {{ wp_title }}</title>
+    {% endif %}
+    <meta name="description" content="{{site.description}}">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1, minimum-scale=1">
+    <link rel="shortcut icon" href="{{site_favicon}}" />
+    <link rel="pingback" href="{{site.pingback_url}}" />
+    {{ wp_head }}
+  </head>
+  <body class="{{ body_class }} {{ subsite_base_color }}" data-template="base.twig">
+    <div class="page-wrapper">
+      {% block header %}
+        {% include 'header.twig' %}
+      {% endblock %}
+
+      {% block feature %}
+      {% endblock %}
+
+      <main role="main" class="clearfix">
+        {% block content %}
+          {{context}}
+        {% endblock %}
+      </main>
+
+      {% block footer %}
+        {% include 'footer.twig' %}
+        {{ wp_footer }}
+      {% endblock %}
+
+      {% block footer_scripts %}
+      {% endblock %}
+    </div>
+
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.9&appId=848396741961451";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+  </body>
+</html>

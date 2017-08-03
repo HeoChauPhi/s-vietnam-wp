@@ -1,0 +1,45 @@
+<ul class="nav-drop megamenu-cat expanded-menu__menu-child show-on-mobile">
+  {% for term in terms %}
+    {% set menu_item_class = '' %}
+    {% if term_link == term.link %}
+      {% set menu_item_class = 'current-menu-item' %}
+    {% endif %}
+
+    <li {% if menu_item_class %}class="{{ menu_item_class }}"{% endif %}><a href="{{ term.link }}">{{ term.name }}</a></li>
+  {% endfor %}
+</ul>
+
+<div class="sub-mega-menu show-on-desktop">
+  <div class="megamenu-tab">
+    <ul class="tabs-list">
+      <li><a href="#tabs-all">{{ __('All Tours', 'pdj_theme') }}</a></li>
+    {% for term in terms %}
+      <li><a href="#tabs-{{ term.slug }}">{{ term.name }}</a></li>
+    {% endfor %}
+    </ul>
+    <div class="tabs-content">
+      <div id="tabs-all" class="tab-content-item">
+        <div class="jcarousel-slider article-4-cols">
+        {% for post in posts %}
+          <div class="article article-top-thumb">
+            <div class="article-thumb"><img src="{{ post.thumbnail.src }}"></div>
+            <h3 class="article-title"><a href="{{ post.link }}">{{post.title}}</a></h3>
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+    {% for term in terms %}
+      <div id="tabs-{{ term.slug }}" class="tab-content-item">
+        <div class="jcarousel-slider article-4-cols">
+        {% for post in term.get_posts %}
+          <div class="article article-top-thumb">
+            <div class="article-thumb"><img src="{{ post.thumbnail.src }}"></div>
+            <h3 class="article-title"><a href="{{ post.link }}">{{post.title}}</a></h3>
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,129 @@
+.block-hot-area {
+  .block-hot-area-list {
+    position: relative;
+
+    @include breakpoint(phablet) {
+      margin: rem(-10px);
+    }
+
+    @include breakpoint(laptop) {
+      margin: 0;
+    }
+  }
+
+  .block-hot-area-item {
+    height: rem(300px);
+    margin-bottom: rem(20px);
+    position: relative;
+
+    @include breakpoint(phablet) {
+      float: left;
+      margin-bottom: 0;
+      padding: rem(10px);
+      width: 50%;
+
+      &:nth-of-type(2n) {
+        float: right;
+      }
+    }
+
+    @include breakpoint(laptop) {
+      float: left;
+      margin-bottom: rem(22px);
+      width: rem(380px);
+      padding: 0;
+
+      &:nth-of-type(2n) {
+        float: left;
+      }
+
+      &:nth-of-type(10n+4),
+      &:nth-of-type(10n+9) {
+        margin-left: rem(22px);
+      }
+
+      &:nth-of-type(5n),
+      &:nth-of-type(5n-3) {
+        float: right;
+        margin-left: 0;
+      }
+
+      &:nth-of-type(5n+1) {
+        margin-left: 0;
+        width: rem(780px);
+      }
+    }
+
+    &:hover {
+      .block-hot-area-link {
+        @include animation(bounceIn 300ms);
+        opacity: 1;
+      }
+    }
+  }
+
+  .block-hot-area-image {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+
+    &:before {
+      background-color: rgba($black, 0.5);
+      bottom: 0;
+      content: "";
+      height: 100%;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100%;
+    }
+
+    img {
+      visibility: hidden;
+    }
+  }
+
+  .block-hot-area-content {
+    color: $white;
+    left: 0;
+    padding: rem(20px);
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 20%;
+    z-index: 9;
+  }
+
+  .block-hot-area-name {
+    font-size: rem(30px);
+    margin: 0;
+
+    &:after {
+      background-color: $white;
+      content: "";
+      display: block;
+      height: rem(3px);
+      margin: rem(20px) auto rem(30px) auto;
+      width: rem(100px);
+    }
+  }
+
+  .block-hot-area-link {
+    @include animation(bounceOut 300ms);
+    opacity: 0;
+    font-size: rem(18px);
+
+    > a {
+      color: $white;
+      margin: rem(0 15px);
+
+      &:hover {
+        color: $color-link;
+      }
+    }
+  }
+}

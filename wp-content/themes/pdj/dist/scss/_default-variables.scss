@@ -1,0 +1,78 @@
+/**
+ * Default Variables.
+ *
+ * Modify this file to provide default Bootstrap Framework variables. The
+ * Bootstrap Framework will not override any variables defined here because it
+ * uses the `!default` flag which will only set their default if not already
+ * defined here.
+ *
+ * You can copy existing variables directly from the following file:
+ * ./THEMENAME/bootstrap/assets/stylesheets/bootstrap/_variables.scss
+ */
+
+// Device.
+$desktop: 1024px;
+$table: 768px;
+$mobile: 480px;
+
+// Set the proper directory for the Bootstrap Glyphicon font.
+$icon-font-path: '../bootstrap/assets/fonts/bootstrap/';
+$container-large-desktop: 1210px !default;
+
+// Fonts.
+@mixin helvetica {
+  font-family: 'HelveticaNeue', sans-serif;
+}
+
+@mixin helvetica_li {
+  font-family: 'HelveticaNeueLightItalic', sans-serif;
+}
+
+@mixin helvetica_b {
+  font-family: 'HelveticaNeueBold', sans-serif;
+}
+
+@mixin helvetica_i {
+  font-family: 'HelveticaNeueItalic', sans-serif;
+}
+
+@mixin utmcaviar {
+  font-family: 'UTM_Caviar', sans-serif;
+}
+
+@mixin opensans {
+  font-family: 'Open Sans', sans-serif;
+}
+
+$base-font-size: 14px;
+
+// Color.
+$green: #32b663;
+$orange: #ffb300;
+$black: #000000;
+$white: #ffffff;
+
+$color-primary: $green;
+$color-seccond: $orange;
+
+$gray-33: #333333;
+$gray-66: #666666;
+$gray-99: #999999;
+$gray-f5: #f5f5f5;
+$gray-41: #414b4f;
+$gray-5c: #5c6c73;
+$gray-cc: #cccccc;
+
+$color-base: $gray-33;
+$color-light: $gray-99;
+$color-link: $color-primary;
+$color-link-hover: $color-primary;
+$color-line-menu: $color-seccond;
+$color-line: $gray-cc;
+$color-line-dark: $gray-5c;
+$color-form: $gray-66;
+
+$bg-light: $gray-f5;
+$bg-dark: $gray-41;
+
+$bg-footer: $bg-dark;

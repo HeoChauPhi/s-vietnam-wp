@@ -1,0 +1,13 @@
+.block-copyright {
+  margin-bottom: rem(20px);
+  text-align: center;
+
+  @include breakpoint(laptop) {
+    margin-bottom: 0;
+    text-align: left;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+}

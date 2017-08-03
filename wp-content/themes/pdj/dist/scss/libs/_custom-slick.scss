@@ -1,0 +1,54 @@
+.slick-arrow {
+  @extend .fa;
+  background: none;
+  border-radius: 0;
+  border: rem(1px) solid $color-line;
+  height: rem(23px);
+  text-indent: -999em;
+  width: rem(23px);
+
+  &:before {
+    text-indent: 0;
+    float: left;
+  }
+
+  &.slick-prev {
+    @extend .fa-angle-left;
+  }
+
+  &.slick-next {
+    @extend .fa-angle-right;
+  }
+}
+
+ul.slick-dots {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+
+  > li {
+    display: inline-block;
+    height: rem(12px);
+    list-style: none;
+    margin: rem(0 5px);
+    width: rem(12px);
+
+    button {
+      background: transparent;
+      border-radius: rem(500px);
+      border: rem(1px) solid $white;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      text-indent: rem(-9999px);
+      width: 100%;
+    }
+
+    &.slick-active {
+      button {
+        background: $white;
+      }
+    }
+  }
+}

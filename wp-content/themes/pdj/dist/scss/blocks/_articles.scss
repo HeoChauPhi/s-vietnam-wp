@@ -1,0 +1,43 @@
+.article {
+  &-4-cols {
+    margin: rem(0 -10px);
+
+    .article {
+      width: 25%;
+      margin: rem(0 10px);
+    }
+  }
+
+  &-3-cols {
+    margin: rem(0 -11px);
+
+    .article {
+      width: 33.3333%;
+      margin: rem(0 11px);
+    }
+  }
+
+  &-title {
+    font-size: rem(14px);
+    margin: rem(15px 0 10px 0);
+
+    a {
+      color: $color-base;
+
+      &:hover {
+        color: $color-link;
+      }
+    }
+  }
+
+  &-top-thumb {
+    .article-thumb {
+      width: 100%;
+      min-height: rem(150px);
+    }
+
+    .article-title {
+
+    }
+  }
+}

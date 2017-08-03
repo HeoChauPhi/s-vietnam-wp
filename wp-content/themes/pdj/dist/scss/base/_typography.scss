@@ -1,0 +1,38 @@
+html {
+  font-size: $base-font-size;
+  line-height: 1.5;
+}
+
+body {
+  @include helvetica;
+  color: $color-base;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+a {
+  color: $color-link;
+
+  &:hover {
+    color: $color-link-hover;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  &:focus {
+    outline: none !important;
+    outline-offset: 0 !important;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  &:focus {
+    outline: none !important;
+    outline-offset: 0 !important;
+  }
+}

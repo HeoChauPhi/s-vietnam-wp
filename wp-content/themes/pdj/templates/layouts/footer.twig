@@ -1,0 +1,30 @@
+{% block footer %}
+  <footer id="footer" class="footer footer-wrapper">
+    <div id="footer-panel" class="footer-panel footer-panel-wrapper">
+      <div class="container">
+        <div class="footer__panel--content row">
+          {% for key, footer in footer_widget %}
+            {% if key != '_multiwidget' %}
+              {{ function('acfwidget', 'footer_blocks', 'footer_widget-' ~ key ) }}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div id="footer-bottom" class="footer-bottom footer-bottom-wrapper">
+      <div class="container">
+        <div class="footer__bottom--content">
+          {% for key, footer in footer_widget %}
+            {% if key != '_multiwidget' %}
+              {{ function('acfwidget', 'footer_bottom', 'footer_widget-' ~ key ) }}
+            {% endif %}
+          {% endfor %}
+          <div class="block-chatonline">
+          <div class="chatonline-label">{{ __('Chat Online', 'pdj_theme') }}<span class="chatonline-action fa fa-angle-up">&#32;</span></div>
+          <div class="fb-page" data-href="{{ facebook_fanpage }}" data-tabs="messages" data-width="280px" data-height="390px" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+{% endblock %}

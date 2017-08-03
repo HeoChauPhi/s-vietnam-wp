@@ -1,0 +1,63 @@
+{% set variable = [] %}
+
+{% if filter_by_post_type is empty %}
+  {% set filter_by_post_type = 'post' %}
+{% endif %}
+
+{% for val in filter_by_custom_fields %}
+  {% set item = '//slug//' ~ val.custom_field_slug ~ "//value//" ~ val.custom_field_value %}
+  {% set variable = variable|merge([item]) %}
+{% endfor %}
+
+{% if box_views_template == 'media-press-releases' %}
+  {% set variable = [] %}
+{% endif %}
+
+{#{shortcode('[view_list custom_fields="' ~ variable|join("+") ~ '" ]')}#}
+
+<div class="views {{box_component_class}}">
+  {% if box_views_title %}
+  <h2 class="section-title">{{box_views_title}}</h2>
+  {% endif %}
+  {{ function('shortcode', '[view_list name="' ~ box_views_template  ~ '" post_type="' ~ filter_by_post_type ~ '" per_page="' ~ post_per_page ~ '" cat_slug="' ~ filter_by_taxonomy_slug ~ '" custom_fields="' ~ variable|join("+")  ~ '" use_pagination="' ~ box_views_pagination ~ '" pagination_type="' ~ pagination_type ~ '" current_paged="1" ]') }}
+
+  {% for field in views_custom_fields %}
+    {% if field.acf_fc_layout == 'field_link' %}
+      <div class="field_link center {{ field.custom_field_class }}"><a class="btn" href="{{ field.link_url }}">{{ field.link_text }}</a></div>
+    {% elseif field.acf_fc_layout == 'field_text' %}
+      <div class="field_text {{ field.custom_field_class }}">{{ field.text_area }}</div>
+    {% elseif field.acf_fc_layout == 'field_list' %}
+      {% if (field.list_icons == 'none') or (field.list_icons == 'circle') or (field.list_icons == 'square') %}
+        {% set list_class = 'list--unordered' %}
+      {% elseif field.list_icons == 'number' %}
+        {% set list_class = 'list--ordered' %}
+      {% else %}
+        {% set list_class = 'list--icon' %}
+      {% endif %}
+
+      <ul class="list {{ list_class }} {{ field.custom_field_class }}">
+        {% for item in field.list_text %}
+          <li>{% if list_class == 'list--icon' %}<i class="{{ field.list_icons }}"></i>{% endif %}{{ item.list_item }}</li>
+        {% endfor %}
+      </ul>
+    {% elseif field.acf_fc_layout == 'field_oembed' %}
+      <div class="field_oembed {{ field.custom_field_class }}">{{ field.shortcode_oembed }}</div>
+    {% elseif field.acf_fc_layout == 'field_select' %}
+      <select class="{{ field.custom_field_class }}">
+        {% if field.add_nothing_item %}
+          <option value="">Select Items</option>
+        {% endif %}
+        {% for item in field.select_list %}
+          <option value="{{ item.select_value_item }}" {% if field.default_item == item.select_value_item %}selected{% endif %}>{{ item.select_text_item }}</option>
+        {% endfor %}
+      </select>
+    {% endif %}
+  {% endfor %}
+  <input type="hidden" name="name"  value="{{box_views_template}}" />
+  <input type="hidden" name="post_type"  value="{{filter_by_post_type}}" />
+  <input type="hidden" name="per_page"  value="{{post_per_page}}" />
+  <input type="hidden" name="cat_slug"  value="{{filter_by_taxonomy_slug}}" />
+  <input type="hidden" name="custom_fields"  value="{{ variable|join("+") }}" />
+  <input type="hidden" name="show_popup_file"  value="{{ show_modal_popup }}" />
+  <input type="hidden" name="use_pagination"  value="{{ box_views_pagination }}" />
+</div>

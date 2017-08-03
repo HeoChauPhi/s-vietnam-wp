@@ -1,0 +1,16 @@
+<div class="layout-wraper">
+  <div class="container">
+    <div class="row">
+    {% if content_layout_group_component_resuft %}
+      <div class="layout-content col-lg-8">
+      {{ function('sub_flexible_content', content_layout_group_component_resuft) }}
+      </div>
+    {% endif %}
+    {% if sidebar_layout_group_component_resuft %}
+      <div class="layout-sidebar col-lg-4">
+      {{ function('sub_flexible_content', sidebar_layout_group_component_resuft) }}
+      </div>
+    {% endif %}
+    </div>
+  </div>
+</div>

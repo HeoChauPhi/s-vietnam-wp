@@ -1,0 +1,106 @@
+#header {
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 999;
+}
+
+.admin-bar {
+  #header {
+    top: rem(46px);
+
+    @include breakpoint(783px) {
+      top: rem(32px);
+    }
+  }
+}
+
+#logo {
+  @include transition(all 0.5s ease);
+  display: inline-block;
+  padding: rem(15px 0);
+
+  img {
+    @include transition(all 0.5s ease);
+  }
+}
+
+.header {
+  @include transition(all 0.5s ease);
+
+  &__logo {
+    text-align: center;
+  }
+
+  .main-menu,
+  .block-multilanguage {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 99;
+  }
+
+  .main-menu {
+    left: 0;
+  }
+
+  .block-multilanguage {
+    right: 0;
+  }
+
+  @include breakpoint(laptop) {
+    &__left {
+      float: left;
+      max-width: 20%;
+    }
+
+    &__right {
+      @include transition(all 0.5s ease);
+      float: right;
+      max-width: 80%;
+      padding-top: rem(40px);
+    }
+
+    .main-menu,
+    .block-multilanguage {
+      position: static;
+      float: right;
+    }
+
+    .block-multilanguage {
+      position: relative;
+    }
+  }
+
+  &.header-fixed {
+    @include transition(all 0.5s ease);
+    background-color: rgba($black, 0.7);
+    max-height: rem(60px);
+
+    #logo {
+      @include transition(all 0.5s ease);
+      padding: rem(10px 0);
+
+      img {
+        @include transition(all 0.5s ease);
+        height: 100%;
+        max-height: 40px;
+        max-width: none;
+        width: auto;
+      }
+    }
+
+    @include breakpoint(laptop) {
+      .header__right {
+        @include transition(all 0.5s ease);
+        padding-top: rem(20px);
+      }
+
+      .main-menu > ul.menu > li > a {
+        @include transition(padding 0.5s ease);
+        padding-bottom: rem(19px);
+      }
+    }
+  }
+}

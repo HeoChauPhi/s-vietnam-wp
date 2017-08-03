@@ -1,0 +1,52 @@
+span.ui-spinner {
+  display: block;
+  position: relative;
+}
+
+input.ui-spinner-input {
+  padding-left: 25px !important;
+  padding-right: 25px !important;
+  text-align: center;
+}
+
+a.ui-spinner-button {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 25px;
+
+  .ui-button-icon {
+    @extend .fa;
+    display: block;
+    height: 100%;
+    width: 100%;
+
+    &:before {
+      display: block;
+      height: 100%;
+      line-height: rem(34px);
+      text-align: center;
+      width: 100%;
+    }
+  }
+
+  &.ui-spinner-up {
+    left: auto;
+    right: 0;
+
+    .ui-button-icon {
+      &:before {
+        @extend .fa-plus;
+      }
+    }
+  }
+
+  &.ui-spinner-down {
+    .ui-button-icon {
+      &:before {
+        @extend .fa-minus;
+      }
+    }
+  }
+}

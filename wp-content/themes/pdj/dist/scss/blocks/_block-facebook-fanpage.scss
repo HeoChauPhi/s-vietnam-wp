@@ -1,0 +1,16 @@
+.block-facebook-fanpage {
+  .fb-page {
+    display: block;
+    width: 100% !important;
+
+    > span {
+      display: block;
+      width: 100% !important;
+
+      > iframe {
+        display: block;
+        width: 100% !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{#{post|print_r}#}
+
+<div class="hero-banner-wrapper front-banner" style="min-height: 100vh;">
+  <div class="hero-banner-media banner-overlay">
+    <div class="hero-banner-slider">
+    {% for item in post.get_field('tour_gallery') %}
+      <div class="front-banner-image" style="background-image: url({{ item.url }}); min-height: 100vh;">&#32;</div>   
+    {% endfor %}
+    </div>
+  </div>
+
+  <div class="hero-banner-body">
+    <div class="container">
+      <div class="row">
+        <div class="hero-banner-body-left col-lg-5">
+          <h1 id="page-title">{{ post.title }}</h1>
+          <div class="post-description">{{ post.get_field('tour_description') }} <span class="learn-more">{{ __('learn more', 'pdj_theme') }}</span></div>
+        </div>
+
+        <div class="scroll-next-block col-lg-2">
+          <span class="scroll-icon">&#32;</span>
+        </div>
+
+        <div class="hero-banner-body-right col-lg-5">
+          <div class="hero-banner-control">
+            {% for item in post.get_field('tour_gallery') %}
+              <div class="hero-banner-control-item" style="background-image: url({{ item.sizes.thumbnail }}); height: 60px; width: 60px;">&#32;</div>   
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
+
+<div class="main-wrapper">
+  <div class="container">
+    <div class="main-inner">
+      <div class="row">
+        <div class="sidebar col-lg-3">
+          {% include 'sidebar-tour.twig' %}
+        </div>
+        <div class="main-content col-lg-9">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{#% if related('category') %}
+  <h3 class="related-title block-title">Related post</h3>
+  <ul class="post-related">
+    {% for post in function('related', 'category') %}
+      <li><a href="{{post.link}}">{{post.title}}</a></li>
+    {% endfor %}
+  </ul>
+{% endif %#}
+
+{#% if function('comments_open') %}
+{% include 'comments.twig' %}
+{{ function('comment_form') }}
+{% endif %#}
+

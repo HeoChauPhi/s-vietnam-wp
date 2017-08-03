@@ -1,0 +1,12 @@
+<div class="col-lg-4 footer-bottom-menu {{ component_class }}">
+{% if footer_bottom_list_links %}
+  <ul class="menu--list">
+  {% for item in footer_bottom_list_links %}
+    <li class="menu--item"><a href="{{ item.link_url }}">{{ item.link_text }}</a></li>
+  {% endfor %}
+  </ul>
+{% endif %}
+{% if footer_bottom_social == 1 %}
+  {% include "block-social.twig" %}
+{% endif %}
+</div>

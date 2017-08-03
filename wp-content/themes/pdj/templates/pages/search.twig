@@ -1,0 +1,23 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+  {% include 'searchform.twig' %}
+
+  <div class="search-result">
+    <div class="container-wide search-result__inner">
+    {% if posts %}
+    {% for post in posts %}
+      <div class="search-result__item">
+        <h3 class="search-result__title"><a href="{{ post.link }}">{{ post.title }}</a></h3>
+        <div class="search-result__text">
+          <a href="{{ post.link }}">{{post.content|excerpt(30)}}</a>
+        </div>
+      </div>
+    {% endfor %}
+    {% else %}
+      <p>{{ __('Sorry, no results were found!', 'pdj_theme') }}</p>
+    {% endif %}
+    </div>
+  </div>
+
+{% endblock %}
