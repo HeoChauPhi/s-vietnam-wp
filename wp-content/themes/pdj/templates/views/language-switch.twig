@@ -1,0 +1,20 @@
+{#{function('icl_get_languages')|print_r}#}
+{% if function('icl_get_languages') %}
+  <div class="block-multilanguage">
+    <div class="current-language js_toggle_menu">
+      {% for item in function('icl_get_languages') %}
+        {% if item.active == 1 %}
+        <span>{{ item.code }} <span class="fa fa-angle-down">&#32;</span></span>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <ul class="menu-multilanguage">
+    {% for item in function('icl_get_languages') %}
+      {% if item.active != 1 %}
+      <li><a href="{{ item.url }}">{{ item.code }}</a></li>
+      {% endif %}
+    {% endfor %}
+    </ul>
+  </div>
+{% endif %}

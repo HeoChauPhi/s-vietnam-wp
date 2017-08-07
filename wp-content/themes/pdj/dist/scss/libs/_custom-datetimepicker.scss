@@ -1,0 +1,103 @@
+.ui-datepicker {
+  @include box-shadow(rgba(0, 0, 0, 0.5) 3px 3px 10px);
+  background-color: #efefef;
+  border: 1px solid #bfbfbf;
+  box-sizing: initial;
+  color: #aaa;
+  display: none;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  padding: 12px;
+  position: absolute;
+  z-index: 1;
+
+  a {
+    color: #aaa;
+  }
+
+  &-header,
+  &-calendar {
+    background-color: #fff;
+    border: 1px solid #bfbfbf;
+    padding: 5px;
+  }
+
+  &-header {
+    border-bottom: none;
+    border-radius: 3px 3px 0 0;
+  }
+
+  &-calendar {
+    border-top: none;
+    border-radius: 0 0 3px 3px;
+
+    th,
+    td {
+      text-align: center;
+
+      a {
+        display: block;
+        line-height: 1;
+        padding: 7px;
+      }
+    }
+
+    td {
+      a {
+        color: #333;
+
+        &.ui-state-highlight {
+          background-color: #ffe684;
+        }
+
+        &.ui-state-active {
+          background-color: #49e;
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  &-prev,
+  &-next {
+    width: 15px;
+
+    span {
+      @extend .fa;
+      text-indent: rem(-99999px);
+      width: 100%;
+
+      &:before {
+        float: left;
+        text-indent: 0;
+        width: 100%;
+      }
+    }
+  }
+
+  &-prev {
+    float: left;
+
+    span {
+      @extend .fa-angle-left;
+    }
+  }
+
+  &-next {
+    float: right;
+
+    span {
+      @extend .fa-angle-right;
+
+      &:before {
+        text-align: right;
+      }
+    }
+  }
+
+  &-title {
+    text-align: center;
+    font-weight: 700;
+  }
+}

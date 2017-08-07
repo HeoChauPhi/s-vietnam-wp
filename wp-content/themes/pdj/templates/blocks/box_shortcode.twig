@@ -1,0 +1,37 @@
+{% set variable = [] %}
+
+{% for val in box_shortcode_variables %}
+  {% set item = val.shortcode_variable ~ '="' ~ val.shortcode_value ~ '"' %}
+  {% set variable = variable|merge([item]) %}
+{% endfor %}
+
+<div class="{{box_component_class}}">
+  {% if box_shortcode_title %}
+  <h2 class="section-title">{{box_shortcode_title}}</h2>
+  {% endif %}
+  {{ function('shortcode', '[' ~ box_shortcode_name  ~ " " ~ variable|join(" ") ~ ']') }}
+
+  {% for field in shortcode_custom_fields %}
+    {% if field.acf_fc_layout == 'field_link' %}
+      <div class="field_link center distance-bottom-70"><a class="btn" href="{{ field.link_url }}">{{ field.link_text }}</a></div>
+    {% elseif field.acf_fc_layout == 'field_text' %}
+      <div class="field_text">{{ field.text_area }}</div>
+    {% elseif field.acf_fc_layout == 'field_list' %}
+      {% if (field.list_icons == 'none') or (field.list_icons == 'circle') or (field.list_icons == 'square') %}
+        {% set list_class = 'list--unordered' %}
+      {% elseif field.list_icons == 'number' %}
+        {% set list_class = 'list--ordered' %}
+      {% else %}
+        {% set list_class = 'list--icon' %}
+      {% endif %}
+
+      <ul class="list {{ list_class }}">
+        {% for item in field.list_text %}
+          <li>{% if list_class == 'list--icon' %}<i class="{{ field.list_icons }}"></i>{% endif %}{{ item.list_item }}</li>
+        {% endfor %}
+      </ul>
+    {% elseif field.acf_fc_layout == 'field_oembed' %}
+      <div class="field_oembed">{{ field.shortcode_oembed }}</div>
+    {% endif %}
+  {% endfor %}
+</div>

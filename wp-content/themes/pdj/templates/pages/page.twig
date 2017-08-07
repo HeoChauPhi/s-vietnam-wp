@@ -1,0 +1,19 @@
+{% extends 'layout.twig' %}
+
+{% block feature %}
+  <div id="feature" class="feature-wrapper">
+    {% for post in posts %}
+      {% if function('is_front_page') %}
+      {% include 'front_banner.twig' %}
+      {% else %}
+      {% include 'hero_banner.twig' %}
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block content %}
+  {% for post in posts %}
+    {{ function('flexible_content', 'group_component') }}
+  {% endfor %}
+{% endblock %}

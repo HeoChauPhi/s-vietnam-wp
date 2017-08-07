@@ -1,0 +1,18 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+  {% if function('has_custom_logo') %}
+    {% set logo_url = custom_logo %}
+  {% else %}
+    {% set logo_url = site_logo_scroll %}
+  {% endif %}
+
+  <div class="block-404">
+    <div class="block-404__content">
+      <a href="{{ site.url }}" class="block-404__logo" style="background-image: url({{ logo_url }});"></a>
+      <h2 class="block-404__title">{{ __('Page not found', 'pdj_theme') }}</h2>
+      <div class="block-404__text">{{ __("The page you are looking for doesn't exist or has been moved.
+      ", 'pdj_theme' ) }}</div>
+    </div>
+  </div>
+{% endblock %}

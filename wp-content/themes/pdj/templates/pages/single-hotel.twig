@@ -1,0 +1,36 @@
+<h2>{{ post.title }}</h2>
+<div class="room-type">
+{% for room in post.get_field('room_type') %}
+  <div class="room-item">
+    <h4>{{ room.title }}</h4>
+
+    <form class="booking-hotel" method="POST" action="#">
+      <input type="hidden" name="row" value="1">
+
+      <label for="subject">Full Name*</label>
+      <input type="text" name="subject" value="" class="subject require"  placeholder="Full Name">
+
+      <input type="hidden" name="quote_stage" value="Draft" class="quote_stage">
+
+      <input type="hidden" name="product_id" value="{{ room.get_field('productid') }}" class="product_id">
+
+      <label for="quantity">Quantity*</label>
+      <input type="number" name="quantity" min="1" value="1" class="quantity">
+
+
+      <label for="total">Total*</label>
+      <input type="text" name="total" value="{{ room.get_field('unit_price') }}" class="total">
+
+
+      <label for="net_total">Net Total*</label>
+      <input type="text" name="net_total" value="" class="net_total" placeholder="Net Total">
+
+
+      <label for="grand_total">Grand Total*</label>
+      <input type="text" name="grand_total" value="" class="grand_total" placeholder="Grand Total">
+
+      <input type="submit" value="Submit" class="booking">
+    </form>
+  </div>
+{% endfor %}
+</div>

@@ -1,0 +1,50 @@
+// Default variables.
+@import 'default-variables';
+
+// Bootstrap Framework.
+@import '../bootstrap/assets/stylesheets/bootstrap';
+
+// Base-theme overrides.
+//@import 'overrides';
+
+// Child-theme custom.
+//@import 'libs/jquery-ui/jquery-ui';
+@import 'libs/sass-compass/animate';
+@import 'libs/fontawesome/font-awesome';
+@import 'libs/daterangepicker';
+@import 'libs/slick';
+@import 'libs/select2';
+
+@import 'base/functions';
+@import 'base/mixin';
+@import 'base/fonts';
+@import 'base/helper';
+@import 'base/typography';
+@import 'base/navigation';
+
+// Custom libs
+@import 'libs/custom-slick';
+@import 'libs/custom-quicktab';
+@import 'libs/custom-datetimepicker';
+@import 'libs/custom-spinner';
+@import 'libs/custom-select2';
+
+@import 'layout/sitewide';
+@import 'layout/header';
+@import 'layout/footer';
+@import 'layout/main-content';
+@import 'layout/sidebar';
+
+// Blocks
+@import 'blocks/blocks';
+
+// Views
+@import 'views/views';
+
+// Pages
+@import 'pages/pages';
+@import 'pages/single';
+@import 'pages/single-tours';
+
+// Custom Style
+@import 'custom-style';

@@ -1,0 +1,184 @@
+{
+    "key": "group_596843ab8be7a",
+    "title": "Hero Banner for Front Page",
+    "fields": [
+        {
+            "key": "field_596843eb97db7",
+            "label": "Front Banner Switch",
+            "name": "front_banner_switch",
+            "type": "select",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "image": "Banner Image",
+                "video_file": "Banner Video Up File",
+                "video_url": "Banner Video URL"
+            },
+            "default_value": [
+                "image"
+            ],
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 0,
+            "ajax": 0,
+            "return_format": "value",
+            "placeholder": ""
+        },
+        {
+            "key": "field_5968442397db8",
+            "label": "Front Banner Image",
+            "name": "front_banner_image",
+            "type": "image",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_596843eb97db7",
+                        "operator": "==",
+                        "value": "image"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
+            "key": "field_5968449b97db9",
+            "label": "Front Banner Video File",
+            "name": "front_banner_video_file",
+            "type": "file",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_596843eb97db7",
+                        "operator": "==",
+                        "value": "video_file"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "min_size": "",
+            "max_size": 8,
+            "mime_types": ""
+        },
+        {
+            "key": "field_596844cf97dba",
+            "label": "Front Banner Video URL",
+            "name": "front_banner_video_url",
+            "type": "oembed",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_596843eb97db7",
+                        "operator": "==",
+                        "value": "video_url"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "width": "",
+            "height": ""
+        },
+        {
+            "key": "field_596844fc97dbb",
+            "label": "Front Banner Overlay",
+            "name": "front_banner_overlay",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Check if you want enable overlay this banner.",
+            "default_value": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_5968451a97dbc",
+            "label": "Filter Option",
+            "name": "filter_option",
+            "type": "checkbox",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "tours": "Tours",
+                "fly_tickets": "Fly Tickets",
+                "hotel": "Hotel"
+            },
+            "allow_custom": 0,
+            "save_custom": 0,
+            "default_value": [
+                "tours",
+                "fly_tickets",
+                "hotel"
+            ],
+            "layout": "vertical",
+            "toggle": 0,
+            "return_format": "array"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_type",
+                "operator": "==",
+                "value": "front_page"
+            }
+        ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "menu_item_level": "all",
+    "modified": 1500008067
+}

@@ -1,0 +1,238 @@
+.block-search-service {
+  font-size: rem(16px);
+
+  form {
+    display: block;
+    max-height: rem(250px);
+    overflow-y: auto;
+
+    @include breakpoint(laptop) {
+      display: -webkit-flex;
+      display: flex;
+      -webkit-justify-content: space-between;
+      justify-content: space-between;
+      -webkit-align-items: flex-end;
+      align-items: flex-end;
+      max-height: none;
+      overflow-y: visible;
+    }
+
+    &.form-hotel {
+      .daterange_picker {
+        @include breakpoint(laptop) {
+          display: -webkit-flex;
+          display: flex;
+          -webkit-justify-content: space-between;
+          justify-content: space-between;
+          -webkit-align-items: flex-end;
+          align-items: flex-end;
+
+          .form-item {
+            margin: rem(0 48px);
+          }
+        }
+      }
+    }
+
+    .group-items {
+      margin-bottom: rem(15px);
+
+      @include breakpoint(laptop) {
+        margin-bottom: 0;
+      }
+
+      .form-item {
+        @include breakpoint(laptop) {
+          margin-bottom: rem(15px);
+
+          &:last-of-type {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+
+    .form-item {
+      margin-bottom: rem(15px);
+      position: relative;
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+
+      @include breakpoint(laptop) {
+        margin-bottom: 0;
+        max-width: rem(170px);
+      }
+
+      label {
+        display: block;
+        font-weight: normal;
+      }
+
+      input[type="text"],
+      select {
+        background-color: $white;
+        border-radius: rem(3px);
+        border: none;
+        color: $color-form;
+        display: block;
+        padding: rem(5px);
+        width: 100%;
+      }
+
+      input[type="checkbox"] {
+        height: rem(25px);
+        width: rem(25px);
+      }
+
+      button {
+        background-color: $color-link;
+        min-width: rem(120px);
+
+        &:active,
+        &:active:hover,
+        &:active:focus,
+        &:hover,
+        &:focus {
+          background-color: darken($color-link, 10%);
+        }
+      }
+
+      .form-alias {
+        background-color: $white;
+        border-radius: rem(3px);
+        color: $color-form;
+        display: block;
+        line-height: rem(34px);
+        min-height: rem(34px);
+        text-align: center;
+
+        @include breakpoint(laptop) {
+          min-width: rem(170px);
+        }
+      }
+    }
+
+    .form-text-dropdown {
+      background-color: $white;
+      border-radius: rem(3px);
+      color: $color-form;
+      cursor: pointer;
+      display: block;
+      overflow-x: hidden;
+      padding: rem(5px 20px 5px 5px);
+      white-space: nowrap;
+
+      .hotel-order-alias {
+        display: block;
+        overflow: hidden;
+      }
+    }
+
+    .group-items-dropdown {
+      > .form-item {
+        display: none;
+      }
+
+      @include breakpoint(laptop) {
+        position: relative;
+
+        > .form-item {
+          display: block;
+          margin-bottom: 0;
+        }
+
+        .form-text-dropdown {
+          position: relative;
+
+          input[type="text"] {
+            padding-right: rem(20px);
+          }
+
+          .form-dropdown-icon {
+            bottom: 0;
+            color: $color-form;
+            line-height: rem(34px);
+            position: absolute;
+            right: 0;
+            text-align: center;
+            top: 0;
+            width: rem(20px);
+            z-index: 9;
+          }
+        }
+
+        .form-dropdown {
+          @include transition(all 0.3s ease);
+          background-color: $white;
+          border-radius: rem(3px);
+          border: rem(1px) solid $color-line;
+          left: 0;
+          margin-top: rem(10px);
+          opacity: 0;
+          position: absolute;
+          right: 0;
+          top: 110%;
+          visibility: hidden;
+          z-index: -999;
+
+          &.form-dropdown-show {
+            @include transition(all 0.3s ease);
+            opacity: 1;
+            top: 100%;
+            visibility: visible;
+            z-index: 1;
+          }
+
+          &:before {
+            //text-shadow: 0px 2px 0px white, 0px -2px 0px red, 2px 0px 0px red, -2px 0px 0px red;
+            @include text-shadow(rem(0px 2px 0px) $white, rem(0px -2px 0px) $color-line, rem(2px 0px 0px) $color-line, rem(-2px 0px 0px) $color-line);
+            content: "\f0d8";
+            font-family: FontAwesome;
+            font-size: rem(20px);
+            left: 0;
+            line-height: rem(20px);
+            position: absolute;
+            right: 0;
+            text-align: center;
+            top: rem(-13px);
+          }
+
+          .form-item {
+            border-top: rem(1px) solid $color-line;
+            margin: 0;
+            position: relative;
+
+            .form-alias {
+              background-color: transparent;
+              border-radius: 0;
+              min-width: auto;
+            }
+
+            &:first-of-type {
+              border-top: none;
+            }
+
+            &.hotel_childs_age_list {
+              border-top: none;
+
+              > .form-item {
+                border-top: rem(1px) solid $color-line;
+              }
+            }
+
+            &[class*="form-item-childs-age"] {
+              > label {
+                border-bottom: rem(1px) solid $color-line;
+                color: $color-form;
+                margin: rem(0 10px 5px 10px);
+                padding: rem(10px 0 5px 0);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

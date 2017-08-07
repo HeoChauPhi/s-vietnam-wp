@@ -1,0 +1,7 @@
+# Normalize EOL=LF
+* text=auto
+
+# Ignore files when export
+demo.php export-ignore
+.DS_Store export-ignore
+Thumbs.db export-ignore

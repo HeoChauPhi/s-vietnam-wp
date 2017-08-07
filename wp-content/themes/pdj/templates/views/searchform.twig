@@ -1,0 +1,11 @@
+{% block searchform %}
+  <div class="block-search">
+    <span class="js-toogle--search icon-cross"></span>
+    <span class="js-toogle--search icon-search"></span>
+
+    <form class="searchform" role="search" method="get" id="searchform" action="{{site.url}}/">
+      <input class="form-text" type="text" value="{{function('get_search_query')}}" name="s" id="s" placeholder="{{ __('Search', 'pdj_theme')}}">
+      <button type="submit" id="searchsubmit" value="Search" class="button postfix">{{ __('Search', 'pdj_theme')}}</button>
+    </form>
+  </div>
+{% endblock %}

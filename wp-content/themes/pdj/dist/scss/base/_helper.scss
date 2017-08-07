@@ -1,0 +1,30 @@
+.show-on-mobile {
+  @include breakpoint(laptop) {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
+.show-on-desktop {
+  display: none !important;
+  visibility: hidden;
+
+  @include breakpoint(laptop) {
+    display: block !important;
+    visibility: visible;
+  }
+}
+
+.title {
+  &-left {
+    text-align: left;
+  }
+
+  &-right {
+    text-align: right;
+  }
+
+  &-center {
+    text-align: center;
+  }
+}

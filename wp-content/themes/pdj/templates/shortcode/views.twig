@@ -1,0 +1,16 @@
+{% if ( use_pagination == '1' ) and ( pagination_type == 'ajax' ) %}
+  {% set ajax_views = 'ajax_views' %}
+{% endif %}
+
+<div class="views {{ ajax_views }}">
+{% for post in posts %}
+  <div class="{{post.class|join(" ")}}">
+    <h3 class="post-title">{{post.title}}</h3>
+    <p>{{post.content|excerpt(30)}}</p>
+  </div>
+{% endfor %}
+</div>
+
+{% if use_pagination %}
+{% include 'pagination.twig' with {'pagedtype': pagination_type} %}
+{% endif %}
