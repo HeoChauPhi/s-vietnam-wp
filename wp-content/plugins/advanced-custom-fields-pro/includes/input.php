@@ -263,6 +263,7 @@ class acf_input {
 			'validation_failed_1'	=> __('1 field requires attention', 'acf'),
 			'validation_failed_2'	=> __('%d fields require attention', 'acf'),
 			'restricted'			=> __('Restricted','acf'),
+			'are_you_sure'			=> __('Are you sure?','acf'),
 			'yes'					=> __('Yes','acf'),
 			'no'					=> __('No','acf'),
 			'remove'				=> __('Remove','acf'),

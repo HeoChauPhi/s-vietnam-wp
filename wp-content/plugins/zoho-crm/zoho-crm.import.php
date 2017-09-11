@@ -89,62 +89,54 @@ function zohocrm_insert_content() {
                 update_field('sales_end_date', $value['sales_end_date'], $post_id);
               }
 
+              $rooms_id = [];
+              $id_imported = array_merge($zohocrm_updateid, $zohocrm_importid);
+
+              $args_room_id = array(
+                'numberposts' => -1,
+                'post_type'   => 'room',
+                'meta_key'    => 'productid',
+                'meta_value'  => $id_imported
+              );
+
+              $all_rooms_imported = Timber::get_posts( $args_room_id );
+
+              foreach ($all_rooms_imported as $room) {
+                array_push($rooms_id, $room->ID);
+              }
+
+              $hotel = get_page_by_title($key, OBJECT, 'hotel');
+
+              if(!empty($hotel)) {
+                $hotel_id = $hotel->ID;
+
+                $rooms_relationship = get_field('room_type', $hotel_id);
+
+                foreach ($rooms_relationship as $room) {
+                  if (!in_array($room->ID, $rooms_id)) {
+                    array_push($rooms_id, $room->ID);
+                  }
+                }
+
+                update_field('room_type', $rooms_id, $hotel_id);
+              } else {
+                $args_hotel = array(
+                  'ID'            => '',
+                  'post_title'    => $key,
+                  'post_status'   => 'publish',
+                  'post_type'     => $zohocrm_type
+                );
+
+                $hotel_id = wp_insert_post($args_hotel);
+                update_field('room_type', $rooms_id, $hotel_id);
+              }
+
               break;
             
             default:
               echo __('select Hotel', 'zoho_crm');
               break;
           }
-        }
-
-        switch ($zohocrm_type) {
-          case 'hotel':
-            $rooms_id = [];
-            $id_imported = array_merge($zohocrm_updateid, $zohocrm_importid);
-
-            $args_room_id = array(
-              'numberposts' => -1,
-              'post_type'   => 'room',
-              'meta_key'    => 'productid',
-              'meta_value'  => $id_imported
-            );
-
-            $all_rooms_imported = Timber::get_posts( $args_room_id );
-
-            foreach ($all_rooms_imported as $room) {
-              array_push($rooms_id, $room->ID);
-            }
-
-            $hotel = get_page_by_title($key, OBJECT, $zohocrm_type);
-
-            if(!empty($hotel)) {
-              $hotel_id = $hotel->ID;
-
-              $rooms_relationship = get_field('room_type', $hotel_id);
-
-              foreach ($rooms_relationship as $room) {
-                if (!in_array($room->ID, $rooms_id)) {
-                  array_push($rooms_id, $room->ID);
-                }
-              }
-
-              update_field('room_type', $rooms_id, $hotel_id);
-            } else {
-              $args_hotel = array(
-                'ID'            => '',
-                'post_title'    => $key,
-                'post_status'   => 'publish',
-                'post_type'     => $zohocrm_type
-              );
-
-              $hotel_id = wp_insert_post($args_hotel);
-              update_field('room_type', $rooms_id, $hotel_id);
-            }
-            break;
-          
-          default:
-            # code...
-            break;
         }
       }
 
