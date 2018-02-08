@@ -1,1 +1,0 @@
-<div class="fl-slideshow-container"></div>
