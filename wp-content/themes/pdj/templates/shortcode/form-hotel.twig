@@ -1,0 +1,68 @@
+<form id="form-hotel" class="form-hotel" name="form-hotel" method="GET" action="{{ function('home_url') }}/search-service">
+  <div class="form-item">
+    <label for="hotel_area">{{ __('Area', 'pdj_theme') }}</label>
+    <input type="text" name="hotel_area" class="hotel_area location-complete">
+  </div>
+
+  <div class="group-items daterange_picker">
+    <div class="form-item">
+      <label for="hotel_date_checkin">{{ __('Date Check In', 'pdj_theme') }}</label>
+      <input type="text" name="hotel_date_checkin" class="hotel_date_checkin date-start">
+    </div>
+    <div class="form-item">
+      <label for="hotel_date_checkout">{{ __('Date Check Out', 'pdj_theme') }}</label>
+      <input type="text" name="hotel_date_checkout" class="hotel_date_checkout date-end">
+    </div>
+  </div>
+
+  <div class="group-items group-items-dropdown">
+    <label class="show-on-mobile">{{ __('Rooms Order', 'pdj_theme') }}</label>
+    <div class="form-item">
+      <label for="hotel_order">{{ __('Rooms Order', 'pdj_theme') }}</label>
+      <div class="form-text-dropdown">
+        <span class="hotel-order-alias">
+          <span class="hotel_room">1</span> {{ __('Rooms', 'pdj_theme') }}
+          <span class="hotel_people">1</span> {{ __('People', 'pdj_theme') }}
+          <span class="hotel_extra_bed">0</span> {{ __('Extra Bed', 'pdj_theme') }}
+        </span>
+        <span class="form-dropdown-icon fa fa-caret-down">&#32;</span>
+      </div>
+    </div>
+
+    <div class="form-dropdown">
+      <div class="form-item">
+        <input type="hidden" name="hotel_room" value="1" placeholder="1" class="js_spinner hotel_room">
+        <span class="form-alias"><span class="form-count">1</span> {{ __('Rooms', 'pdj_theme') }}</span>
+      </div>
+      <div class="form-item">
+        <input type="hidden" name="hotel_extra_bed" value="0" placeholder="0" class="js_spinner js_spinner_zero hotel_extra_bed">
+        <span class="form-alias"><span class="form-count">0</span> {{ __('Extra Bed', 'pdj_theme') }}</span>
+      </div>
+      <div class="form-item">
+        <input type="hidden" name="hotel_people" value="1" placeholder="1" class="js_spinner hotel_people">
+        <span class="form-alias"><span class="form-count">1</span> {{ __('People', 'pdj_theme') }}</span>
+      </div>
+      <div class="form-item">
+        <input type="hidden" name="hotel_childs" value="0" placeholder="0" class="js_spinner js_spinner_zero hotel_childs">
+        <span class="form-alias"><span class="form-count">0</span> {{ __('Childs', 'pdj_theme') }}</span>
+      </div>
+
+      <div class="form-item form-item-childs-age hidden">
+        <label>{{ __('Childs Age', 'pdj_theme') }}</label>
+        <select name="hotel_childs_age" class="hotel_childs_age" disabled>
+          <option value="" checked>{{ __('- Select -', 'pdj_theme') }}</option>
+          <option value="< 1">&#60; 1</option>
+        {% for item in 1..17 %}
+          <option value="{{ item }}">{{ item }}</option>
+        {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-item hotel_childs_age_list"></div>
+    </div>
+  </div>
+
+  <div class="form-item">
+  <button class="btn btn-primary" type="submit" form="form-hotel" value="Find">{{ __('Find', 'pdj_theme') }}</button>
+  </div>
+</form>

@@ -1,0 +1,86 @@
+@mixin breakpoint($point) {
+  @if $point == desktop {
+    @media (min-width: em(1366px)) { @content ; }
+  }
+
+  @else if $point == laptop {
+    @media (min-width: em(1024px)) { @content ; }
+  }
+
+  @else if $point == tablet {
+    @media (min-width: em(768px)) { @content ; }
+  }
+
+  @else if $point == phablet {
+    @media (min-width: em(600px))  { @content ; }
+  }
+
+  @else if $point == mobileonly {
+    @media (max-width: em(480px))  { @content ; }
+  }
+
+  @else {
+    @media (min-width: $point) { @content ; }
+  }
+}
+
+@mixin scrollbar($height, $style) {
+  max-height: rem($height);
+  overflow-y: auto;
+  padding-right: rem(6px);
+
+  @if $style == white {
+    $shadow: $black;
+    $bg_color: $white;
+    $outline: $black;
+
+    &::-webkit-scrollbar {
+      border-radius: rem(10px);
+      width: rem(6px);
+    }
+
+    &::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 rem(6px) $shadow;
+      border-radius: rem(10px);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $bg_color;
+      border-radius: rem(10px);
+      cursor: pointer;
+      outline: 1px solid $outline;
+    }
+  }
+
+  @if $style == black {
+    $shadow: $black;
+    $bg_color: $black;
+    $outline: $white;
+
+    &::-webkit-scrollbar {
+      border-radius: rem(10px);
+      width: rem(6px);
+    }
+
+    &::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 rem(6px) $shadow;
+      border-radius: rem(10px);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $bg_color;
+      border-radius: rem(10px);
+      cursor: pointer;
+      outline: 1px solid $outline;
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform:rotate(0deg);
+  }
+  to {
+    transform:rotate(360deg);
+  }
+}

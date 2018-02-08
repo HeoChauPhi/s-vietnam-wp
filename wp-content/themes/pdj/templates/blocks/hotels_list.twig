@@ -1,0 +1,36 @@
+{% if list_types == 'block' %}
+  <div class="block block-hotels-list {{ component_class }}">
+    <h2 class="block-title">{{ hotels_list_title }}</h2>
+    <div class="block-content">
+      <div class="block-list-hotels">
+      {% for hotel in posts_list_custom %}
+        <div class="block-hotel-item">
+          <div class="hotel-image" {% if hotel.get_field('post_gallery') %}style="background-image: url({{ hotel.get_field('post_gallery')[0].image_link }});"{% endif %}></div>
+          <div class="hotel-content">
+            <h3 class="hotel-title"><a href="{{ hotel.link }}">{{ hotel.title }}</a></h3>
+            {% if hotel.get_field('hotel_star') %}
+              <ul class="hotel-star clearfix">
+              {% for item in 1..5 %}
+                {% if loop.index <= hotel.get_field('hotel_star') %}
+                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                {% else %}
+                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                {% endif %}
+              {% endfor %}
+              </ul>
+            {% endif %}
+            <div class="hotel-address">{{ hotel.get_field('address') }}</div>
+          </div>
+          <div class="hotel-price">
+            <div class="hotel-price--label">{{ __("price / night", "pdj_theme") }}</div>
+            <div class="hotel-price--value">{{ __("VNĐ", "pdj_theme") }} <span class="price--value">{{ hotel.room_price_min|number_format(0, '.', ',') }}</span></div>
+            <a href="{{ hotel.link }}" class="btn btn-primary book-now">{{ __("book now", "pdj_theme") }}</a>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+{% else %}
+  {{ function("do_shortcode", '[template_list_page post_type="hotel" per_page="' ~ hotels_per_page ~ '"]') }}
+{% endif %}

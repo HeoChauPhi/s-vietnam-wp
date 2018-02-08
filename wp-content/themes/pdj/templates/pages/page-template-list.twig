@@ -1,0 +1,32 @@
+{% extends 'layout.twig' %}
+
+{% block feature %}
+  <div id="feature" class="feature-wrapper">
+    {% include 'hero_banner.twig' with {'post': post} %}
+  </div>
+{% endblock %}
+
+{% block content %}
+  {#<img src="https://drive.google.com/uc?id=0B0NjbcI5jSiLY3JOS3hlM2NETEE">#}
+
+  <div class="main-content">
+    <div class="container">
+      <div class="main-single has-sidebar sidebar-left">
+        <div class="row">
+          <div class="main-content col-lg-9 pull-right">
+            <div id="test-data"></div>
+            {{ function('the_content') }}
+            {{ function('flexible_content', 'group_component') }}
+          </div>
+
+          <div class="sidebar col-lg-3 pull-left">
+            <div class="sidebar-inner">
+              {% include 'sidebar-left.twig' %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

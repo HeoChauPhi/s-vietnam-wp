@@ -1,0 +1,1 @@
+<?php echo do_shortcode('[featured_products per_page="' . $settings->quantity . '" columns="' . $settings->columns . '"]'); ?>

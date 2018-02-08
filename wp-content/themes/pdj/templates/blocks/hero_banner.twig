@@ -1,0 +1,22 @@
+{% set banner_class = '' %}
+{% if post.get_field('hero_banner_overlay') %}
+  {% set banner_class = banner_class ~ 'banner-overlay' %}
+{% endif %}
+
+<div  class="hero-banner-wrapper">
+  <div class="hero-banner-media {{ banner_class }}">
+    <div class="hero-banner-image" style="background-image: url({{ post.get_field('hero_banner_image').url }});">&#32;</div>
+  </div>
+
+  <div class="hero-banner-body">
+    <div class="container">
+    {% if title_option != "on" %}
+      {% if post.title %}
+      <h1 id="page-title">
+        {{ post.title }}
+      </h1>
+      {% endif %}
+    {% endif %}
+    </div>  
+  </div>  
+</div>

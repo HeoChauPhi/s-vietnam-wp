@@ -1,0 +1,55 @@
+.block-video-libs {
+  .block-video-item-action {
+    height: rem(215px);
+    margin-bottom: rem(21px);
+
+    iframe {
+      display: block;
+    }
+  }
+
+  .block-video-item-control {
+    margin: rem(0 -4px);
+    position: relative;
+
+    .block-video-item {
+      display: inline-block;
+      padding: rem(4px);
+      text-align: center;
+      visibility: hidden;
+      width: 33.3333%;
+
+      &.slick-slide {
+        visibility: visible;
+      }
+
+      .block-video-thumbnail {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        cursor: pointer;
+        height: rem(68px);
+        overflow: hidden;
+
+
+        img {
+          visibility: hidden;
+        }
+      }
+    }
+
+    .slick-arrow {
+      color: $white;
+      left: rem(4px);
+      margin-top: rem(-12px);
+      position: absolute;
+      top: 50%;
+      z-index: 9;
+
+      &.slick-next {
+        left: auto;
+        right: rem(4px);
+      }
+    }
+  }
+}

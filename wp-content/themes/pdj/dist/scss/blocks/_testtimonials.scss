@@ -1,0 +1,74 @@
+.block-testtimonials {
+  background-attachment: fixed;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: $white;
+  position: relative;
+
+  &:before {
+    background-color: rgba($black, 0.7);
+    bottom: 0;
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .container {
+    position: relative;
+    z-index: 9;
+  }
+
+  .testtimonials-list {
+    padding: 0 18%;
+  }
+
+  .testtimonials-item {
+    float: left;
+  }
+
+  .testtimonials-quote {
+    @include helvetica_li;
+    font-size: rem(16px);
+    line-height: rem(30px);
+    margin-bottom: rem(50px);
+    text-align: center;
+  }
+
+  .testtimonials-author {
+    display: block;
+    font-style: normal;
+    margin-bottom: rem(15px);
+    text-align: center;
+
+    &-picture,
+    &-infor {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    &-picture {
+      border-radius: rem(500px);
+      height: rem(64px);
+      overflow: hidden;
+      width: rem(64px);
+    }
+
+    &-infor {
+      text-align: left;
+    }
+
+    &-name {
+      @include helvetica_b;
+    }
+
+    &-jobs {
+      @include helvetica_i;
+    }
+  }
+}

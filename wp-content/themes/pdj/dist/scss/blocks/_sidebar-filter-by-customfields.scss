@@ -1,0 +1,78 @@
+.block-sidebar {
+  &--filter {
+    .block-title {
+      margin-right: 20%;
+    }
+
+    .block-content {
+      position: relative;
+    }
+  }
+
+  .sidebar-filter-clear {
+    bottom: 100%;
+    line-height: 1;
+    margin-bottom: rem(15px);
+    position: absolute;
+    right: 0;
+    text-transform: capitalize;
+  }
+
+  li.sidebar-filter {
+    cursor: pointer;
+    padding: rem(3px 0);
+
+    .fa {
+      min-width: rem(14px);
+    }
+  }
+
+  &--destination_taxonomy {
+    ul.tour_destination--list {
+      ul.chils-list {
+        padding-left: rem(22px);
+      }
+    }
+  }
+
+  &--tour_date {
+    .form-item-wrapper {
+      position: relative;
+
+      > input {
+        border-radius: rem(3px);
+        border: rem(2px) solid $gray-dd;
+        display: block;
+        font-size: rem(15px);
+        margin: 0;
+        min-height: rem(40px);
+        padding: rem(5px 50px 5px 20px);
+        width: 100%;
+      }
+
+      > button {
+        background: url('../images/icons/calendar.svg') no-repeat scroll center center $gray-dd;
+        background-size: rem(25px 25px);
+        border: none;
+        bottom: 0;
+        height: 100%;
+        padding: 0;
+        position: absolute;
+        right: 0;
+        text-indent: -9999em;
+        top: 0;
+        width: rem(40px);
+      }
+    }
+  }
+
+  &--ads {
+    .ads--item {
+      margin-bottom: rem(30px);
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

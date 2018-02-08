@@ -1,0 +1,48 @@
+<div class="list-page--sort-view clearfix">
+  <div class="sort-list-by">
+    <div class="sort--item sort-by-price">
+      <label>{{ __("Sort by Price", "pdj_theme") }}: </label>
+      <select class="sort-list-price">
+        <option value="" selected="selected">{{ __("Select", "pdj_theme") }}</option>
+        <option value="lth">{{ __("Low to Hight", "pdj_theme") }}</option>
+        <option value="htl">{{ __("Hight to Low", "pdj_theme") }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="sort-list-view">
+    <ul class="fa-icons">
+      <li data-value="list" class="active"><i class="fa fa-th-list" aria-hidden="true"></i>{{ __("View List", "pdj_theme") }}</li>
+      <li data-value="grid"><i class="fa fa-th-large" aria-hidden="true"></i>{{ __("View Grid", "pdj_theme") }}</li>
+    </ul>
+  </div>
+</div>
+
+<div class="list-page--content">
+  <div class="list-page--content-result">
+    {% for post in posts %}
+      {% if page_post_type == "tour" %}
+        {% include 'content-item-tour.twig' with {'post' : post} %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  {% if pagination %}
+    <div class="block-pagination">
+      <ul class="pagination">
+      {% for pager in pagination.pages %}
+        {% set data_offset = (function("intConvert", pager.name) - 1) * function("intConvert", per_page) %}
+        {% if pager.link %}
+        <li class="{{ pager.class }} page-number-{{ pager.name }}"><a href="{{ pager.link }}" data-paged="{{ pager.name }}" data-offset="{{ data_offset }}" class="pager-link">{{ pager.title }}</a></li>
+        {% else %}
+        <li class="active {{ pager.class }} page-number-{{ pager.name }}"><a href="#" data-paged="{{ pager.name }}" data-offset="{{ data_offset }}" class="pager-link">{{ pager.title }}</a></li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  <input type="hidden" name="page_post_type" value="{{ page_post_type }}">
+  <input type="hidden" name="per_page" value="{{ per_page }}">
+  <input type="hidden" name="sort_layout" value="list">
+</div>

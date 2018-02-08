@@ -1,0 +1,7 @@
+{% include "language-switch.twig" %}
+<nav class="nav main-menu">
+  <span class="menu-mobile-icon js_toggle_menu"><span class="fa fa-bars "></span></span>
+  <ul class="menu">
+    {% include 'menu.twig' with {'menu': menu.main} %}
+  </ul>
+</nav>

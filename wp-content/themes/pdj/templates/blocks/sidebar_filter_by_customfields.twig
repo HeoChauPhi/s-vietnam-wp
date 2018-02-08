@@ -1,0 +1,150 @@
+{% if post_types == "tour" %}
+  {% for item in tour_fields %}
+    <div class="block-sidebar block-sidebar--filter block-sidebar--{{ item.value }}">
+      <div class="block-inner">
+        <h2 class="block-title">{{ item.label }}</h2>
+
+        <div class="block-content">
+          {% if item.value != 'tour_date' %}
+            <a href="#" class="sidebar-filter-clear">{{ __("clear all", "pdj_theme") }}</a>
+          {% endif %}
+
+          {# Tour Length #}
+          {% if item.value == "tour_length" %}
+            <ul class="tour_length--list fa-icons">
+              {% set day_night = [] %}
+              
+              {% for post in post_types_tour %}
+                {% if post.get_field('number_of_day') == 1 %}
+                  {% set label_day = __(" day", "pdj_theme") %}
+                {% else %}
+                  {% set label_day = __(" days", "pdj_theme") %}
+                {% endif %}
+
+                {% if post.get_field('number_of_night') %}
+                  {% if post.get_field('number_of_night') == 1 %}
+                    {% set label_night = __(" night", "pdj_theme") %}
+                  {% else %}
+                    {% set label_night = __(" nights", "pdj_theme") %}
+                  {% endif %}
+
+                  {% set night = ' - ' ~ post.get_field('number_of_night') ~ label_night %}
+                  {% set number_of_night = post.get_field('number_of_night') %}
+                {% else %}
+                  {% set night = null %}
+                  {% set number_of_night = 0 %}
+                {% endif %}
+
+                {% set content = '<li class="sidebar-filter" data-filter="number_of_day" data-value="' ~ post.get_field('number_of_day') ~ '"><i class="fa fa-square-o" aria-hidden="true"></i>' ~ post.get_field('number_of_day') ~ label_day ~ night ~ '</li>' %}
+
+                {% set this_day_night = {'value' : (post.get_field('number_of_day') ~ number_of_night), 'content' : content } %}
+
+                {% if function("in_array", this_day_night, day_night) == false %}                  
+                  {% set day_night = day_night|merge([{'value' : (post.get_field('number_of_day') ~ number_of_night), 'content' : content }]) %}
+                {% endif %}
+              {% endfor %}
+
+              {% for item in day_night|sort|reverse %}
+                {{ item.content }}
+              {% endfor %}
+            </ul>
+            {% if description_tour_length %}
+            <div class="sidebar-message">{{ description_tour_length }}</div>
+            {% endif %}
+
+          {# Tour Date #}
+          {% elseif item.value == "tour_date" %}
+            <div class="form-item-wrapper">
+              <a href="#" class="date-time-picker-clear">{{ __("clear", "pdj_theme") }}</a>
+              <input type="text" class="date-time-picker-filter" readonly="readonly">
+            </div>
+            {% if description_tour_date %}
+            <div class="sidebar-message">{{ description_tour_date }}</div>
+            {% endif %}
+
+          {# Tour Guild #}
+          {% elseif item.value == "tour_guild" %}
+            <ul class="tour_guild--list fa-icons">
+              <li class="sidebar-filter" data-value="1" data-filter="tour_guild"><i class="fa fa-square-o" aria-hidden="true"></i>{{ __("Yes", "pdj_theme") }}</li>
+            </ul>
+            {% if description_tour_guild %}
+            <div class="sidebar-message">{{ description_tour_guild }}</div>
+            {% endif %}
+            
+          {# Tour Destination #}
+          {% elseif item.value == "destination_taxonomy" %}
+            {% set parent_destination = function('get_terms', {'taxonomy' : 'destination_taxonomy', 'parent' : 0, 'orderby' : 'count', 'order' : 'DESC'}) %}
+
+            {% if parent_destination %}
+            <ul class="tour_destination--list fa-icons parent-terms">
+            {% for parent in parent_destination %}
+              <li class="sidebar-filter" data-value="{{ parent.term_id }}" data-tax="destination_taxonomy"><i class="fa fa-square-o" aria-hidden="true"></i>{{ parent.name }} <span class="term-count">({{ parent.count }})</span></li>
+
+              {% set child_first_lvl = function('get_terms', {'taxonomy' : 'destination_taxonomy', 'parent' : parent.term_id, 'orderby' : 'count', 'order' : 'DESC'}) %}
+              {% if child_first_lvl %}
+              <ul class="chils-list child-first-lvl">
+                {% for child_first in child_first_lvl %}
+                  <li class="sidebar-filter" data-value="{{ child_first.term_id }}" data-tax="destination_taxonomy"><i class="fa fa-square-o" aria-hidden="true"></i>{{ child_first.name }} <span class="term-count">({{ child_first.count }})</span></li>
+
+                  {% set child_all = function('get_term_children', child_first.term_id, 'destination_taxonomy') %}
+                  {#{child_all|print_r}#}
+                  {% if child_all %}
+                  <ul class="chils-list child-all">
+                  {% for child in child_all %}
+                    {% set child_obj = function('get_term_by', 'id', child, 'destination_taxonomy') %}
+                    <li class="sidebar-filter" data-value="{{ child }}" data-tax="destination_taxonomy"><i class="fa fa-square-o" aria-hidden="true"></i>{{ child_obj.name }} <span class="term-count">({{ child_obj.count }})</span></li>
+                  {% endfor %}
+                  </ul>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+              {% endif %}
+            {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if description_tour_destination %}
+            <div class="sidebar-message">{{ description_tour_destination }}</div>
+            {% endif %}
+            
+          {# Tour Feature #}
+          {% elseif item.value == "tour_feature" %}
+            {% set tour_feature = function("get_terms", "tour_feature", 'orderby=count&hide_empty=0&order=DESC') %}
+            <ul class="tour_feature--list fa-icons">
+            {% for term in tour_feature %}
+              <li class="sidebar-filter" data-value="{{ term.term_id }}" data-tax="tour_feature"><i class="fa fa-square-o" aria-hidden="true"></i>{{ term.name }} <span class="term-count">({{ term.count }})</span></li>
+            {% endfor %}
+            </ul>
+            {% if description_tour_features %}
+            <div class="sidebar-message">{{ description_tour_features }}</div>
+            {% endif %}
+            
+          {# Tour Type #}
+          {% elseif item.value == "tour_type" %}
+            <ul class="tuor_type--list fa-icons">
+              <li class="sidebar-filter" data-value="packaged" data-filter="tour_type"><i class="fa fa-square-o" aria-hidden="true"></i>{{ __('Packaged Tour', 'pdj_theme') }}</li>
+              <li class="sidebar-filter" data-value="land" data-filter="tour_type"><i class="fa fa-square-o" aria-hidden="true"></i>{{ __('Land Tour', 'pdj_theme') }}</li>
+            </ul>
+            {% if description_tour_type %}
+            <div class="sidebar-message">{{ description_tour_type }}</div>
+            {% endif %}
+            
+          {# Tour Tags #}
+          {% elseif item.value == "tour_tags" %}
+            {% set tour_tags = function("get_terms", "tour_tag", 'orderby=count&hide_empty=0&order=DESC') %}
+            <ul class="tour_tags--list fa-icons">
+            {% for term in tour_tags %}
+              <li class="sidebar-filter" data-value="{{ term.term_id }}" data-tax="tour_tag"><i class="fa fa-square-o" aria-hidden="true"></i>{{ term.name }} <span class="term-count">({{ term.count }})</span></li>
+            {% endfor %}
+            </ul>
+            {% if description_tour_tags %}
+            <div class="sidebar-message">{{ description_tour_tags }}</div>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+
+{% endif %}

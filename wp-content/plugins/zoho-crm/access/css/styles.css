@@ -1,0 +1,21 @@
+.zohodocs_element .search-input {
+  width: 100%;
+}
+
+.zoho-ajax-loader {
+  background-color: rgba(255,255,255,0.5);
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+.zoho-ajax-loader .ajax-icon {
+  background-image: url('../images/ajax-loader.gif');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 32px;
+  width: 32px;
+}

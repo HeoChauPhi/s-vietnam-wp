@@ -1,0 +1,229 @@
+.hero-banner {
+  &-wrapper {
+    position: relative;
+  }
+
+  &-media {
+    /* .images-url-list {
+      bottom: 0;
+      height: rem(50px);
+      left: 0;
+      margin: auto;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: rem(50px);
+      z-index: 2;
+
+      a.view-full-size {
+        display: block;
+        font-size: rem(50px);
+        height: 100%;
+        line-height: 0;
+        text-align: center;
+        width: 100%;
+      }
+    }
+ */
+    &.banner-overlay {
+      position: relative;
+
+      &:before {
+        background-color: rgba($black, 0.7);
+        bottom: 0;
+        content: "";
+        height: 100%;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100%;
+        z-index: 1;
+      }
+    }
+
+    .block-video__iframe {
+      position:relative;
+      overflow:hidden;
+      z-index: -1;
+
+      video,
+      iframe {
+        display: block;
+        height: 100vh;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .background-video {
+        bottom: 0;
+        height: 100vh;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100%;
+      }
+    }
+  }
+
+  &-image {
+    background-attachment: fixed;
+    background-color: $black;
+    background-position: center center;
+    background-size: cover;
+    min-height: rem(260px);
+  }
+
+  &-body {
+    bottom: rem(30px);
+    color: $white;
+    left: 0;
+    position: absolute;
+    right: 0;
+    z-index: 2;
+
+    #page-title {
+      border-bottom: rem(2px) solid $white;
+      display: inline-block;
+      margin: rem(0 0 25px 0);
+      padding-bottom: rem(10px);
+    }
+
+    &-left {
+
+    }
+
+    &-right {
+
+    }
+
+    .post-description {
+      @include scrollbar(150px, white);      
+    }
+
+    .scroll-next-block {
+      display: none;
+
+      @include breakpoint(900px) {
+        width: 16%;
+      }
+
+      > .scroll-icon {
+        border-radius: rem(500px);
+        border: rem(1px) solid $color-line;
+        cursor: pointer;
+        display: block;
+        height: rem(64px);
+        margin: 0 auto;
+        position: relative;
+        width: rem(64px);
+
+        &:after,
+        &:before {
+          background-color: $color-line;
+          content: "";
+          height: rem(1px);
+          position: absolute;
+          top: rem(32px);
+          width: rem(25px);
+        }
+
+        &:after {
+          @include transform(rotate(-45deg));
+          right: rem(10px);
+        }
+
+        &:before {
+          @include transform(rotate(45deg));
+          left: rem(10px);
+        }
+      }
+    }
+
+    &-left,
+    &-right,
+    .scroll-next-block {
+      @include breakpoint(900px) {
+        vertical-align: bottom;
+        display: inline-block;
+        float: none;
+      }
+    }
+  }
+}
+
+// Front Page Banner
+.front-banner {
+  .admin-bar & {
+    margin-top: rem(-46px);
+
+    @include breakpoint(783px) {
+      margin-top: rem(-32px);
+    }
+  }
+
+  &-image {
+    background-attachment: fixed;
+    background-color: $black;
+    background-position: center center;
+    background-size: cover;
+  }
+}
+
+// Single Banner
+.hero-banner-slider {
+  min-height: 100vh;
+  overflow: hidden;
+
+  .front-banner-image {
+    visibility: hidden;
+
+    &.slick-slide {
+      visibility: visible;
+    }
+  }
+}
+
+.hero-banner-control {
+  padding: rem(0 23px);
+  position: relative;
+
+  .slick-arrow {
+    border: none;
+    font-size: rem(30px);
+    line-height: 0;
+    margin-top: rem(-11px);
+    position: absolute;
+    top: 50%;
+
+    &:before {
+      width: 100%;
+    }
+  }
+
+  .slick-prev {
+    left: 0;
+    padding-right: rem(3px);
+  }
+
+  .slick-next {
+    padding-left: rem(3px);
+    right: 0;
+  }
+
+  .hero-banner-control-item {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: rem(2px) solid transparent;
+    cursor: pointer;
+    height: rem(62px);
+    padding: rem(0 1px);
+    width: rem(62px);
+
+    &.slick-current {
+      border-color: $color-link;
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{% set max_price = '' %}
+{% if post_types == 'tour' %}
+  {% set tour_prices = [] %}
+  {% for tour in post_types_tour %}
+    {% set tour_price = tour.get_field('tour_price') %}
+    {% set tour_prices = tour_prices|merge([tour_price]) %}
+  {% endfor %}
+  {% set max_price = max(tour_prices) %}
+{% else %}
+  {{ post_types_tour|print_r }}
+{% endif %}
+
+<div class="block-sidebar block-sidebar--filter block-sidebar--price-filter">
+  <div class="block-inner">
+    <h2 class="block-title">{{ __("Price Range", "pdj_theme") }}</h2>
+
+    <div class="block-content">
+      <a href="#" class="sidebar--price-filter-clear sidebar-filter-clear">{{ __("clear", "pdj_theme") }}</a>
+      <div class="sidebar--price-filter-amount"></div>
+      <div class="sidebar--price-filter-wrapper">
+        <div class="sidebar--price-filter-slider-range" data-max-value="{{ max_price }}"></div>
+      </div>
+      <input type="hidden" class="price-filter" value="0,{{ max_price }}">
+      {#<script type="text/javascript">
+      (function($) {
+        $(document).ready(function() {
+          $( ".sidebar--price-filter-slider-range" ).slider({
+            range: true,
+            step: 10000,
+            min: 0,
+            max: {{ max_price }},
+            values: [ 0, {{ max_price }} ],
+            slide: function( event, ui ) {
+              $( ".sidebar--price-filter-amount" ).text( "VNĐ " + $.number(ui.values[ 0 ]) + " - VNĐ " + $.number(ui.values[ 1 ]) );
+              $( ".price-filter" ).val( ui.values[ 0 ] + "," + ui.values[ 1 ] );
+            }
+          });
+          $( ".sidebar--price-filter-amount" ).text( "VNĐ " + $.number($( ".sidebar--price-filter-slider-range" ).slider( "values", 0 )) +
+            " - VNĐ " + $.number($( ".sidebar--price-filter-slider-range" ).slider( "values", 1 )) );
+        });
+      })(jQuery);
+      </script>#}
+    </div>
+  </div>
+</div>

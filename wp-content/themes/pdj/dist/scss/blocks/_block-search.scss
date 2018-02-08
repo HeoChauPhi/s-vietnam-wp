@@ -1,0 +1,22 @@
+.searchform {
+  position: relative;
+
+  .form-text {
+    border: rem(1px) solid $color-line;
+    min-height: rem(36px);
+    padding: rem(6px 46px 6px 10px);
+    width: 100%;
+  }
+
+  button.button {
+    background: $color-link;
+    border: none;
+    bottom: 0;
+    color: $white;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: rem(36px);
+  }
+}

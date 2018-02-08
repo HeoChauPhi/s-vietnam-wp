@@ -1,0 +1,5 @@
+{% for key, sidebar in sidebar_widget %}
+  {% if key != '_multiwidget' %}
+    {{ function('acfwidget', 'sidebar_blocks', 'sidebar_widget-' ~ key ) }}
+  {% endif %}
+{% endfor %}

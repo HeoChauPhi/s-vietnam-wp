@@ -1,0 +1,80 @@
+.block-hotels-list {
+  .block-hotel-item {
+    background-color: $white;
+    margin-bottom: rem(30px);
+    padding: rem(0 130px);
+    position: relative;
+  
+    .hotel-image,
+    .hotel-price {
+      position: absolute;
+      top: 0;
+      width: rem(120px);
+    }
+
+    .hotel-image {
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 100%;
+      left: 0;
+    }
+  
+    .hotel-content {
+      padding: rem(10px 20px 10px 10px);
+
+      .hotel-title {
+        font-size: rem(16px);
+        margin: rem(0 0 10px);
+
+        a {
+          color: $color-base;
+
+          &:hover {
+            color: $color-link;
+          }
+        }
+      }
+
+      .hotel-star {
+        list-style: none;
+        margin: rem(0 0 25px);
+        padding: 0;
+
+        li {
+          float: left;
+          list-style: none;
+
+          .fa {
+            color: $color-seccond;
+          }
+        }
+      }
+    }
+
+    .hotel-price {
+      height: 100%;
+      padding: rem(10px 0);
+      right: rem(10px);
+
+      &--label {
+        text-transform: capitalize;
+      }
+
+      &--value {
+        .price--value {
+          font-size: rem(22px);
+          font-weight: 700;
+        }
+      }
+
+      .book-now {
+        border-radius: 0;
+        bottom: rem(10px);
+        display: block;
+        position: absolute;
+        width: 100%;
+      }
+    }
+  }
+}

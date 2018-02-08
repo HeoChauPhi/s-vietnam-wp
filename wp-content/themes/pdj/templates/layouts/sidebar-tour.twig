@@ -1,0 +1,83 @@
+{% include 'sidebar_single_block_price.twig' with {'block_name': 'tour-price'} %}
+
+<div class="block-sidebar block-tour-information">
+  <div class="block-inner">
+    <h2 class="block-title">{{ __("Tour Information", "pdj_theme") }}</h2>
+
+    <div class="block-content">
+      <ul class="block-tour-infor--list">
+        {% if post.get_field('number_of_day') %}
+        {% set number_day = post.get_field('number_of_day') %}
+        {% if number_day > 1 %}
+          {% set number_days = number_day ~ __(" days", "pdj_theme") %}
+        {% else %}
+          {% set number_days = number_day ~ __(" day", "pdj_theme") %}
+        {% endif %}
+
+        {% if post.get_field('number_of_night') %}
+          {% set number_night = post.get_field('number_of_night') %}
+          {% if number_night > 1 %}
+            {% set number_nights = " - " ~ number_night ~ __(" nights", "pdj_theme") %}
+          {% else %}
+            {% set number_nights = number_night ~ __(" night", "pdj_theme") %}
+          {% endif %}
+        {% endif %}
+
+        <li class="block-tour-infor--item item-times"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ number_days ~ number_nights }}</li>
+        {% endif %}
+
+        {% if post.get_field('tour_guild') %}
+        {% if post.get_field('tour_guild') == 1 %}
+          {% set tour_guild = __("have tour guild", "pdj_theme") %}
+        {% else %}
+          {% set tour_guild = __("no tour guild", "pdj_theme") %}
+        {% endif %}
+        <li class="block-tour-infor--item item-tour-guild"><i class="fa fa-user" aria-hidden="true"></i> {{ tour_guild }}</li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{#<div class="block-sidebar block-destination">
+  <div class="block-inner">
+    <h2 class="block-title">{{ __("Tour destination", "pdj_theme") }}</h2>
+
+    <div class="block-content">
+      {% set map_str = '' %}
+      {% set map_str_id = '' %}
+      {% set des_arr = post.get_field('tour_destination')|split('-') %}
+      {% for item in des_arr %}
+        {% set item_title = item|trim|first|upper %}
+        {% set item_arr = function("get_google_map", item) %}
+        {% set map_str = map_str ~ '&#38;markers=color:red%7Clabel:' ~ item_title ~ '%7C' ~ item_arr.lat ~ ',' ~ item_arr.lng %}
+        {% set map_str_id = map_str_id ~ '%7C' ~ item_arr.lat ~ ',' ~ item_arr.lng %}
+      {% endfor %}
+
+      <img src="https://maps.googleapis.com/maps/api/staticmap?zoom=7&#38;size=300x300{{ map_str }}&#38;path=color:blue%7Cweight:4{{ map_str_id }}&#38;key={{ google_api_key }}">
+    </div>
+  </div>
+</div>#}
+
+<div class="block-sidebar block-timezone">
+  <div class="block-inner">
+    <h2 class="block-title">{{ __("World time zone", "pdj_theme") }}</h2>
+
+    <div class="block-content">
+      <div class="block-timezone--list clearfix">
+        <div class="block-timezone--item block-timezone--item-us">
+          {{ function('shortcode', '[jclocksgmt title="Washington DC, USA" offset="-5" date="true" dateformat="MM/DD/YYYY" skin=4]') }}
+        </div>
+        <div class="block-timezone--item block-timezone--item-vn">
+          {{ function('shortcode', '[jclocksgmt title="Ha Noi, Viet Nam" offset="+7" date="true" dateformat="MM/DD/YYYY" skin=4]') }}
+        </div>
+        <div class="block-timezone--item block-timezone--item-tw">
+          {{ function('shortcode', '[jclocksgmt title="Taipei, Taiwan" offset="+8" date="true" dateformat="MM/DD/YYYY" skin=4]') }}
+        </div>
+        <div class="block-timezone--item block-timezone--item-b">
+          {{ function('shortcode', '[jclocksgmt title="Berlin, Germany" offset="+1" date="true" dateformat="MM/DD/YYYY" skin=4]') }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

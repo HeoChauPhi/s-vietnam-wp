@@ -1,0 +1,10 @@
+#profile-page #your-profile > h2,
+#profile-page .user-admin-bar-front-wrap,
+#profile-page .user-language-wrap,
+#profile-page .user-first-name-wrap,
+#profile-page .user-last-name-wrap,
+#profile-page .user-description-wrap,
+#profile-page .user-profile-picture,
+#profile-page .user-admin-color-wrap {
+  display: none !important;
+}

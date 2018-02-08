@@ -1,0 +1,7 @@
+<div class="block-map__detail">
+  <div class="google-build-map" style="width: 100%; height: 275px;">
+    <div class="marker" data-lat="{{ function('get_google_map', address).lat }}" data-lng="{{ function('get_google_map', address).lng }}">
+      <p class="address">{{ address }}</p>
+    </div>
+  </div>
+</div>

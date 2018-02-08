@@ -1,0 +1,49 @@
+.block-hot-hotels {
+  .hot-hotels {
+    &--list {
+
+    }
+
+    &--item {
+      margin-bottom: rem(30px);
+      position: relative;
+
+      .hotel-image {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: rem(270px);
+      }
+
+      .hotel-content {
+        background-color: rgba($black, 0.7);
+        bottom: 0;
+        padding: rem(20px);
+        position: absolute;
+        width: 100%;
+      }
+
+      .hotel-title {
+        float: left;
+        font-size: rem(16px);
+        margin: 0;
+        max-width: 70%;
+
+        a {
+          color: $white;
+
+          &:hover {
+            color: $color-seccond;
+          }
+        }
+      }
+
+      .book-now {
+        border-radius: 0;
+        float: right;
+        min-width: rem(120px);
+        text-transform: capitalize;
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+main {
+  background-attachment: fixed;
+  background-image: url('../images/body-bg.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.main-single {
+  margin-bottom: rem(75px);
+  margin-top: rem(60px);
+
+  &:not(.has-sidebar) {
+    padding: rem(30px 15px);
+  }
+}
+
+.main-single:not(.has-sidebar),
+.has-sidebar .sidebar-inner,
+.has-sidebar .block-main-content {
+  background-color: $white;
+  border: rem(1px) solid $color-line;
+}
+
+.has-sidebar {
+  .sidebar-inner,
+  .block-main-content {
+    padding: rem(15px);
+  }
+
+  .block-main-content {
+    margin-bottom: rem(35px);
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  .main-content {
+    .block {
+      > .container {
+        width: auto;
+        padding: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{% if layout_select == 'two_cols' %}
+  {% set content_class = 'col-lg-6' %}
+  {% set sidebar_class = 'col-lg-6' %}
+{% elseif layout_select == 'content_sidebar' %}
+  {% set content_class = 'col-lg-8' %}
+  {% set sidebar_class = 'col-lg-4' %}
+{% else %}
+  {% set content_class = 'col-lg-4' %}
+  {% set sidebar_class = 'col-lg-8' %}
+{% endif %}
+
+<div class="layout-wraper" {% if background_color %}style="background-color: {{ background_color }};"{% endif %}>
+  <div class="container">
+    <div class="row">
+    {% if content_layout_group_component_resuft %}
+      <div class="layout-content {{ content_class }}">
+      {{ function('sub_flexible_content', content_layout_group_component_resuft) }}
+      </div>
+    {% endif %}
+    {% if sidebar_layout_group_component_resuft %}
+      <div class="layout-sidebar {{ sidebar_class }}">
+      {{ function('sub_flexible_content', sidebar_layout_group_component_resuft) }}
+      </div>
+    {% endif %}
+    </div>
+  </div>
+</div>

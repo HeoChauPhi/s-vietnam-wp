@@ -1,0 +1,28 @@
+#registerform .acf-field-password[data-name$="_password"] .acf-input-wrap {
+  position: relative;
+}
+
+.re-password-status {
+  border-radius: 100px;
+  border: 1px solid;
+  height: 18px;
+  position: absolute;
+  right: 4px;
+  text-align: center;
+  top: 4px;
+  width: 18px;
+}
+
+.re-password-status.correct {
+  border-color: #46b450;
+  color: #46b450;
+}
+
+.re-password-status.incorrect {
+  border-color: red;
+  color: red;
+}
+
+.re-password-status.hidden {
+  display: none;
+}

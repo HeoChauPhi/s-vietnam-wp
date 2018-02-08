@@ -1,0 +1,21 @@
+<div class="block block-hot-tours {{ component_class }}">
+  <div class="container">
+    <h2 class="block-title title-center">{{ hot_tours_title }}</h2>
+    <div class="block-content">
+      {% if hot_tours_list_custom %}
+      <div class="hot-tour-list jcarousel-slider 4-item">
+      {% for post in hot_tours_list_custom %}
+        <div class="hot-tour-item">
+          {% if post.get_field('post_gallery').0.image_link %}
+          <div class="hot-tour-image" style="background-image: url({{ post.get_field('post_gallery').0.image_link }});">
+            <img src="{{ post.get_field('post_gallery').0.image_link }}">
+          </div>
+          {% endif %}
+          <h3 class="node-title"><a href="{{ function('get_post_link', post.ID) }}">{{ post.title }}</a></h3>
+        </div>
+      {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+{{ function('var_dump', data_test) }}
+{{ data_post|print_r }}
+
+{% for post in posts %}
+  <div>
+    <h2>{{ post.title }}</h2>
+    <div>Tour length: {{ post.get_field('number_of_day') }}</div>
+    <div>Tour date: {{ post.get_field('departure_day') }}</div>
+    <div>Tour guild: {{ post.get_field('tour_guild') }}</div>
+    <div>Price: {{ post.get_field('tour_price') }}</div>
+    <div>Tour Type: {{ post.get_field('tour_type') }}</div>
+    
+    {% if post.terms('tour_feature') %}
+      <div>
+        <label>Tour feature:</label>
+        <ul>
+          {% for term_feature in post.terms('tour_feature') %}
+            <li>{{ term_feature.name }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    {% if post.terms('destination_taxonomy') %}
+      <div>
+        <label>Tour Destination:</label>
+        <ul>
+          {% for term_destination in post.terms('destination_taxonomy') %}
+            <li>{{ term_destination.name }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    {% if post.terms('tour_tag') %}
+      <div>
+        <label>Tour Tags:</label>
+        <ul>
+          {% for term_tag in post.terms('tour_tag') %}
+            <li>{{ term_tag.name }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+{% endfor %}
+
+<input type="hidden" name="pagination_total" value="{{ pagination_total }}">

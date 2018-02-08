@@ -1,0 +1,171 @@
+<div class="block-sidebar block-{{ block_name }} block-booking-price">
+  <div class="block-inner">
+    {% if post.type == 'tour' %}
+
+    {#% set short_hotel_dates = function("explode", ';', hotel_dates) %}
+    {% set short_hotel_dates = function("array_filter", short_hotel_dates) %}
+    {% set hotel_dates_we = [] %}
+
+    {% for key, item in short_hotel_dates %}
+      {% if function("stripos", item, 'WE') != false %}
+      {% set hotel_dates_we = hotel_dates_we|merge([item]) %}
+      {% endif %}
+    {% endfor %}
+
+    {{ function("array_diff", short_hotel_dates, hotel_dates_we)|print_r }}
+
+    {% set test_arr = function("date_range_by_string", function("array_diff", short_hotel_dates, hotel_dates_we)|join(';')) %}
+    {{ test_arr|print_r }#}
+
+    {# Check Departure Day #}
+    {% set departure_day_arr = function("get_field_object", "departure_day").choices %}
+    {% set departure_day_arr_val = function("array_values", departure_day_arr) %}
+    {% set departure_day = function("array_column", post.get_field('departure_day'), "value") %}
+    {% set day_intersect_arr = function("array_intersect", departure_day_arr_val, departure_day) %}
+    {% set day_intersect = function("array_keys", day_intersect_arr)|join(';') %}
+
+    {# Set Tour Price Total #}
+    {% set tour_price = post.get_field('tour_price') %}
+    {% set tour_price_total = function("intConvert", tour_price) %}
+
+    {% if tour_filters['tour-departure-day'] %}
+      {% set date_arr = tour_filters['tour-departure-day']|split('/') %} 
+      {% set date_import = date_arr[1] ~ '/' ~ date_arr[0] ~ '/' ~ date_arr[2] %}
+      {% set date_include = date_import|date('d/m/Y') %}
+      {% set day_of_date = date_import|date('l') %}
+    {% endif %}
+
+    <h2 class="block-title">{{ __('Book Now', 'pdj_theme') }}</h2>
+    <div class="block-content">
+      <div class="tour-price">
+        <span class="price-label">{{ __('Price', 'pdj_theme') }}/{{ __('Person', 'pdj_theme') }}:</span>
+        {% if tour_price_total == 0 or tour_price_total == null %}
+        <span class="price-value"><span class="price-booking">{{ __("Contact", "pdj_theme") }}</span></span>
+        {% else %}
+        {#<span class="price-value">{{ __("VND", "pdj_theme") }} <span class="price-booking">{{ tour_price_total|number_format(0, '.', ',') }}</span></span>#}
+        <span class="price-value">{{ __("VND", "pdj_theme") }} <span class="price-booking">{% include 'shortcode-price-update.twig' with {'date_include': date_include, 'day_of_date': day_of_date} %}</span></span>
+        {% endif %}
+      </div>
+      <form class="tour-booking" action="#" method="GET" id="sidebar-tour-booking">
+        {% set number_arr = 0..10 %}
+        <div class="form-items">
+          <div class="form-item form-item-departure-day">
+            <label>{{ __("Departure day", "pdj_theme") }}<span class="label-require">*</span></label>
+            <div class="form-item-wrapper">
+              <a href="#" class="date-time-picker-clear">{{ __("clear", "pdj_theme") }}</a>
+              <input type="text" name="tour-departure-day" class="date-time-picker-ignore tour-departure-day require" data-showdate="{{ day_intersect }}" {% if tour_filters['tour-departure-day'] %}value="{{ tour_filters['tour-departure-day'] }}"{% endif %} readonly="readonly">
+            </div>
+          </div>
+
+          <div class="form-item form-item-adults">
+            <label>{{ __("Adults", "pdj_theme") }}<span class="label-require">*</span></label>
+            <select name="tour-adults" class="tour-adults js-select2 require">
+              {% for item in number_arr|slice(1) %}
+                {% if loop.first %}
+                  <option selected="selected" value="{{ item }}" data-price="">{{ item }}</option>
+                {% else %}
+                  <option value="{{ item }}">{{ item }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+
+          {% if post.get_field('child_price_less_5_years') %}
+          <div class="form-item form-item-child-less">
+            <label>{{ __("Child < 5 years", "pdj_theme") }}</label>
+            <select name="tour-child-less" class="tour-child-less js-select2">
+              {% for item in number_arr %}
+                {% if loop.first %}
+                  <option selected="selected" value="{{ item }}">{{ item }}</option>
+                {% else %}
+                  <option value="{{ item }}">{{ item }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          {% endif %}
+
+          {% if post.get_field('child_price_6_to_11_years') %}
+          <div class="form-item form-item-child-fromto">
+            <label>{{ __("Child from 6 - 11 years", "pdj_theme") }}</label>
+            <select name="tour-child-fromto" class="tour-child-fromto js-select2">
+              {% for item in number_arr %}
+                {% if loop.first %}
+                  <option selected="selected" value="{{ item }}">{{ item }}</option>
+                {% else %}
+                  <option value="{{ item }}">{{ item }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          {% endif %}
+
+          {% if post.get_field('child_price_more_11_years') %}
+          <div class="form-item form-item-child-more">
+            <label>{{ __("Child > 11 years", "pdj_theme") }}</label>
+            <select name="tour-child-more" class="tour-child-more js-select2">
+              {% for item in number_arr %}
+                {% if loop.first %}
+                  <option selected="selected" value="{{ item }}">{{ item }}</option>
+                {% else %}
+                  <option value="{{ item }}">{{ item }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          {% endif %}
+
+          <div class="form-item form-action">
+            <button type="submit" form="sidebar-tour-booking" value="Submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+
+        <div class="form-item-hidden">
+          {% if tour_price_total == 0 or tour_price_total == null %}
+          <input type="hidden" name="tour-hotel-price" value="0">
+          {% else %}
+          <input type="hidden" name="tour-hotel-price" value="{{ tour_price_total }}">
+          {% endif %}
+          <input type="hidden" name="tour-hotel-id" value="{{ hotel_ids }}">
+          <input type="hidden" name="tour-post-id" value="{{ post.ID }}">
+        </div>
+      </form>
+      {% if ( post.get_field('tour_weekend_surcharge') or post.get_field('child_price_less_5_years') or post.get_field('child_price_6_to_11_years') or post.get_field('child_price_more_11_years') or post.get_field('holidays_surcharge') ) %}
+      <div class="tour-notify">
+        <ul class="list-item">
+          <li class="message-error">{{ __("Price doesn't include hotels!", "pdj_theme") }}</li>
+
+          {% if post.get_field('tour_weekend_surcharge') %}
+          <li>{{ __("Weekend surcharge", "pdj_theme") }}: {{ __("VND", "pdj_theme") ~ " " ~ post.get_field('tour_weekend_surcharge')|number_format(0, '.', ',') }}</li>
+          {% endif %}
+
+          {% if post.get_field('holidays_surcharge') %}
+            {% if post.get_field('holidays_surcharge')|last == "%" %}
+            <li>{{ __("Holidays surcharge", "pdj_theme") ~ ": " ~ post.get_field('holidays_surcharge') ~ __(" of price total", "pdj_theme") }}</li>
+            {% else %}
+            <li>{{ __("Holidays surcharge", "pdj_theme") }}: {{ __("VND", "pdj_theme") ~ " " ~ post.get_field('holidays_surcharge')|number_format(0, '.', ',') }}</li>
+            {% endif %}
+          {% endif %}
+
+          {% if post.get_field('child_price_less_5_years') %}
+          <li>{{ __("Child < 5 years surcharge", "pdj_theme") }}: {{ __("VND", "pdj_theme") ~ " " ~ post.get_field('child_price_less_5_years')|number_format(0, '.', ',') }}</li>
+          {% endif %}
+
+          {% if post.get_field('child_price_6_to_11_years') %}
+          <li>{{ __("Child from 6 - 11 years surcharge", "pdj_theme") }}: {{ __("VND", "pdj_theme") ~ " " ~ post.get_field('child_price_6_to_11_years')|number_format(0, '.', ',') }}</li>
+          {% endif %}
+
+          {% if post.get_field('child_price_more_11_years') %}
+          <li>{{ __("Child > 11 years surcharge", "pdj_theme") }}: {{ __("VND", "pdj_theme") ~ " " ~ post.get_field('child_price_more_11_years')|number_format(0, '.', ',') }}</li>
+          {% endif %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+    {% elseif post.type == 'hotel' %}
+    <div>Price</div>
+    {% else %}
+    <div>Price</div>
+    {% endif %}
+  </div>
+</div>

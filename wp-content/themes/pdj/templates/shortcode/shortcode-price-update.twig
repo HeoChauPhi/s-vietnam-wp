@@ -1,0 +1,27 @@
+{% set weekend = ['Sunday', 'Saturday'] %}
+
+{% if post.type == 'tour' %}
+  {% set tour_price_total = '' %}
+  {% set tour_price = post.get_field('tour_price') %}
+  {% set tour_price_total_normal = function("intConvert", tour_price) %}
+
+  {% set date_arr = function("date_range_by_string", post.get_field('holidays')) %}
+
+  {% set holidays_surcharge_arr = function("explode", '%', post.get_field('holidays_surcharge')) %}
+  {% if function("count", holidays_surcharge_arr) > 1 %}
+    {% set holidays_surcharge = function("intConvert", tour_price_total_normal) + (function("intConvert", tour_price_total_normal) * function("intConvert", holidays_surcharge_arr[0]) / 100) %}
+  {% else %}
+    {% set holidays_surcharge = post.get_field('holidays_surcharge') %}
+  {% endif %}
+
+  {% if function("in_array", date_include, date_arr) %}
+    {% set tour_price_total = function("intConvert", tour_price_total_normal) + function("intConvert", holidays_surcharge) %}
+  {% elseif function("in_array", day_of_date, weekend) %}
+    {% set tour_weekend_surcharge = post.get_field('tour_weekend_surcharge') %}
+    {% set tour_price_total = function("intConvert", tour_price_total_normal) + function("intConvert", tour_weekend_surcharge) %}
+  {% else %}
+    {% set tour_price_total = tour_price_total_normal %}
+  {% endif %}
+
+  {{ tour_price_total|number_format(0, '.', ',') }}
+{% endif %}

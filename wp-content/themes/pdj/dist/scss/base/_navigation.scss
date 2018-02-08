@@ -1,0 +1,435 @@
+.main-menu {
+  .menu-mobile-icon {
+    color: $white;
+    cursor: pointer;
+    display: table;
+    font-size: rem(16px);
+    height: 100%;
+    padding: rem(0 10px);
+
+    > span {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    @include breakpoint(laptop) {
+      display: none !important; 
+    }
+  }
+
+  // Main menu
+  > ul.menu {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: rem(250px);
+
+    li {
+      list-style: none;
+      margin-bottom: rem(1px);
+      position: relative;
+
+      // All Link in Menu
+      a {
+        background: rgba($black ,0.5);
+        color: $white;
+        display: block;
+        padding: rem(3px 10px);
+        position: relative;
+
+        &:before {
+          @include transition(all 0.3s ease);
+          background-color: $color-line-menu;
+          bottom: 0;
+          content: "";
+          height: rem(3px);
+          left: 0;
+          margin: 0 auto;
+          position: absolute;
+          right: 0;
+          width: 0;
+        }
+
+        @include breakpoint(laptop) {
+          background: none !important;
+        }
+      }
+
+      &.current-menu-item,
+      &.current-menu-ancestor {
+        > a {
+          &:before {
+            background-color: $color-line-menu;
+            width: 100%;
+          }
+        }
+      }
+
+      &.current-menu-ancestor {
+        > a > .expanded-menu__button {
+          @include transform(rotate(180deg));
+        }
+
+        > ul.expanded-menu__menu-child  {
+          display: block !important;
+        }
+      }
+
+      .expanded-menu__button {
+        height: 100%;
+        line-height: rem(27px);
+        position: absolute;
+        right: 0;
+        text-align: center;
+        top: 0;
+        width: rem(30px);
+
+        @include breakpoint(laptop) {
+          &.fa-angle-up:before {
+            @include transform(rotate(180deg));
+            display: block;
+          }
+        }
+      }
+
+      @include breakpoint(laptop) {
+        &.menu-item-has-children {
+          > a {
+            padding-right: rem(30px);
+          }
+
+          .expanded-menu__button {
+            pointer-events: none;
+          }
+
+          > ul.expanded-menu__menu-child {
+            @include transition(all 0.1s ease);
+            background-color: $white;
+            display: block !important;
+            left: 110%;
+            opacity: 0;
+            padding: 0;
+            position: absolute;
+            top: 0;
+            visibility: hidden;
+            width: rem(200px);
+            z-index: -1;
+
+            &:before {
+              background-color: $color-line-menu;
+              top: rem(-3px);
+              content: "";
+              height: rem(3px);
+              left: 0;
+              position: absolute;
+              right: 0;
+              width: 100%;
+            }
+          }
+
+          &:hover {
+            > ul.expanded-menu__menu-child {
+              @include transition(all 0.5s ease);
+              left: 100%;
+              opacity: 1;
+              visibility: visible;
+              z-index: 9999;
+            }
+          }
+        }
+      }
+    }
+    
+    // Only Link Main Menu
+    > li {
+      &.menu-item-has-megamenu {
+        position: static !important;
+
+        &:hover {
+          > .sub-mega-menu {
+            @include transition(all 0.5s ease);
+            opacity: 1;
+            top: calc(100% - 1px);
+            visibility: visible;
+            z-index: 9999;
+          }
+        }
+      }
+
+      > a {
+        text-transform: uppercase;
+
+        @include breakpoint(laptop) {
+          @include transition(padding 0.5s ease);
+          background: none !important;
+          padding: rem(0 19px 30px 19px);
+
+          &:hover:before {
+            -webkit-animation: mymove 0.3s; /* Safari 4.0 - 8.0 */
+            animation: mymove 0.3s; 
+            width: 100%;
+          }
+        }
+      }
+
+      // All conner
+      .expanded-menu__button {
+      }
+
+      // Only conner Main
+      > .expanded-menu__button {
+      }
+
+      @include breakpoint(laptop) {
+        float: left;
+
+        &.menu-item-has-children {
+          > ul.expanded-menu__menu-child {
+            left: 0 !important;
+            top: 110%;
+          }
+
+          &:hover {
+            > ul.expanded-menu__menu-child {
+              top: 100%;
+            }
+          }
+        }
+      }
+    }
+
+    @include breakpoint(laptop) {
+      display: block !important;
+      height: inherit !important;
+      width: 100%;
+    }
+  }
+
+  // All Sub Menu
+  .expanded-menu__menu-child {
+    display: none;
+    margin: rem(1px 0 0 0);
+    padding-left: rem(20px);
+
+    @include breakpoint(laptop) {
+      margin: 0 !important;
+
+      a {
+        color: $color-base !important;
+
+        &:hover {
+          color: $color-link !important;
+        }
+      }
+
+      li {
+        > a {
+          color: $color-base !important;
+        }
+
+        &:hover {
+          > a {
+            color: $color-link !important;
+          }
+        }
+      }
+    }
+  }
+
+  // Sub Menu level 1
+
+  // Mega Menu
+  .sub-mega-menu {
+    @include transition(all 0.1s ease);
+    background-color: $white;
+    display: none;
+    left: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    //top: 100%;
+    top: 110%;
+    visibility: hidden;
+    width: 100%;
+    z-index: -1;
+
+    @include breakpoint(laptop) {
+      display: block !important;
+    }
+
+    &:before {
+      background-color: $color-line-menu;
+      top: rem(-3px);
+      content: "";
+      height: rem(3px);
+      left: 0;
+      position: absolute;
+      right: 0;
+      width: 100%;
+    }
+
+    .tabs-list,
+    .tabs-content {
+      a {
+        color: $color-base;
+
+        &:hover {
+          color: $color-link;
+        }
+      }
+    }
+
+    .megamenu-tab {
+      overflow: hidden;
+    }
+
+    .tabs-list {
+      border-right: rem(1px) solid $color-line;
+      float: left;
+      margin: 0;
+      padding: rem(20px 0);
+      position: relative;
+      width: rem(200px);
+      z-index: 9;
+
+      li {
+        margin: 0;
+
+        a {
+          color: $color-base;
+          padding: rem(6px 15px);
+          text-align: right;
+
+          &:hover {
+            color: $color-link;
+          }
+        }
+
+        &.ui-tabs-active {
+          > a {
+            @include transition(none);
+            border-bottom: rem(1px) solid $color-line;
+            border-top: rem(1px) solid $color-line;
+
+            &:before {
+              @include transition(none);
+              -webkit-animation: none; /* Safari 4.0 - 8.0 */
+              animation: none; 
+              background-color: #fff;
+              bottom: 0;
+              height: 100%;
+              left: auto;
+              right: rem(-1px);
+              top: 0;
+              width: rem(1px);
+            }
+          }
+        }
+      }
+    }
+
+    .tabs-content {
+      float: left;
+      padding: rem(25px 20px);
+      position: relative;
+      width: calc(100% - 200px);
+
+      &:before {
+        background-color: #ccc;
+        content: "";
+        height: 100%;
+        left: rem(-1px);
+        position: absolute;
+        top: 0;
+        width: rem(1px);
+      }
+
+      > .tab-content-item {
+        overflow: hidden;
+
+        a {
+          padding: 0;
+        }
+      }
+
+      .jcarousel-slider {
+        padding-bottom: rem(23px);
+
+        .slick-arrow {
+          position: absolute;
+          bottom: 0;
+          left: rem(10px);
+        }
+
+        .slick-next {
+          left: rem(35px);
+        }
+      }
+    }
+  }
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes mymove {
+  0% {width: 0;}
+  100% {width: 100%;}
+}
+
+/* Standard syntax */
+@keyframes mymove {
+  0% {width: 0;}
+  100% {width: 100%;}
+}
+
+.block-multilanguage {
+  color: $white;
+  text-transform: uppercase;
+
+  .current-language {
+    cursor: pointer;
+    display: table;
+    height: 100%;
+    padding: rem(0 10px);
+
+    > span {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+
+  .menu-multilanguage {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    text-align: left;
+    width: 100%;
+
+    li {
+      border-top: rem(1px) solid transparent;
+
+      &:first-child {
+        border: none;
+      }
+
+      a {
+        background: rgba($black ,0.5);
+        color: $white;
+        display: block;
+        padding: rem(0 10px);
+
+        &:hover {
+          color: $color-link;
+        }
+      }
+    }
+  }
+
+  @include breakpoint(laptop) {
+
+  }
+}

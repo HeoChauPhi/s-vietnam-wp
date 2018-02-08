@@ -1,0 +1,23 @@
+<div class="block-sidebar block-sidebar--ads">
+  <div class="block-inner">
+    <h2 class="block-title hidden">{{ __("Ads", "pdj_theme") }}</h2>
+
+    <div class="block-content">
+      {% if videos_ads_list %}
+      {% for video in videos_ads_list %}
+        <div class="ads--item ads--item-video">
+          {{ video.video_url_ads }}
+        </div>
+      {% endfor %}
+      {% endif %}
+
+      {% if images_ads_list %}
+      {% for image in images_ads_list %}
+        <div class="ads--item ads--item-image">
+          <img src="{{ image.image_ads.url }}" title="{{ image.image_ads.title }}">
+        </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>

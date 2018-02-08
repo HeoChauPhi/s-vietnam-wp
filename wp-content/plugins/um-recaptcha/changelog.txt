@@ -1,0 +1,11 @@
+Version 1.0.4
+* Fixed: Google reCaptcha API response
+
+Version 1.0.3
+
+* New: theme, type and size options.
+* Tweak: Google reCaptcha API 2.0
+
+Version 1.0.2
+
+* Fixed: Recaptcha ID and Social Login conflict

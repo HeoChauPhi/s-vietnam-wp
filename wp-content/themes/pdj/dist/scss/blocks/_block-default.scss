@@ -1,0 +1,42 @@
+main {
+  > .layout-wraper,
+  > .block {
+    padding-bottom: rem(80px);
+    padding-top: rem(85px);
+  }
+
+  .block-title {
+    @include utmcaviar;
+    font-size: rem(24px);
+    font-weight: 700;
+    margin-bottom: rem(50px);
+    margin-top: 0;
+    text-transform: uppercase;
+  }
+}
+
+.block-sidebar {
+  border-bottom: rem(1px) solid $color-line;
+  margin-bottom: rem(20px);
+  padding-bottom: rem(20px);
+
+  &:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .block-title {
+    font-size: rem(20px);
+    margin-bottom: rem(15px);
+    text-transform: capitalize;
+  }
+}
+
+.date-time-picker-clear {
+  bottom: 100%;
+  margin-bottom: rem(10px);
+  position: absolute;
+  right: 0;
+  text-transform: capitalize;
+}

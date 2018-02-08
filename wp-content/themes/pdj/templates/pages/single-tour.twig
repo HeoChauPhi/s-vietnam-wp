@@ -1,0 +1,309 @@
+{#{post|print_r}#}
+
+<div class="hero-banner-wrapper front-banner" style="min-height: 100vh;">
+  <div class="hero-banner-media banner-overlay">
+    <div class="hero-banner-slider">
+    {% for item in post.get_field('post_gallery') %}
+      <div class="front-banner-image" style="background-image: url({{ item.image_link }}); min-height: 100vh;">&#32;</div>
+    {% endfor %}
+    </div>
+  </div>
+
+  <div class="hero-banner-body">
+    <div class="container">
+      <div class="row">
+        <div class="hero-banner-body-left col-lg-5">
+          <h1 id="page-title">{{ post.title }}</h1>
+          <h4 class="post-destination">{{ post.get_field('tour_destination') }}</h4>
+          <div class="post-description">{{ post.get_field('tour_description') }}{# <span class="learn-more">{{ __('learn more', 'pdj_theme') }}</span>#}</div>
+        </div>
+
+        <div class="scroll-next-block col-lg-2">
+          <span class="scroll-icon">&#32;</span>
+        </div>
+
+        <div class="hero-banner-body-right col-lg-5">
+          <div class="hero-banner-control">
+            {% for item in post.get_field('post_gallery') %}
+              <div class="hero-banner-control-item" style="background-image: url({{ item.image_link }}); height: 60px; width: 60px;">&#32;</div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main-content">
+  <div class="container">
+    <div class="main-single has-sidebar sidebar-left">
+      <div class="row">
+        <div class="main-content col-lg-9 pull-right">
+          {% if function("has_sub_field", "tour_schedules") %}
+            {#{ function("get_sub_field_object", "tour_schedule_meals").choices|print_r }#}
+            {% set meals_arr = function("get_sub_field_object", "tour_schedule_meals").choices %}
+          {% endif %}
+
+          {# Block Tour Schedule #}
+          <div class="block-main-content block-tour-schedule">
+            {#{ post.get_field('tour_schedules')|print_r }#}
+            
+            {% if function('intConvert', post.get_field('number_of_day')) > 1 %}
+              {% set schedule_label = __("day", "pdj_theme") %}
+              {% set schedule_of_hotel = 'd' %}
+            {% else %}
+              {% set schedule_label = __("schedule", "pdj_theme") %}
+              {% set schedule_of_hotel = 's' %}
+            {% endif %}
+
+            <div class="block-inner">
+              <h2 class="block-title">{{ __("Example Trip", "pdj_theme") }}</h2>
+
+              <div class="block-content">
+                <div class="tour-schedule--list">
+
+                  {% set hotel_price_total = 0 %}
+                  {% set hotel_ids = '' %}
+                  {% set hotel_dates = '' %}
+                  {% for schedule in post.get_field('tour_schedules') %}
+                    {% set schedule_index = loop.index %}
+
+                    <div class="tour-schedule--item">
+                      <h3 class="tour-schedule--name">{{ schedule.tour_schedule_name }}</h3>
+                      <div class="tour-schedule--info clearfix">
+                        <div class="tour-schedule--image">
+                          {% set img_id = schedule.tour_schedule_image|split('/')|last %}
+
+                          <img id="{{ img_id }}" src="{{ schedule.tour_schedule_image }}">
+                          <a class="fancybox-image-docs" href="#{{ img_id }}"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="tour-schedule--content">
+                          <div class="tour-schedule--desc">
+                            {{ schedule.tour_schedule_description }}
+                          </div>
+                          
+                          {% if schedule.tour_schedule_meals %}
+                          {% set schedule_meal = [] %}
+                          {% for item in schedule.tour_schedule_meals %}
+                            {% set schedule_meal = schedule_meal|merge({(item.label): (item.value)}) %}
+                          {% endfor %}
+
+                          <ul class="tour-schedule--meals">
+                            {% for key, meal in meals_arr %}
+                              {% if function("in_array", meal, schedule_meal) %}
+                              <li class="tour-schedule--meal tour-schedule--meal-{{ key|lower }} tour-schedule--meal-active">{{ meal }}</li>
+                              {% else %}
+                              <li class="tour-schedule--meal tour-schedule--meal-{{ key|lower }}">{{ meal }}</li>
+                              {% endif %}
+                            {% endfor %}
+                          </ul>
+                          {% endif %}
+                          {#% if (schedule.tour_schedule_hotel or schedule.tour_schedule_hotel_not_yet|trim|length > 3) %}
+                            <span class="btn btn-primary hotel-button">{{ __("hotels", "pdj_theme") }}</span>               
+                          {% endif %#}                          
+                        </div>
+                      </div>
+
+                      {% if (schedule.tour_schedule_hotel or schedule.tour_schedule_hotel_not_yet|trim|length > 3) %}
+                      {% set schedule_hotel_notyet = schedule.tour_schedule_hotel_not_yet|split('|&|') %}
+                      <div class="tour-schedule--hotels clearfix">
+                        <div class="jcarousel-slider-3-item">
+                          {% for hotel in schedule.tour_schedule_hotel %}
+                            {# if loop.first %}
+                              {% set hotel_active = 'tour-schedule--hotel-active' %}
+                            {% else %}
+                              {% set hotel_active = '' %}
+                            {% endif %#}
+
+                            {% set hotel_price = [] %}
+                            {% for room in hotel.get_field('room_type') %}
+                              {% set hotel_price = hotel_price|merge([{'hotel_title': hotel.title, 'room_id': room.ID, 'room_crm_id': room.get_field('productid'), 'room_title':(room.title), 'room_price': room.get_field('roh_price'), 'extra_bed': room.get_field('extra_bed_sale_price'), 'qty_in_stock': room.get_field('qty_in_stock')}]) %}
+                              {% set hotel_dates = hotel_dates ~ ";" ~ room.get_field('low_season') ~ ";" ~ room.get_field('high_season') ~ ";" ~ room.get_field('holidays') %}
+                            {% endfor %}
+
+                            {#% set price_arr = [null, 1] %}
+                            {% set price_arr = function('arrayFilter', price_arr) %#}
+                            {% set price_arr = function('array_column', hotel_price, 'room_price') %}
+                            {% set price_arr = function('arrayFilter', price_arr) %}
+                            {% if price_arr %}
+                              {% set min_price      = min(price_arr) %}
+                              {% set key_min_price  = function('array_search', min_price, price_arr) %}
+                            {% else %}
+                              {% set min_price      = null %}
+                              {% set key_min_price  = 0 %}
+                            {% endif %}
+
+                            {% set room_title     = hotel_price[key_min_price].room_title %}
+                            {% set room_id        = hotel_price[key_min_price].room_id %}
+                            {% set room_crm_id    = hotel_price[key_min_price].room_crm_id %}
+                            {% set extra_bed      = hotel_price[key_min_price].extra_bed %}
+                            {% set qty_in_stock   = hotel_price[key_min_price].qty_in_stock %}
+                            {% set hotel_ids      = hotel_ids ~ ";" ~ room_id %}
+                            {#
+                            {{ min_price }} <br>
+                            {{ key_min_price }} <br>
+                            {{ hotel_price[key_min_price].room_crm_id }} <br>
+                            {{ hotel_price[key_min_price].room_title }} <br>
+                            #}
+
+                            <div class="tour-schedule--hotel {#{ hotel_active }#}">
+                              <div class="tour-schedule--hotel-image" {% if hotel.get_field('post_gallery') %}style="background-image: url({{ hotel.get_field('post_gallery')[0].image_link }})"{% endif %}>
+                                <div class="tour-schedule--hotel-price">
+                                  {% if min_price and min_price != 0 %}
+                                  <span class="price-{{ room_id }}-unit">{{ __("VND", "pdj_theme") }}</span> <span class="price price-{{ room_id }}" data-price="{{ min_price }}">{{ min_price|number_format(0, '.', ',') }}</span>
+                                  {% else %}
+                                  <span class="price">{{ __("contact", "pdj_theme") }}</span>
+                                  {% endif %}
+                                </div>
+                                <div class="hotel-selected uncheck"><i class="fa fa-square-o" aria-hidden="true"></i></div>
+                                {#% if loop.first %}
+                                  {% set hotel_price_total = function("intConvert", hotel_price_total) + function("intConvert", min_price) %}
+                                  {% set hotel_ids = hotel_ids ~ ";" ~ schedule_of_hotel ~ schedule_index ~ "-" ~ room_crm_id %}
+                                  <div class="hotel-selected"><i class="fa fa-check-square-o" aria-hidden="true"></i></div>
+                                {% endif %#}
+                              </div>
+                              <h3 class="tour-schedule--hotel-title"><a href="{{ hotel.link }}">{{ hotel.title }}</a></h3>
+                              {#<div class="tour-schedule--hotel-room-type">{{ __("Room type") }}: {{ room_title }}</div>#}
+                              {% if qty_in_stock %}
+                              <div class="tour-hotel-amount-select">
+                                <span>{{ __("Room amount:", "pdj_theme") }}</span>
+                                <select name"tour-hotel-amount" class="js-select2 tour-hotel-amount">
+                                  {% for item in 1..qty_in_stock %}
+                                    <option value="{{ item }}">{{ item }}</option>
+                                  {% endfor %}
+                                </select>
+                              </div>
+                              {% endif %}
+                              {% if function("intConvert", extra_bed) > 0 %}
+                              <div class="tour-schedule--hotel-extrabed">
+                                <span class="extrabed-value" data-extrabed-prie="{{ extra_bed }}"><i class="fa fa-square-o" aria-hidden="true"></i></span>
+                                <span class="extraned-info">{{ __("Extra Bed") }}: {{ __("VND", "pdj_theme") ~ " " ~ extra_bed|number_format(0, '.', ',') }}</span>
+                              </div>
+                              {% endif %}
+                              <input type="hidden" name="tour-hotel-id" class="tour-hotel-id" value="{{ schedule_of_hotel ~ schedule_index ~ "-" ~ room_id }}" data-value-id="room_id">
+                              <input type="hidden" name="tour-hotel-crm-id" class="tour-hotel-crm-id" value="{{ schedule_of_hotel ~ schedule_index ~ "-" ~ room_crm_id }}">
+                            </div>
+                          {% endfor %}
+                          {% for hotel in schedule_hotel_notyet %}
+                            {% if hotel is not empty %}
+                            <div class="tour-schedule--hotel tour-schedule--hotel-notyet">
+                              <div class="tour-schedule--hotel-image">
+                                <div class="tour-schedule--hotel-price"><span class="price">{{ __("Contact", "pdj_theme") }}</span></div>
+                              </div>
+                              <h3 class="tour-schedule--hotel-title">{{ hotel }}</h3>
+                            </div>
+                            {% endif %}                          
+                          {% endfor %}
+                        </div>
+                      </div>
+                      
+                      <div class="tour-schedule--notice">{{ __("*Price = Price / Room / 2 Persons.", "pdj_theme") }}</div>
+                      {% endif %}
+
+                      <div class="tour-schedule--index">
+                        <div class="tour-schedule--index-inner">
+                          <span class="tour-schedule--index-label">{{ schedule_label }}</span>
+                          <span class="tour-schedule--index-count">{{ schedule_index }}</span>
+                        </div>
+                        <div class="corner"></div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {# End Block Tour Schedule #}
+
+          {# Block Tour Service #}
+          <div class="block-main-content block-tour-service">
+            <div class="block-inner">
+              <h2 class="block-title hidden">{{ __("tour service", "pdj_theme") }}</h2>
+              <div class="block-content">
+                <div class="tour-service--list clearfix">
+
+                  {% if (post.get_field('tour_include') or tour_attention) %}
+                  <div class="tour-service--left">
+                    {% if post.get_field('tour_include') %}
+                    <div class="tour-service--item">
+                      <h3 class="tour-service--item-title">{{ __("Tour include", "pdj_theme") }}</h3>
+                      <div class="tour-service--item--content">
+                        {{ post.get_field('tour_include') }}
+                      </div>
+                    </div>
+                    {% endif %}
+
+                    {% if tour_attention %}
+                    <div class="tour-service--item">
+                      <h3 class="tour-service--item-title">{{ __("Tour attention", "pdj_theme") }}</h3>
+                      <div class="tour-service--item--content">
+                        {{ function("nl2br ", tour_attention) }}
+                      </div>
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+
+                  {% if (post.get_field('tour_exclude') or post.get_field('tour_special_request') or tour_canellation_policy) %}
+                  <div class="tour-service--right">
+                    {% if post.get_field('tour_exclude') %}
+                    <div class="tour-service--item">
+                      <h3 class="tour-service--item-title">{{ __("Tour exclude", "pdj_theme") }}</h3>
+                      <div class="tour-service--item--content">
+                        {{ post.get_field('tour_exclude') }}
+                      </div>
+                    </div>
+                    {% endif %}
+
+                    {% if post.get_field('tour_special_request') %}
+                    <div class="tour-service--item">
+                      <h3 class="tour-service--item-title">{{ __("Tour special request", "pdj_theme") }}</h3>
+                      <div class="tour-service--item--content">
+                        {{ post.get_field('tour_special_request') }}
+                      </div>
+                    </div>
+                    {% endif %}
+
+                    {% if tour_canellation_policy %}
+                    <div class="tour-service--item">
+                      <h3 class="tour-service--item-title">{{ __("Canellation Policy", "pdj_theme") }}</h3>
+                      <div class="tour-service--item--content">
+                        {{ function("nl2br ", tour_canellation_policy) }}
+                      </div>
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+
+                </div>
+              </div>
+            </div>
+          </div>
+          {# End Block Tour Service #}
+
+        </div>
+
+        <div class="sidebar col-lg-3 pull-left">
+          <div class="sidebar-inner">
+            {% include 'sidebar-tour.twig' %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{#% if related('category') %}
+  <h3 class="related-title block-title">Related post</h3>
+  <ul class="post-related">
+    {% for post in function('related', 'category') %}
+      <li><a href="{{post.link}}">{{post.title}}</a></li>
+    {% endfor %}
+  </ul>
+{% endif %#}
+
+{#% if function('comments_open') %}
+{% include 'comments.twig' %}
+{{ function('comment_form') }}
+{% endif %#}
+

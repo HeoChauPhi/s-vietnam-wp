@@ -1,0 +1,38 @@
+<div class="block block-travel-notice {{ component_class }}">
+  <h2 class="block-title">{{ posts_list_title }}</h2>
+  <div class="block-content">
+    {% if posts_list_custom %}
+    <div class="travel-notice-post-list">
+
+      {% for post in posts_list_custom %}
+        {% if loop.first %}
+          <div class="travel-notice-post-item sticky_post">
+            {% if post.get_field('hero_banner_image') %}
+            <div class="post-image" style="background-image: url({{ post.get_field('hero_banner_image').url }});">
+              <img src="{{ post.get_field('hero_banner_image').url }}">
+            </div>
+            {% endif %}
+            <h3 class="node-title"><a href="{{ function('get_post_link', post.ID) }}">{{ post.title }}</a></h3>
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      <div class="travel-notice-post-list-thumbnail clearfix">
+      {% for post in posts_list_custom %}
+        {% if  loop.first == 0 %}
+          <div class="travel-notice-post-item">
+            {% if post.get_field('hero_banner_image') %}
+            <div class="post-image" style="background-image: url({{ post.get_field('hero_banner_image').url }});">
+              <img src="{{ post.get_field('hero_banner_image').url }}">
+            </div>
+            {% endif %}
+            <h3 class="node-title"><a href="{{ function('get_post_link', post.ID) }}">{{ post.title }}</a></h3>
+          </div>
+        {% endif %}
+      {% endfor %}
+      </div>
+
+    </div>
+    {% endif %}
+  </div>
+</div>

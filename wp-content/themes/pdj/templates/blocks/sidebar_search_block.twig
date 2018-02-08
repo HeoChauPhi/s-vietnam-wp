@@ -1,0 +1,12 @@
+<div class="block-sidebar block-sidebar--search">
+  <div class="block-inner">
+    <h2 class="block-title hidden">{{ __('Book Now', 'pdj_theme') }}</h2>
+
+    <div class="block-content">
+      <form class="searchform" role="search" method="get" id="searchform" action="{{ function("get_permalink") }}">
+        <input class="form-text" type="text" value="{{function('get_search_query')}}" name="s" id="s" placeholder="{{ input_placehoder }}">
+        <button type="submit" id="searchsubmit" value="Search" class="button postfix">{{ search_icon }}</button>
+      </form>
+    </div>
+  </div>
+</div>

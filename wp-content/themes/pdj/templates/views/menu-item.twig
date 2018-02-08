@@ -1,0 +1,17 @@
+{% set mega_class = '' %}
+{% if item.enable_post_list == 1 %}
+  {% set mega_class = 'menu-item-has-megamenu' %}
+{% endif %}
+
+<li class="nav-main-item {{item.classes | join(' ')}} {% if item.current %} active{% endif %}{% if item.get_children %} expanded-menu{% endif %} {{ mega_class }}">
+  <a class="nav-main-link" href="{{item.get_link}}">{{item.title}} 
+    {% if item.get_children %}
+    <span class="expanded-menu__button fa fa-angle-down"></span>
+    {% endif %}
+  </a>
+  {% if item.enable_post_list == 1 %}
+    {{ function('shortcode', '[mega_menu_post post_type="' ~ item.post_list_type ~ '"]') }}
+  {% elseif item.get_children %}
+    {% include 'sub-menu.twig' with {'child': item.get_children} %}
+  {% endif %}
+</li>

@@ -1,0 +1,13 @@
+.sidebar--price {
+  &-filter {
+    &-wrapper {
+      overflow-x: hidden;
+    }
+
+    &-amount {
+      background: transparent;
+      border: none;
+      color: $color-light;
+    }
+  }
+}

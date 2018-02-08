@@ -1,0 +1,7 @@
+{% for post in posts %}
+  {% if post.type == "tour" %}
+    {% include 'content-item-tour.twig' with {'post' : post, 'sort_layout' : sort_layout} %}
+  {% endif %}
+{% endfor %}
+
+<input type="hidden" name="pagination_total" value="{{ pagination_total }}">

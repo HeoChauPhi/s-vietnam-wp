@@ -1,0 +1,161 @@
+.admin-bar {
+  .block-booking-price-fixed {
+    top: rem(46px) !important;
+
+    @include breakpoint(783px) {
+      top: rem(32px) !important;
+    }
+  }
+}
+
+.block-tour {
+  &-price {
+    .block-content {
+      position: relative;
+    }
+
+    .tour {
+      &-price {
+        margin-bottom: rem(20px);
+
+        .price-value {
+          display: inline-block;
+          white-space: nowrap;
+        }
+
+        .price-booking {
+          color: $color-link;
+          font-size: rem(24px);
+        }
+      }
+
+      &-notify {
+        ul {
+          margin: 0;
+        }
+      }
+    }
+
+    #sidebar-tour-booking {
+      margin-bottom: rem(20px);
+
+      .form-item {
+        margin-bottom: rem(13px);
+
+        label {
+          margin-bottom: rem(2px);
+
+          .label-require {
+            color: $color-error;
+          }
+        }
+
+        &-departure-day {
+          .form-item-wrapper {
+            position: relative;
+
+            .date-time-picker-clear {
+              margin-bottom: rem(2px);
+            }
+
+            > input {
+              border-radius: rem(3px);
+              border: rem(2px) solid $gray-dd;
+              display: block;
+              font-size: rem(15px);
+              margin: 0;
+              min-height: rem(40px);
+              padding: rem(5px 50px 5px 20px);
+              width: 100%;
+            }
+
+            > button {
+              background: url('../images/icons/calendar.svg') no-repeat scroll center center $gray-dd;
+              background-size: rem(25px 25px);
+              border: none;
+              bottom: 0;
+              height: 100%;
+              padding: 0;
+              position: absolute;
+              right: 0;
+              text-indent: -9999em;
+              top: 0;
+              width: rem(40px);
+            }
+          }
+        }
+      }
+    }
+
+    &.block-booking-price-fixed {
+      background-color: $white;
+      box-shadow: rem(0 5px 10px 0) $color-line;
+      left: 0;
+      margin: 0;
+      padding: rem(10px 0);
+      position: fixed;
+      right: 0;
+      top: 0;
+      z-index: 999;
+
+      .block-title {
+        display: none !important;
+      }
+
+      .block-content {
+        @extend .container;
+      }
+
+      .tour-price {
+        margin-bottom: rem(10px);
+      }
+
+      .tour-notify {
+        display: none;
+      }
+
+      .tour-booking {
+        margin: 0 !important;
+      }
+
+      .form-items {
+        align-items: flex-end;
+        display: flex;
+        justify-content: center;
+        margin: rem(0 -5px 10px -5px);
+
+        .form-item {
+          flex: 1;
+          margin: rem(0 5px) !important;
+        }
+      }
+
+      .form-action {
+        flex: unset !important;
+        text-align: right;
+
+        .btn {
+          height: rem(40px);
+          padding: rem(10px 30px);
+        }
+      }
+    }
+  }
+
+  &-infor {
+    &--list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    &--item {
+      list-style: none;
+      text-transform: capitalize;
+
+      > .fa {
+        margin-right: rem(10px);
+      }
+    }
+  }
+}

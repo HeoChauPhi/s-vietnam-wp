@@ -1,0 +1,96 @@
+{% set post_index = loop.index %}
+{% if sort_layout == 'grid' %}
+  {% set item_class = 'col-lg-6 list-page--content-item-column' %}
+{% else %}
+  {% set item_class = '' %}
+{% endif %}
+
+{% set departure_day_arr = function("get_field_object", "departure_day", post.id).choices %}
+{% set departure_day_arr_val = function("array_values", departure_day_arr) %}
+{% set departure_day = function("array_column", post.get_field('departure_day'), "value") %}
+{% set day_intersect_arr = function("array_intersect", departure_day_arr_val, departure_day) %}
+{% set day_intersect = function("array_keys", day_intersect_arr)|join(';') %}
+
+<div class="list-page--content-item list-page--content-tour {{ item_class }}">
+  <div class="tour-header clearfix">
+    <div class="tour-image" style="background-image: url({{ post.get_field('post_gallery').0.image_link }});">
+      <img src="{{ post.get_field('post_gallery').0.image_link }}">
+    </div>
+    <div class="tour-info">
+      <h3 class="tour-title"><a href="{{ post.link }}">{{ post.title }}</a></h3>
+      <div class="tour-price">
+        <span class="price-label">{{ __('Price', 'pdj_theme') }}/{{ __('Person', 'pdj_theme') }}: </span>
+        {% if post.get_field('tour_price') == 0 or post.get_field('tour_price') == null %}
+        <span class="price-value">{{ __("Contact", "pdj_theme") }}</span>
+        {% else %}
+        <span class="price-value">{{ post.get_field('tour_price')|number_format(0, '.', ',') }}</span>
+        {% endif %}
+      </div>
+      <div class="tour-booking">
+        <form class="form-tour-booking" action="{{ post.link }}" method="GET">
+          <div class="form-item">
+            <input type="text" name="tour-departure-day" class="date-time-picker-ignore tour-departure-day" readonly="readonly" data-showdate="{{ day_intersect }}">
+          </div>
+          <div class="form-action">
+            <input type="submit" value="{{ __("Booking", "pdj_theme") }}" class="btn btn-primary">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="tour-content clearfix">
+    <div class="view-more">{{ __("view more", "pdj_theme") }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+    <div class="js-quicktab tour-content--service">
+      <ul class="tour-content-tabs">
+        {% if post.get_field('tour_include') %}
+          <li class="quicktab-item"><a href="#{{ loop.index }}_tour_include">{{ __("Tour include", "pdj_theme") }}</a></li>
+        {% endif %}
+
+        {% if post.get_field('tour_exclude') %}
+          <li class="quicktab-item"><a href="#{{ loop.index }}_tour_exclude">{{ __("Tour exclude", "pdj_theme") }}</a></li>
+        {% endif %}
+
+        {% if post.get_field('tour_special_request') %}
+          <li class="quicktab-item"><a href="#{{ loop.index }}_tour_special_request">{{ __("Tour special request", "pdj_theme") }}</a></li>
+        {% endif %}
+
+        {% if tour_attention %}
+          <li class="quicktab-item"><a href="#{{ loop.index }}_tour_attention">{{ __("Tour attention", "pdj_theme") }}</a></li>
+        {% endif %}
+      </ul>
+      <div class="tour-content-tab-content show-on-click">
+        {% if post.get_field('tour_include') %}
+        <div id="{{ loop.index }}_tour_include" class="quicktab-content-item">
+          {{ post.get_field('tour_include') }}
+        </div>
+        {% endif %}
+
+        {% if post.get_field('tour_exclude') %}
+        <div id="{{ loop.index }}_tour_exclude" class="quicktab-content-item">
+          {{ post.get_field('tour_exclude') }}
+        </div>
+        {% endif %}
+
+        {% if post.get_field('tour_special_request') %}
+        <div id="{{ loop.index }}_tour_special_request" class="quicktab-content-item">
+          {{ post.get_field('tour_special_request') }}
+        </div>
+        {% endif %}
+
+        {% if tour_attention %}
+        <div id="{{ loop.index }}_tour_attention" class="quicktab-content-item">
+          {{ function("nl2br ", tour_attention) }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="tour-content--images show-on-click">
+      <ul>
+      {% for item in post.get_field('post_gallery') %}
+        {% set img_id = item.image_link|split('/')|last %}
+        <li><img id="{{ img_id }}" src="{{ item.image_link }}" class="hidden"><a class="fancybox-image-gallery" rel="tour_gallery_{{ post_index }}" href="#{{ img_id }}" style="background-image: url({{ item.image_link }});"></a></li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>

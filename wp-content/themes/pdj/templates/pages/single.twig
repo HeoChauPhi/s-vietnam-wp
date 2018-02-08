@@ -1,0 +1,5 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+  {% include ["single-"~post.post_name~".twig", "single-"~post.post_type~".twig", 'tease.twig'] %}
+{% endblock %}

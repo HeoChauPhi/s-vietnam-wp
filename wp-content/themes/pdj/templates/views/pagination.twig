@@ -1,0 +1,32 @@
+{% if pagination and (pagination.total > 1) %}
+  {% if pagedtype == 'ajax' %}
+    <div class="tool-pagination ajax-pagination block-pager bg--white">
+      <ul class="pager block-pager__list">
+        {% for page in pagination.pages %}
+          {% if page.current == 1 %}
+            {% set current_class = 'active' %}
+          {% endif %}
+          <li class="block-pager__item {{page.class}}" data-value="{{ page.title }}">
+            <a class="{{page.class}}">{{page.title}}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <div class="tool-pagination block-pager bg--white">
+      <ul class="pager block-pager__list">
+        <li class="block-pager__item prev {{ page.class }}">{% if pagination.prev.link %}<a href="{{ pagination.prev.link }}">{{ __('Previous', 'pdj_theme') }}</a>{% else %}{{ __('Previous', 'pdj_theme') }}{% endif %}</li>
+        {% for page in pagination.pages %}
+          {% if page.link %}
+          <li class="block-pager__item {{ page.class }} ">
+              <a href="{{ page.link }}" class="{{ page.class }}">{{ page.title }}</a>
+          </li>
+          {% else %}
+            <li class="block-pager__item active {{ page.class }}">{{ page.title }}</li>
+          {% endif %}
+        {% endfor %}
+        <li class="block-pager__item next {{ page.class }}">{% if pagination.next.link %}<a href="{{ pagination.next.link }}">{{ __('Next', 'pdj_theme') }}</a>{% else %}{{ __('Next', 'pdj_theme') }}{% endif %}</li>
+      </ul>
+    </div>
+  {% endif %}
+{% endif %}

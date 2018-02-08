@@ -1,0 +1,50 @@
+<form id="form-fly-tickets" class="form-fly-tickets" name="form-fly-tickets" method="GET" action="{{ function('home_url') }}/search-service">
+  <div class="group-items">
+    <div class="form-item">
+      <label for="fly_start">{{ __('Start', 'pdj_theme') }}</label>
+      <input type="text" name="fly_start" class="fly_start location-complete">
+    </div>
+    <div class="form-item">
+      <label for="fly_destination">{{ __('Destination', 'pdj_theme') }}</label>
+      <input type="text" name="fly_destination" class="fly_destination location-complete">
+    </div>
+  </div>
+
+  <div class="form-item">
+    <label for="fly_round_trip">{{ __('Round Trip', 'pdj_theme') }}</label>
+    <input type="checkbox" name="fly_round_trip" class="fly_round_trip">
+  </div>
+
+  <div class="group-items daterange_picker">
+    <div class="form-item">
+      <label for="fly_date_start">{{ __('Date Start', 'pdj_theme') }}</label>
+      <input type="text" name="fly_date_start" class="fly_date_start date-start">
+    </div>
+    <div class="form-item">
+      <label for="fly_date_destination">{{ __('Date Destination', 'pdj_theme') }}</label>
+      <input type="text" name="fly_date_destination" class="fly_date_destination date-end">
+    </div>
+  </div>
+
+  <div class="group-items">
+    <div class="form-item">
+      <label for="fly_people">{{ __('People', 'pdj_theme') }}</label>
+      <input type="hidden" name="fly_people" placeholder="0" class="fly_people js_spinner">
+      <span class="form-alias"><span class="form-count">0</span> {{ __('People', 'pdj_theme') }}</span>
+    </div>
+    <div class="form-item">
+      <label for="fly_childs">{{ __('Childs', 'pdj_theme') }}</label>
+      <select name="fly_childs" class="fly_childs js-select2">
+        <option value="" checked>{{ __('- Select -', 'pdj_theme') }}</option>
+        <option value="< 1">&#60; 1 {{ __('age', 'pdj_theme') }}</option>
+      {% for item in 1..17 %}
+        <option value="{{ item }}">{{ item }} {{ __('age', 'pdj_theme') }}</option>
+      {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="form-item">
+  <button class="btn btn-primary" type="submit" form="form-fly-tickets" value="Find">{{ __('Find', 'pdj_theme') }}</button>
+  </div>
+</form>

@@ -1,0 +1,39 @@
+{% extends 'layout.twig' %}
+
+{% block feature %}
+  <div id="feature" class="feature-wrapper">
+    {% include 'hero_banner.twig' with {'post': post} %}
+  </div>
+{% endblock %}
+
+{% block content %}
+  {% include 'searchform.twig' %}
+
+  <div class="list-page--content">
+
+    <div class="list-page--content-result">
+      {% if posts %}
+      {% for post in posts %}
+        {% include 'content-item-tour.twig' with {'post' : post} %}
+      {% endfor %}
+      {% else %}
+        <p>{{ __('Sorry, no results were found!', 'pdj_theme') }}</p>
+      {% endif %}
+    </div>
+
+    {% if pagination %}
+      <div class="block-pagination">
+        <ul class="pagination">
+        {% for pager in pagination.pages %}
+          {% set data_offset = (function("intConvert", pager.name) - 1) * function("intConvert", per_page) %}
+          {% if pager.link %}
+          <li class="{{ pager.class }} page-number-{{ pager.name }}"><a href="{{ pager.link }}" data-paged="{{ pager.name }}" data-offset="{{ data_offset }}" class="pager-link">{{ pager.title }}</a></li>
+          {% else %}
+          <li class="active {{ pager.class }} page-number-{{ pager.name }}"><a href="#" data-paged="{{ pager.name }}" data-offset="{{ data_offset }}" class="pager-link">{{ pager.title }}</a></li>
+          {% endif %}
+        {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

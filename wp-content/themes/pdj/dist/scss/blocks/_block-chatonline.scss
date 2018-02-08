@@ -1,0 +1,53 @@
+.block-chatonline {
+  @include transition(width 0.2s ease);
+  bottom: 0;
+  overflow: hidden;
+  position: fixed;
+  right: rem(20px);
+  width: rem(200px);
+  z-index: 99;
+
+  &.chatonline-show {
+    @include transition(width 0.2s ease);
+    width: rem(280px);
+  }
+
+  .chatonline-label {
+    @include transition(opacity 0.2s ease);
+    background-color: $color-seccond;
+    border-radius: rem(5px 5px 0 0);
+    color: $white;
+    cursor: pointer;
+    display: block;
+    font-size: rem(16px);
+    opacity: 0;
+    padding: rem(4px 30px 4px 20px);
+    position: relative;
+    visibility: hidden;
+    width: 100%;
+    z-index: -999;
+
+    &.chatonline-label-show {
+      @include transition(opacity 0.2s ease);
+      opacity: 1;
+      visibility: visible;
+      z-index: 9;
+    }
+
+    .chatonline-action {
+      bottom: 0;
+      height: 100%;
+      position: absolute;
+      right: rem(20px);
+      top: 0;
+
+      &:before {
+        line-height: rem(31px);
+      }
+    }
+  }
+
+  .fb-page {
+    display: none;
+  }
+}
