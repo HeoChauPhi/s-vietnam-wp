@@ -20,13 +20,13 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'demowp_congtytruyenthong');
+define('DB_NAME', 'demowp_s-vietnam');
 
 /** MySQL database username */
 define('DB_USER', 'root');
 
 /** MySQL database password */
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', '1');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
@@ -57,8 +57,8 @@ define('NONCE_SALT',       'put your unique phrase here');
 
 /** A couple extra tweaks to help things run well on Pantheon. **/
 if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == "localhost") {
-  define('WP_HOME', "http://localhost/demowp/congtytruyenthong/");
-  define('WP_SITEURL', "http://localhost/demowp/congtytruyenthong/");
+  define('WP_HOME', "http://localhost/demowp/s-vietnam-wp/");
+  define('WP_SITEURL', "http://localhost/demowp/s-vietnam-wp/");
 } elseif (isset($_SERVER['HTTP_HOST'])) {
   // HTTP is still the default scheme for now. 
   $scheme = 'http';

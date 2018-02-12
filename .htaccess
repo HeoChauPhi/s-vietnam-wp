@@ -1,12 +1,20 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /demowp/s-vietnam-wp/
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /demowp/s-vietnam-wp/index.php [L]
+</IfModule>
 
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /demowp/congtytruyenthong/
+RewriteBase /demowp/s-vietnam-wp/
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /demowp/congtytruyenthong/index.php [L]
+RewriteRule . /demowp/s-vietnam-wp/index.php [L]
 </IfModule>
 
 # END WordPress
