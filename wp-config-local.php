@@ -26,7 +26,7 @@ define('DB_NAME', 'demowp_s-vietnam');
 define('DB_USER', 'root');
 
 /** MySQL database password */
-define('DB_PASSWORD', '1');
+define('DB_PASSWORD', '');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
