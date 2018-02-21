@@ -5,7 +5,12 @@
     {% set tour_price = tour.get_field('tour_price') %}
     {% set tour_prices = tour_prices|merge([tour_price]) %}
   {% endfor %}
-  {% set max_price = max(tour_prices) %}
+  
+  {% if tour_prices %}
+    {% set max_price = max(tour_prices) %}
+  {% else %}
+    {% set max_price = 0 %}
+  {% endif %}
 {% else %}
   {{ post_types_tour|print_r }}
 {% endif %}

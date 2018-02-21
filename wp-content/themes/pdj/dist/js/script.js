@@ -276,7 +276,7 @@
     var scroll_match = banner_height - header_height;
     var scroll_top = $(window).scrollTop();
 
-    if (scroll_top > scroll_match) {
+    if (scroll_top > banner_height) {
       $('#header').addClass('header-fixed');
       $('.chatonline-label').addClass('chatonline-label-show');
     } else {
@@ -688,7 +688,8 @@
   }
 
   /* Single Hotel */
-  var tabScroll = function() {
+  // Tab Click
+  var tabClickScroll = function() {
     var body = $("html, body");
     var height_header = $('.header-fixed').outerHeight();
     var height_adminbar = $('#wpadminbar').outerHeight();
@@ -699,6 +700,23 @@
 
     body.animate({scrollTop: body_scroll}, '500');
     return false;
+  }
+
+  // Tab Scroll
+  function tabScroll() {
+    if ( $('.main-single-header').length > 0 ) {
+      var scroll_match = $('.main-single-header').offset().top;
+      var scroll_top = $(window).scrollTop();
+    } else {
+      scroll_match = 0;
+      scroll_top = 0;
+    }
+
+    if (scroll_top > scroll_match) {
+      $('.main-single-tabs-verticle').show();
+    } else {
+      $('.main-single-tabs-verticle').hide();
+    }
   }
 
   /* ===========================================================
@@ -979,24 +997,27 @@
     console.log(str_test.search(str_search));*/
 
     /* Single Hotel call Functions */
-    $('.main-single-tabs a').on('click', tabScroll);
+    $('.main-single-tabs a').on('click', tabClickScroll);
   });
 
   $(window).load(function() {
     // Call to function
     navigation_fixed();
+    tabScroll();
     booking_scroll();
   });
 
   $(window).scroll(function() {
     // Call to function
     navigation_fixed();
+    tabScroll();
     js_show_chatonline();
   });
 
   $(window).resize(function() {
     // Call to function
     navigation_fixed();
+    tabScroll();
     js_show_chatonline();
   });
 
