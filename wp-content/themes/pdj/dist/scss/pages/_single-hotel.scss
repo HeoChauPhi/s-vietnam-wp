@@ -208,10 +208,22 @@
 			&-service,
 			&-price {
 				flex: 1;
+				padding: rem(10px);
+			}
+
+			&-info {
+				.room-title {
+					font-weight: 700;
+				}
 			}
 
 			&-thumbnail {
 				max-width: rem(113px);
+				padding: 0;
+			}
+
+			&-service {
+				
 			}
 
 			&-price {

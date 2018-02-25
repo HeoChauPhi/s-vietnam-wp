@@ -19262,10 +19262,15 @@ main .block-title {
 .main-single #rooms .room-thumbnail, .main-single #rooms .room-info, .main-single #rooms .room-service, .main-single #rooms .room-price {
   -webkit-box-flex: 1;
   -ms-flex: 1;
-  flex: 1; }
+  flex: 1;
+  padding: 0.71429rem; }
+
+.main-single #rooms .room-info .room-title {
+  font-weight: 700; }
 
 .main-single #rooms .room-thumbnail {
-  max-width: 8.07143rem; }
+  max-width: 8.07143rem;
+  padding: 0; }
 
 .main-single #rooms .room-price {
   max-width: 10rem; }
