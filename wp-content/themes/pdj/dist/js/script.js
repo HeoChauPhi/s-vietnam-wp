@@ -273,10 +273,16 @@
   function navigation_fixed() {
     var banner_height = $('.hero-banner-media').outerHeight();
     var header_height = $('#header').outerHeight();
-    var scroll_match = banner_height - header_height;
+    var scroll_match = banner_height - 113;
     var scroll_top = $(window).scrollTop();
 
-    if (scroll_top > banner_height) {
+    if (scroll_top > 50) {
+      $('#header').addClass('header-overlay');
+    } else {
+      $('#header').removeClass('header-overlay');
+    } 
+
+    if (scroll_top > scroll_match) {
       $('#header').addClass('header-fixed');
       $('.chatonline-label').addClass('chatonline-label-show');
     } else {
@@ -699,6 +705,12 @@
     var body_scroll = id_content_offset_top - height_header - height_adminbar;
 
     body.animate({scrollTop: body_scroll}, '500');
+
+    $('.main-single-tabs li a').removeClass('active');
+    $('.main-single-tabs-verticle li a[href*='+id_content+']').addClass('active');
+    $('.main-single-tabs li a[href*='+id_content+']').addClass('active');
+    $(this).addClass('active');
+
     return false;
   }
 
@@ -713,9 +725,9 @@
     }
 
     if (scroll_top > scroll_match) {
-      $('.main-single-tabs-verticle').show();
+      $('.main-single-tabs-verticle').addClass('menu-show');
     } else {
-      $('.main-single-tabs-verticle').hide();
+      $('.main-single-tabs-verticle').removeClass('menu-show');
     }
   }
 

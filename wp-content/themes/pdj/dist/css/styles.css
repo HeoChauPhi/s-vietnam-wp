@@ -13178,7 +13178,7 @@ button.close {
   font-weight: normal;
   font-style: normal; }
 
-.fa, ul.list-item > li, .slick-arrow, .ui-datepicker-prev span, .ui-datepicker-next span, a.ui-spinner-button .ui-button-icon, .footer-menu ul.menu--list li a {
+.fa, ul.list-item > li, .slick-arrow, .ui-datepicker-prev span, .ui-datepicker-next span, a.ui-spinner-button .ui-button-icon, .footer-menu ul.menu--list li a, .main-single #overview .hotel-address:before {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -13235,10 +13235,10 @@ button.close {
 .fa-pull-right {
   float: right; }
 
-.fa.fa-pull-left, ul.list-item > li.fa-pull-left, .fa-pull-left.slick-arrow, .ui-datepicker-prev span.fa-pull-left, .ui-datepicker-next span.fa-pull-left, a.ui-spinner-button .fa-pull-left.ui-button-icon, .footer-menu ul.menu--list li a.fa-pull-left {
+.fa.fa-pull-left, ul.list-item > li.fa-pull-left, .fa-pull-left.slick-arrow, .ui-datepicker-prev span.fa-pull-left, .ui-datepicker-next span.fa-pull-left, a.ui-spinner-button .fa-pull-left.ui-button-icon, .footer-menu ul.menu--list li a.fa-pull-left, .main-single #overview .fa-pull-left.hotel-address:before {
   margin-right: .3em; }
 
-.fa.fa-pull-right, ul.list-item > li.fa-pull-right, .fa-pull-right.slick-arrow, .ui-datepicker-prev span.fa-pull-right, .ui-datepicker-next span.fa-pull-right, a.ui-spinner-button .fa-pull-right.ui-button-icon, .footer-menu ul.menu--list li a.fa-pull-right {
+.fa.fa-pull-right, ul.list-item > li.fa-pull-right, .fa-pull-right.slick-arrow, .ui-datepicker-prev span.fa-pull-right, .ui-datepicker-next span.fa-pull-right, a.ui-spinner-button .fa-pull-right.ui-button-icon, .footer-menu ul.menu--list li a.fa-pull-right, .main-single #overview .fa-pull-right.hotel-address:before {
   margin-left: .3em; }
 
 /* Deprecated as of 4.4.0 */
@@ -13248,10 +13248,10 @@ button.close {
 .pull-left {
   float: left; }
 
-.fa.pull-left, ul.list-item > li.pull-left, .pull-left.slick-arrow, .ui-datepicker-prev span.pull-left, .ui-datepicker-next span.pull-left, a.ui-spinner-button .pull-left.ui-button-icon, .footer-menu ul.menu--list li a.pull-left {
+.fa.pull-left, ul.list-item > li.pull-left, .pull-left.slick-arrow, .ui-datepicker-prev span.pull-left, .ui-datepicker-next span.pull-left, a.ui-spinner-button .pull-left.ui-button-icon, .footer-menu ul.menu--list li a.pull-left, .main-single #overview .pull-left.hotel-address:before {
   margin-right: .3em; }
 
-.fa.pull-right, ul.list-item > li.pull-right, .pull-right.slick-arrow, .ui-datepicker-prev span.pull-right, .ui-datepicker-next span.pull-right, a.ui-spinner-button .pull-right.ui-button-icon, .footer-menu ul.menu--list li a.pull-right {
+.fa.pull-right, ul.list-item > li.pull-right, .pull-right.slick-arrow, .ui-datepicker-prev span.pull-right, .ui-datepicker-next span.pull-right, a.ui-spinner-button .pull-right.ui-button-icon, .footer-menu ul.menu--list li a.pull-right, .main-single #overview .pull-right.hotel-address:before {
   margin-left: .3em; }
 
 .fa-spin {
@@ -13531,7 +13531,7 @@ button.close {
 .fa-pencil:before {
   content: ""; }
 
-.fa-map-marker:before {
+.fa-map-marker:before, .main-single #overview .hotel-address:before {
   content: ""; }
 
 .fa-adjust:before {
@@ -16851,7 +16851,7 @@ ul.fa-icons {
   ul.fa-icons li {
     list-style: none;
     text-transform: capitalize; }
-    ul.fa-icons li > .fa, ul.fa-icons li > .slick-arrow, ul.fa-icons .ui-datepicker-prev li > span, .ui-datepicker-prev ul.fa-icons li > span, ul.fa-icons .ui-datepicker-next li > span, .ui-datepicker-next ul.fa-icons li > span, ul.fa-icons a.ui-spinner-button li > .ui-button-icon, a.ui-spinner-button ul.fa-icons li > .ui-button-icon, ul.fa-icons .footer-menu ul.menu--list li > a, .footer-menu ul.menu--list ul.fa-icons li > a {
+    ul.fa-icons li > .fa, ul.fa-icons li > .slick-arrow, ul.fa-icons .ui-datepicker-prev li > span, .ui-datepicker-prev ul.fa-icons li > span, ul.fa-icons .ui-datepicker-next li > span, .ui-datepicker-next ul.fa-icons li > span, ul.fa-icons a.ui-spinner-button li > .ui-button-icon, a.ui-spinner-button ul.fa-icons li > .ui-button-icon, ul.fa-icons .footer-menu ul.menu--list li > a, .footer-menu ul.menu--list ul.fa-icons li > a, ul.fa-icons .main-single #overview li > .hotel-address:before, .main-single #overview ul.fa-icons li > .hotel-address:before {
       margin-right: 0.71429rem; }
 
 .ajax-loader {
@@ -16864,7 +16864,7 @@ ul.fa-icons {
   text-align: center;
   top: 0;
   z-index: 990; }
-  .ajax-loader .fa, .ajax-loader ul.list-item > li, .ajax-loader .slick-arrow, .ajax-loader .ui-datepicker-prev span, .ui-datepicker-prev .ajax-loader span, .ajax-loader .ui-datepicker-next span, .ui-datepicker-next .ajax-loader span, .ajax-loader a.ui-spinner-button .ui-button-icon, a.ui-spinner-button .ajax-loader .ui-button-icon, .ajax-loader .footer-menu ul.menu--list li a, .footer-menu ul.menu--list li .ajax-loader a {
+  .ajax-loader .fa, .ajax-loader ul.list-item > li, .ajax-loader .slick-arrow, .ajax-loader .ui-datepicker-prev span, .ui-datepicker-prev .ajax-loader span, .ajax-loader .ui-datepicker-next span, .ui-datepicker-next .ajax-loader span, .ajax-loader a.ui-spinner-button .ui-button-icon, a.ui-spinner-button .ajax-loader .ui-button-icon, .ajax-loader .footer-menu ul.menu--list li a, .footer-menu ul.menu--list li .ajax-loader a, .ajax-loader .main-single #overview .hotel-address:before, .main-single #overview .ajax-loader .hotel-address:before {
     -webkit-animation-duration: 5000ms;
     animation-duration: 5000ms;
     -webkit-animation-iteration-count: infinite;
@@ -17475,6 +17475,8 @@ a.ui-spinner-button {
       float: right; }
     .header .block-multilanguage {
       position: relative; } }
+  .header.header-overlay {
+    background-color: rgba(0, 0, 0, 0.8); }
   .header.header-fixed {
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
@@ -17676,7 +17678,7 @@ main {
 .block-tour-infor--item {
   list-style: none;
   text-transform: capitalize; }
-  .block-tour-infor--item > .fa, ul.list-item.block-tour-infor--item > li, .block-tour-infor--item > .slick-arrow, .ui-datepicker-prev .block-tour-infor--item > span, .ui-datepicker-next .block-tour-infor--item > span, a.ui-spinner-button .block-tour-infor--item > .ui-button-icon, .footer-menu ul.menu--list li .block-tour-infor--item > a {
+  .block-tour-infor--item > .fa, ul.list-item.block-tour-infor--item > li, .block-tour-infor--item > .slick-arrow, .ui-datepicker-prev .block-tour-infor--item > span, .ui-datepicker-next .block-tour-infor--item > span, a.ui-spinner-button .block-tour-infor--item > .ui-button-icon, .footer-menu ul.menu--list li .block-tour-infor--item > a, .main-single #overview .block-tour-infor--item > .hotel-address:before {
     margin-right: 0.71429rem; }
 
 main > .layout-wraper,
@@ -18166,7 +18168,7 @@ main .block-title {
   .footer-bottom-menu ul.social-icons__list li {
     margin-right: 0.71429rem;
     text-align: center; }
-    .footer-bottom-menu ul.social-icons__list li .fa, .footer-bottom-menu ul.social-icons__list li ul.list-item > li, .footer-bottom-menu ul.social-icons__list li .slick-arrow, .footer-bottom-menu ul.social-icons__list li .ui-datepicker-prev span, .ui-datepicker-prev .footer-bottom-menu ul.social-icons__list li span, .footer-bottom-menu ul.social-icons__list li .ui-datepicker-next span, .ui-datepicker-next .footer-bottom-menu ul.social-icons__list li span, .footer-bottom-menu ul.social-icons__list li a.ui-spinner-button .ui-button-icon, a.ui-spinner-button .footer-bottom-menu ul.social-icons__list li .ui-button-icon, .footer-bottom-menu ul.social-icons__list .footer-menu ul.menu--list li a, .footer-menu ul.menu--list .footer-bottom-menu ul.social-icons__list li a {
+    .footer-bottom-menu ul.social-icons__list li .fa, .footer-bottom-menu ul.social-icons__list li ul.list-item > li, .footer-bottom-menu ul.social-icons__list li .slick-arrow, .footer-bottom-menu ul.social-icons__list li .ui-datepicker-prev span, .ui-datepicker-prev .footer-bottom-menu ul.social-icons__list li span, .footer-bottom-menu ul.social-icons__list li .ui-datepicker-next span, .ui-datepicker-next .footer-bottom-menu ul.social-icons__list li span, .footer-bottom-menu ul.social-icons__list li a.ui-spinner-button .ui-button-icon, a.ui-spinner-button .footer-bottom-menu ul.social-icons__list li .ui-button-icon, .footer-bottom-menu ul.social-icons__list .footer-menu ul.menu--list li a, .footer-menu ul.menu--list .footer-bottom-menu ul.social-icons__list li a, .footer-bottom-menu ul.social-icons__list li .main-single #overview .hotel-address:before, .main-single #overview .footer-bottom-menu ul.social-icons__list li .hotel-address:before {
       font-size: 1.14286rem; }
 
 .block-chatonline {
@@ -18517,7 +18519,8 @@ main .block-title {
   height: 15.35714rem;
   margin-bottom: 1.5rem; }
   .block-video-libs .block-video-item-action iframe {
-    display: block; }
+    display: block;
+    height: 100%; }
 
 .block-video-libs .block-video-item-control {
   margin: 0rem -0.28571rem;
@@ -18592,7 +18595,7 @@ main .block-title {
       .block-hotels-list .block-hotel-item .hotel-content .hotel-star li {
         float: left;
         list-style: none; }
-        .block-hotels-list .block-hotel-item .hotel-content .hotel-star li .fa, .block-hotels-list .block-hotel-item .hotel-content .hotel-star li ul.list-item > li, .block-hotels-list .block-hotel-item .hotel-content .hotel-star li .slick-arrow, .block-hotels-list .block-hotel-item .hotel-content .hotel-star li .ui-datepicker-prev span, .ui-datepicker-prev .block-hotels-list .block-hotel-item .hotel-content .hotel-star li span, .block-hotels-list .block-hotel-item .hotel-content .hotel-star li .ui-datepicker-next span, .ui-datepicker-next .block-hotels-list .block-hotel-item .hotel-content .hotel-star li span, .block-hotels-list .block-hotel-item .hotel-content .hotel-star li a.ui-spinner-button .ui-button-icon, a.ui-spinner-button .block-hotels-list .block-hotel-item .hotel-content .hotel-star li .ui-button-icon, .block-hotels-list .block-hotel-item .hotel-content .hotel-star .footer-menu ul.menu--list li a, .footer-menu ul.menu--list .block-hotels-list .block-hotel-item .hotel-content .hotel-star li a {
+        .block-hotels-list .block-hotel-item .hotel-content .hotel-star li .fa, .block-hotels-list .block-hotel-item .hotel-content .hotel-star li ul.list-item > li, .block-hotels-list .block-hotel-item .hotel-content .hotel-star li .slick-arrow, .block-hotels-list .block-hotel-item .hotel-content .hotel-star li .ui-datepicker-prev span, .ui-datepicker-prev .block-hotels-list .block-hotel-item .hotel-content .hotel-star li span, .block-hotels-list .block-hotel-item .hotel-content .hotel-star li .ui-datepicker-next span, .ui-datepicker-next .block-hotels-list .block-hotel-item .hotel-content .hotel-star li span, .block-hotels-list .block-hotel-item .hotel-content .hotel-star li a.ui-spinner-button .ui-button-icon, a.ui-spinner-button .block-hotels-list .block-hotel-item .hotel-content .hotel-star li .ui-button-icon, .block-hotels-list .block-hotel-item .hotel-content .hotel-star .footer-menu ul.menu--list li a, .footer-menu ul.menu--list .block-hotels-list .block-hotel-item .hotel-content .hotel-star li a, .block-hotels-list .block-hotel-item .hotel-content .hotel-star li .main-single #overview .hotel-address:before, .main-single #overview .block-hotels-list .block-hotel-item .hotel-content .hotel-star li .hotel-address:before {
           color: #ffb300; }
   .block-hotels-list .block-hotel-item .hotel-price {
     height: 100%;
@@ -18656,7 +18659,7 @@ main .block-title {
 .block-sidebar li.sidebar-filter {
   cursor: pointer;
   padding: 0.21429rem 0rem; }
-  .block-sidebar li.sidebar-filter .fa, .block-sidebar li.sidebar-filter ul.list-item > li, .block-sidebar li.sidebar-filter .slick-arrow, .block-sidebar li.sidebar-filter .ui-datepicker-prev span, .ui-datepicker-prev .block-sidebar li.sidebar-filter span, .block-sidebar li.sidebar-filter .ui-datepicker-next span, .ui-datepicker-next .block-sidebar li.sidebar-filter span, .block-sidebar li.sidebar-filter a.ui-spinner-button .ui-button-icon, a.ui-spinner-button .block-sidebar li.sidebar-filter .ui-button-icon, .block-sidebar .footer-menu ul.menu--list li.sidebar-filter a, .footer-menu ul.menu--list .block-sidebar li.sidebar-filter a {
+  .block-sidebar li.sidebar-filter .fa, .block-sidebar li.sidebar-filter ul.list-item > li, .block-sidebar li.sidebar-filter .slick-arrow, .block-sidebar li.sidebar-filter .ui-datepicker-prev span, .ui-datepicker-prev .block-sidebar li.sidebar-filter span, .block-sidebar li.sidebar-filter .ui-datepicker-next span, .ui-datepicker-next .block-sidebar li.sidebar-filter span, .block-sidebar li.sidebar-filter a.ui-spinner-button .ui-button-icon, a.ui-spinner-button .block-sidebar li.sidebar-filter .ui-button-icon, .block-sidebar .footer-menu ul.menu--list li.sidebar-filter a, .footer-menu ul.menu--list .block-sidebar li.sidebar-filter a, .block-sidebar li.sidebar-filter .main-single #overview .hotel-address:before, .main-single #overview .block-sidebar li.sidebar-filter .hotel-address:before {
     min-width: 1rem; }
 
 .block-sidebar--destination_taxonomy ul.tour_destination--list ul.chils-list {
@@ -19085,8 +19088,187 @@ main .block-title {
   color: red; }
 
 /* End Block Tour Schedule */
-.main-single-tabs-verticle {
-  display: none; }
+.main-single-header {
+  margin-bottom: 2.85714rem;
+  -webkit-align-items: center;
+  -webkit-justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-flex;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center; }
+  .main-single-header .block-search-service form.form-hotel .form-item {
+    margin: 0rem 0.35714rem; }
+    .main-single-header .block-search-service form.form-hotel .form-item label {
+      display: none; }
+    .main-single-header .block-search-service form.form-hotel .form-item input,
+    .main-single-header .block-search-service form.form-hotel .form-item .form-text-dropdown {
+      min-width: 12.14286rem;
+      border: 0.07143rem solid #cccccc; }
+  .main-single-header .block-search-service form.form-hotel .form-action {
+    margin-right: 0; }
+
+.main-single-tabs {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1; }
+  .main-single-tabs ul {
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+    .main-single-tabs ul li {
+      display: inline-block;
+      list-style: none;
+      margin-right: 1.42857rem; }
+      .main-single-tabs ul li a {
+        border-bottom: 0.21429rem solid transparent;
+        color: #b3b3b3;
+        font-weight: 700; }
+        .main-single-tabs ul li a:hover, .main-single-tabs ul li a.active {
+          color: #333333;
+          border-bottom-color: #ffb300; }
+  .main-single-tabs-verticle {
+    -webkit-transition: opacity 0.5s ease;
+    -moz-transition: opacity 0.5s ease;
+    -o-transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease;
+    left: 0;
+    opacity: 0;
+    top: 20%;
+    visibility: hidden;
+    z-index: -1;
+    position: fixed; }
+    .main-single-tabs-verticle.menu-show {
+      -webkit-transition: opacity 0.5s ease;
+      -moz-transition: opacity 0.5s ease;
+      -o-transition: opacity 0.5s ease;
+      transition: opacity 0.5s ease;
+      opacity: 1;
+      visibility: visible;
+      z-index: 99; }
+    .main-single-tabs-verticle ul {
+      background-color: #ffffff;
+      border: 0.07143rem solid #cccccc; }
+      .main-single-tabs-verticle ul li {
+        display: block;
+        margin: 0;
+        padding: 0.21429rem 1.07143rem 0rem 1.07143rem; }
+        .main-single-tabs-verticle ul li a {
+          display: block; }
+
+.main-single-filter {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1; }
+
+.main-single #overview .hotel-information .block-hotel-title {
+  -webkit-align-items: center;
+  -webkit-justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-flex;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
+  margin-bottom: 1.42857rem; }
+
+.main-single #overview .hotel-title {
+  -webkit-box-flex: 5;
+  -ms-flex: 5;
+  flex: 5;
+  margin: 0; }
+
+.main-single #overview .hotel-star {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: right; }
+  .main-single #overview .hotel-star li {
+    display: inline-block;
+    list-style: none; }
+
+.main-single #overview .hotel-address {
+  margin-bottom: 1.07143rem; }
+
+.main-single #overview .hotel-rating-viewing {
+  -webkit-align-items: center;
+  -webkit-justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-flex;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
+  margin-bottom: 1.42857rem; }
+
+.main-single #overview .hotel-rating, .main-single #overview .hotel-viewing {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1; }
+
+.main-single #overview .hotel-viewing {
+  text-align: right; }
+
+.main-single #overview .hotel-service-title {
+  border: 0.07143rem solid #ffb300;
+  cursor: pointer;
+  font-size: 1.28571rem;
+  margin: 0.71429rem 0rem 0rem 0rem;
+  padding: 0.71429rem;
+  text-align: center; }
+  .main-single #overview .hotel-service-title:first-of-type {
+    margin-top: 0; }
+  .main-single #overview .hotel-service-title:hover, .main-single #overview .hotel-service-title.ui-accordion-header-active {
+    border-color: #32b663; }
+  .main-single #overview .hotel-service-title:focus {
+    outline: none !important; }
+  .main-single #overview .hotel-service-title .accordion-header:first-letter {
+    text-transform: uppercase; }
+
+.main-single #overview .hotel-service-content {
+  padding: 0.71429rem; }
+
+.main-single #rooms .room-item {
+  -webkit-align-items: start;
+  -webkit-justify-content: center;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  display: -webkit-flex;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border: 0.07143rem solid #cccccc; }
+
+.main-single #rooms .room-thumbnail, .main-single #rooms .room-info, .main-single #rooms .room-service, .main-single #rooms .room-price {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1; }
+
+.main-single #rooms .room-thumbnail {
+  max-width: 8.07143rem; }
+
+.main-single #rooms .room-price {
+  max-width: 10rem; }
 
 .list-page--sort-view {
   position: relative; }
@@ -19171,7 +19353,7 @@ main .block-title {
     top: 2.14286rem; }
     .list-page--content-tour .tour-content .view-more-close {
       text-indent: -9999em; }
-      .list-page--content-tour .tour-content .view-more-close .fa, .list-page--content-tour .tour-content .view-more-close ul.list-item > li, .list-page--content-tour .tour-content .view-more-close .slick-arrow, .list-page--content-tour .tour-content .view-more-close .ui-datepicker-prev span, .ui-datepicker-prev .list-page--content-tour .tour-content .view-more-close span, .list-page--content-tour .tour-content .view-more-close .ui-datepicker-next span, .ui-datepicker-next .list-page--content-tour .tour-content .view-more-close span, .list-page--content-tour .tour-content .view-more-close a.ui-spinner-button .ui-button-icon, a.ui-spinner-button .list-page--content-tour .tour-content .view-more-close .ui-button-icon, .list-page--content-tour .tour-content .view-more-close .footer-menu ul.menu--list li a, .footer-menu ul.menu--list li .list-page--content-tour .tour-content .view-more-close a {
+      .list-page--content-tour .tour-content .view-more-close .fa, .list-page--content-tour .tour-content .view-more-close ul.list-item > li, .list-page--content-tour .tour-content .view-more-close .slick-arrow, .list-page--content-tour .tour-content .view-more-close .ui-datepicker-prev span, .ui-datepicker-prev .list-page--content-tour .tour-content .view-more-close span, .list-page--content-tour .tour-content .view-more-close .ui-datepicker-next span, .ui-datepicker-next .list-page--content-tour .tour-content .view-more-close span, .list-page--content-tour .tour-content .view-more-close a.ui-spinner-button .ui-button-icon, a.ui-spinner-button .list-page--content-tour .tour-content .view-more-close .ui-button-icon, .list-page--content-tour .tour-content .view-more-close .footer-menu ul.menu--list li a, .footer-menu ul.menu--list li .list-page--content-tour .tour-content .view-more-close a, .list-page--content-tour .tour-content .view-more-close .main-single #overview .hotel-address:before, .main-single #overview .list-page--content-tour .tour-content .view-more-close .hotel-address:before {
         float: right;
         font-size: 1.57143rem;
         text-indent: 0; }

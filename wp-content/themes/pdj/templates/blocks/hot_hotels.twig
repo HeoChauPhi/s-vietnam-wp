@@ -1,10 +1,16 @@
+{% if function("get_field", "post_gallery", hotel.ID) %}
+  {% set bg_url = function('get_field', 'post_gallery', hotel.ID)[0].image_link %}
+{% else %}
+  {% set bg_url = default_bg %}
+{% endif %}
+
 <div class="block block-hot-hotels {{ component_class }}">
   <h2 class="block-title">{{ hot_hotels_title }}</h2>
   <div class="block-content">
     <div class="hot-hotels--list">
     {% for hotel in hot_hotels_list_custom %}
       <div class="hot-hotels--item clearfix">
-        <div class="hotel-image" {% if function("get_field", "post_gallery", hotel.ID) %}style="background-image: url({{ function('get_field', 'post_gallery', hotel.ID)[0].image_link }});"{% endif %}></div>
+        <div class="hotel-image" style="background-image: url({{ bg_url }});"></div>
         <div class="hotel-content">
           <h3 class="hotel-title"><a href="{{ function("get_permalink", hotel.ID) }}">{{ hotel.post_title }}</a></h3>
           <a href="{{ function("get_permalink", hotel.ID) }}" class="btn btn-primary book-now">{{ __("book now", "pdj_theme") }}</a>

@@ -62,13 +62,13 @@
             <div class="sidebar-message">{{ description_tour_date }}</div>
             {% endif %}
 
-          {# Tour Guild #}
-          {% elseif item.value == "tour_guild" %}
-            <ul class="tour_guild--list fa-icons">
-              <li class="sidebar-filter" data-value="1" data-filter="tour_guild"><i class="fa fa-square-o" aria-hidden="true"></i>{{ __("Yes", "pdj_theme") }}</li>
+          {# Tour Guide #}
+          {% elseif item.value == "tour_guide" %}
+            <ul class="tour_guide--list fa-icons">
+              <li class="sidebar-filter" data-value="1" data-filter="tour_guide"><i class="fa fa-square-o" aria-hidden="true"></i>{{ __("Yes", "pdj_theme") }}</li>
             </ul>
-            {% if description_tour_guild %}
-            <div class="sidebar-message">{{ description_tour_guild }}</div>
+            {% if description_tour_guide %}
+            <div class="sidebar-message">{{ description_tour_guide }}</div>
             {% endif %}
             
           {# Tour Destination #}

@@ -429,8 +429,8 @@
         },
         {
             "key": "field_5a0353d1396eb",
-            "label": "Tour Guild",
-            "name": "tour_guild",
+            "label": "Tour Guide",
+            "name": "tour_guide",
             "type": "true_false",
             "instructions": "",
             "required": 0,
@@ -651,5 +651,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1514828270
+    "modified": 1519463577
 }

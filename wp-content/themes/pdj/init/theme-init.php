@@ -524,6 +524,9 @@ function flexible_content($name) {
       $layout = $field['acf_fc_layout'];
       $fc_type[$layout] = array();
 
+      $default_bg = get_template_directory_uri().'/dist/images/no-image.jpg';
+      $field['default_bg'] = new TimberImage($default_bg);
+
       switch ($layout) {
         case 'hot_tours':
           $field = hot_tours($field);
@@ -1021,6 +1024,9 @@ function pdj_twig_data($data){
     $term_id = get_queried_object_id();
     $data['term_link'] = get_term_link($term_id);
   }
+
+  $default_bg = get_template_directory_uri().'/dist/images/no-image.jpg';
+  $data['default_bg'] = new TimberImage($default_bg);
 
   return $data;
 }

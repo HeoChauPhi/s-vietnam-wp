@@ -300,9 +300,9 @@ function zohocrm_insert_content() {
               $departure_day = explode(';', $item['tour_departure_day']);
             }
 
-            $tour_guild = 0;
-            if ( !empty($item['tour_guild']) && ($item['tour_guild'] == 'true') ) {
-              $tour_guild = 1;
+            $tour_guide = 0;
+            if ( !empty($item['tour_guide']) && ($item['tour_guide'] == 'true') ) {
+              $tour_guide = 1;
             }
 
             $schedules_informations = [];
@@ -609,7 +609,7 @@ function zohocrm_insert_content() {
               update_field('tour_exclude', $item['tour_exclude'], $post_id);
               update_field('tour_attention', $item['tour_attention'], $post_id);
               update_field('tour_special_request', $item['tour_special_request'], $post_id);
-              update_field('tour_guild', $tour_guild, $post_id);
+              update_field('tour_guide', $tour_guide, $post_id);
               update_field('tour_schedules', $schedules_informations, $post_id);
             } else {
               // Update post object
@@ -639,7 +639,7 @@ function zohocrm_insert_content() {
               update_field('tour_exclude', $item['tour_exclude'], $post_id);
               update_field('tour_attention', $item['tour_attention'], $post_id);
               update_field('tour_special_request', $item['tour_special_request'], $post_id);
-              update_field('tour_guild', $tour_guild, $post_id);
+              update_field('tour_guide', $tour_guide, $post_id);
               update_field('tour_schedules', $schedules_informations, $post_id);
             }
             break;

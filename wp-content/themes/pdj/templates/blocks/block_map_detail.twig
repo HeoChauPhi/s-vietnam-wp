@@ -1,6 +1,8 @@
+{% set address_arr = address|split(',') %}
+
 <div class="block-map__detail">
   <div class="google-build-map" style="width: 100%; height: 275px;">
-    <div class="marker" data-lat="{{ function('get_google_map', address).lat }}" data-lng="{{ function('get_google_map', address).lng }}">
+    <div class="marker" data-lat="{{ address_arr.0 }}" data-lng="{{ address_arr.1 }}">
       <p class="address">{{ address }}</p>
     </div>
   </div>

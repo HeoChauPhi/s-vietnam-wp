@@ -116,7 +116,7 @@
               </div>
             </div>
 
-            <div class="form-item">
+            <div class="form-item form-action">
               <a href="#" class="btn btn-primary">{{ __('Find', 'pdj_theme') }}</a>
             </div>
           </form>
@@ -154,51 +154,51 @@
 
             <div class="hotel-service js-accordion">
               {% if post.get_field('internet_access_services') %}
-              <h3 class="hotel-service-title internet-access-services">{{ __("internet access", "pdj_theme") }}</h3>
+              <h3 class="hotel-service-title internet-access-services"><span class="accordion-header">{{ __("internet access", "pdj_theme") }}</span><span class="accordion-icon-custom"></span></h3>
               <div class="hotel-service-content">
                 {{ post.get_field('internet_access_services') }}
               </div>
               {% endif %}
 
               {% if post.get_field('relax_services') %}
-              <h3 class="hotel-service-title relax-services">{{ __("things to do, ways to relax", "pdj_theme") }}</h3>
+              <h3 class="hotel-service-title relax-services"><span class="accordion-header">{{ __("things to do, ways to relax", "pdj_theme") }}</span><span class="accordion-icon-custom"></span></h3>
               <div class="hotel-service-content">
                 {{ post.get_field('relax_services') }}
               </div>
               {% endif %}
               
               {% if post.get_field('dining_drinking_snacking_services') %}
-              <h3 class="hotel-service-title dining-drinking-snacking-services">{{ __("dining, drinking and snacking", "pdj_theme") }}</h3>
+              <h3 class="hotel-service-title dining-drinking-snacking-services"><span class="accordion-header">{{ __("dining, drinking and snacking", "pdj_theme") }}</span><span class="accordion-icon-custom"></span></h3>
               <div class="hotel-service-content">
                 {{ post.get_field('dining_drinking_snacking_services') }}
               </div>
               {% endif %}  
               
               {% if post.get_field('conveniences_services') %}
-              <h3 class="hotel-service-title conveniences-services">{{ __("services and conveniences", "pdj_theme") }}</h3>
+              <h3 class="hotel-service-title conveniences-services"><span class="accordion-header">{{ __("services and conveniences", "pdj_theme") }}</span><span class="accordion-icon-custom"></span></h3>
               <div class="hotel-service-content">
                 {{ post.get_field('conveniences_services') }}
               </div>
               {% endif %}  
               
               {% if post.get_field('kids_services') %}
-              <h3 class="hotel-service-title kids-services">{{ __("for the kids", "pdj_theme") }}</h3>
+              <h3 class="hotel-service-title kids-services"><span class="accordion-header">{{ __("for the kids", "pdj_theme") }}</span><span class="accordion-icon-custom"></span></h3>
               <div class="hotel-service-content">
                 {{ post.get_field('kids_services') }}
               </div>
               {% endif %}  
 
               {% if post.get_field('getting_around_services') %}
-              <h3 class="hotel-service-title getting-around-services">{{ __("getting around", "pdj_theme") }}</h3>
+              <h3 class="hotel-service-title getting-around-services"><span class="accordion-header">{{ __("getting around", "pdj_theme") }}</span><span class="accordion-icon-custom"></span></h3>
               <div class="hotel-service-content">
                 {{ post.get_field('getting_around_services') }}
               </div>
               {% endif %}              
             </div>
           </div>
-          <div class="col-md-6 hotel-overview-col hotel-address">
-            {% if post.get_field('address') %}
-              {% include "block_map_detail.twig" with {'address': post.get_field('address')} %}
+          <div class="col-md-6 hotel-overview-col hotel-map">
+            {% if post.get_field('address_coordinates') %}
+              {% include "block_map_detail.twig" with {'address': post.get_field('address_coordinates')} %}
             {% endif %}
           </div>
         </div>
@@ -211,7 +211,9 @@
           <div class="room-item">
             <div class="room-thumbnail">
               {% for image in room.get_field('post_gallery') %}
-                <img src="{{ image.image_link }}" >
+                {% if loop.index <= 1 %}
+                  <img src="{{ image.image_link }}" >
+                {% endif %}
               {% endfor %}
             </div>
             <div class="room-info">
@@ -220,16 +222,19 @@
             </div>
             <div class="room-service">
               <h4 class="room-title">{{ __("Room services", "pdj_theme") }}</h4>
+              {% if room.room_facilities_services %}
+              {% set room_fac_arr = room.room_facilities_services|split(';') %}
               <ul class="list-no-icon">
-                <li>Service 1</li>
-                <li>Service 2</li>
-                <li>Service 3</li>
-                <li>Service 4</li>
-                <li>Service 5</li>
-                <li>Service 6</li>
-                <li>Service 7</li>
-                <li><a class="service-view-more" href="#">{{ __("View More", "pdj_theme") }}</a></li>
+                {% for item in room_fac_arr %}
+                  {% if loop.index <= 7 %}
+                    <li>{{ item }}</li>
+                  {% endif %}
+                {% endfor %}
+                {% if room_fac_arr|length > 7 %}
+                  <li><a class="service-view-more" href="#">{{ __("View More", "pdj_theme") }}</a></li>
+                {% endif %}
               </ul>
+              {% endif %}
             </div>
             <div class="room-price">
               <label class="room-price-label">{{ __("Price", "pdj_theme") }}</label>

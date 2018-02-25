@@ -73,6 +73,10 @@
     }
   }
 
+  &.header-overlay {
+    background-color: rgba($black, 0.8);
+  }
+
   &.header-fixed {
     @include transition(all 0.5s ease);
     background-color: rgba($black, 0.7);
