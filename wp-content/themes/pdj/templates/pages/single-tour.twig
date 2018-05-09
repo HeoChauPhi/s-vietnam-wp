@@ -75,7 +75,7 @@
                           {% set img_id = schedule.tour_schedule_image|split('/')|last %}
 
                           <img id="{{ img_id }}" src="{{ schedule.tour_schedule_image }}">
-                          <a class="fancybox-image-docs" href="#{{ img_id }}"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
+                          <a class="fancybox-image-docs" href="{{ schedule.tour_schedule_image }}" data-fancybox><i class="fa fa-search-plus" aria-hidden="true"></i></a>
                         </div>
                         <div class="tour-schedule--content">
                           <div class="tour-schedule--desc">

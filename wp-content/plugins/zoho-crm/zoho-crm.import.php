@@ -69,6 +69,7 @@ function zohocrm_insert_content() {
           case 'hotel':
             // Import Rooms type
             $room_id_arr = [];
+            $room_price_arr = [];
             //$hotel_address = [];
 
             foreach ($item as $key_value => $value) {
@@ -132,6 +133,10 @@ function zohocrm_insert_content() {
                 update_field('room_facilities_services', $value['room_facilities_services'], $post_id);
 
                 array_push($room_id_arr, $post_id);
+
+                if ( !in_array((int) $value['hotel_price_public'], $room_price_arr) ) {
+                  array_push($room_price_arr, (int) $value['hotel_price_public']);
+                }
               } else {
                 // Update post object
                 $post_id = $room->ID;
@@ -163,6 +168,10 @@ function zohocrm_insert_content() {
                 update_field('room_facilities_services', $value['room_facilities_services'], $post_id);
 
                 array_push($room_id_arr, $post_id);
+
+                if ( !in_array((int) $value['hotel_price_public'], $room_price_arr) ) {
+                  array_push($room_price_arr, (int) $value['hotel_price_public']);
+                }
               }
 
               /*if (!in_array($value['address'], $hotel_address)) {
@@ -175,6 +184,9 @@ function zohocrm_insert_content() {
               }*/
             }
             //array_unique($hotel_address);
+            $room_price_min = min(array_unique($room_price_arr));
+            $room_price_max = max(array_unique($room_price_arr));
+
 
             // Import Hotels type
             if ( !empty($item) ) {
@@ -198,6 +210,28 @@ function zohocrm_insert_content() {
               $hotel_conveniences_services = $hotel_default_value['services_conveniences_services'];
               $hotel_kids_services = $hotel_default_value['kids_services'];
               $hotel_getting_around_services = $hotel_default_value['getting_around_services'];
+
+              // Tour Ffeatures
+              $hotel_area = [];
+              if ( $hotel_default_value['address_coordinates'] ) {
+                $address_arr = explode(',', $hotel_default_value['address_coordinates']);
+
+                $hotel_address_arr = Get_Address_From_Google_Maps($address_arr[0], $address_arr[1]);
+
+                $hotel_area_slug = str_replace(' ', '_', vn_convert_to_en($hotel_address_arr['province']));
+                if ( $hotel_area_slug && !term_exists($hotel_area_slug, 'hotel_area') ) {
+                  wp_insert_term(
+                    $hotel_address_arr['province'], // the term
+                    'hotel_area', // the taxonomy
+                    array(
+                      'description' => '',
+                      'slug'        => $hotel_area_slug
+                    )
+                  );
+                }
+                $hotel_area_term = term_exists($hotel_area_slug, 'hotel_area');
+                array_push($hotel_area, $hotel_area_term['term_id']);
+              }
             }
 
             $data_key_title = get_page_by_title($key, OBJECT, $zohocrm_type);
@@ -210,6 +244,7 @@ function zohocrm_insert_content() {
               );
 
               $data_key_id = wp_insert_post($args_data);
+              wp_set_post_terms( $data_key_id, $hotel_area, 'hotel_area' );
               update_field('address', $hotel_address, $data_key_id);
               update_field('address_coordinates', $address_coordinates, $data_key_id);
               update_field('hotel_star', $hotel_star, $data_key_id);
@@ -229,6 +264,8 @@ function zohocrm_insert_content() {
               update_field('kids_services', $hotel_kids_services, $data_key_id);
               update_field('getting_around_services', $hotel_getting_around_services, $data_key_id);
               update_field('room_type', $room_id_arr, $data_key_id);
+              update_field('hotel_price_min', $room_price_min, $data_key_id);
+              update_field('hotel_price_max', $room_price_max, $data_key_id);
               //update_field( 'hotel_address', $hotel_address, $data_key_id );
             } else {
               $hotel_id = $data_key_title->ID;
@@ -242,7 +279,22 @@ function zohocrm_insert_content() {
                 array_unique($room_id_arr);
               }
 
+              // Update price
+              $min_price = get_field('hotel_price_min', $hotel_id);
+              $max_price = get_field('hotel_price_max', $hotel_id);
+              if ( !empty($min_price) ) {
+                if ( (int) $min_price > (int) $room_price_min ) {
+                  $min_price = $room_price_min;
+                }
+              }
 
+              if ( !empty($max_price) ) {
+                if ( (int) $max_price < (int) $room_price_max ) {
+                  $max_price = $room_price_max;
+                }
+              }
+
+              wp_set_post_terms( $hotel_id, $hotel_area, 'hotel_area' );
               update_field('address', $hotel_address, $hotel_id);
               update_field('address_coordinates', $address_coordinates, $hotel_id);
               update_field('hotel_star', $hotel_star, $hotel_id);
@@ -262,6 +314,8 @@ function zohocrm_insert_content() {
               update_field('kids_services', $hotel_kids_services, $hotel_id);
               update_field('getting_around_services', $hotel_getting_around_services, $hotel_id);
               update_field('room_type', $room_id_arr, $hotel_id);
+              update_field('hotel_price_min', $min_price, $hotel_id);
+              update_field('hotel_price_max', $max_price, $hotel_id);
 
               // Update Hotel Address
               /*$current_address = get_field('hotel_address', $hotel_id);
@@ -297,8 +351,54 @@ function zohocrm_insert_content() {
 
             $departure_day = [];
             if ( $item['tour_departure_day'] ) {
-              $departure_day = explode(';', $item['tour_departure_day']);
+              $day_arr = explode(';', $item['tour_departure_day']);
+              foreach ($day_arr as $day) {
+                $day_en = str_replace(" ", "_", vn_convert_to_en($day));
+
+                switch ( $day_en ) {
+                  case 'Chu_Nhat':
+                    $day_en = 'Sunday';
+                    array_push($departure_day, $day_en);
+                    break;
+
+                  case 'Thu_Hai':
+                    $day_en = 'Monday';
+                    array_push($departure_day, $day_en);
+                    break;
+
+                  case 'Thu_Ba':
+                    $day_en = 'Tuesday';
+                    array_push($departure_day, $day_en);
+                    break;
+
+                  case 'Thu_Tu':
+                    $day_en = 'Wednesday';
+                    array_push($departure_day, $day_en);
+                    break;
+
+                  case 'Thu_Nam':
+                    $day_en = 'Thursday';
+                    array_push($departure_day, $day_en);
+                    break;
+
+                  case 'Thu_Sau':
+                    $day_en = 'Friday';
+                    array_push($departure_day, $day_en);
+                    break;
+
+                  case 'Thu_Bay':
+                    $day_en = 'Saturday';
+                    array_push($departure_day, $day_en);
+                    break;
+                  
+                  default:
+                    array_push($departure_day, $day_en);
+                    break;
+                }
+              }
             }
+
+            //print_r($departure_day);
 
             $tour_guide = 0;
             if ( !empty($item['tour_guide']) && ($item['tour_guide'] == 'true') ) {

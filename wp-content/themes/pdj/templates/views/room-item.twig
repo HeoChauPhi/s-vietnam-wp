@@ -1,0 +1,42 @@
+<div class="room-item">
+  <div class="room-thumbnail">
+    {% if room.get_field('post_gallery') %}
+      <a class="room-view-more" href="#" data-room-id="{{ room.ID }}" style="background-image: url({{ room.get_field('post_gallery').0.image_link }});"></a>
+    {% else %}
+      <a class="room-view-more" href="#" data-room-id="{{ room.ID }}" style="background-image: url({{ default_bg }});"></a>
+    {% endif %}
+  </div>
+  <div class="room-info">
+    <h4 class="room-title"><a class="room-view-more" href="#" data-room-id="{{ room.ID }}">{{ room.title|lower }}</a></h4>
+    <ul class="room-capacity">
+      {% set room_capacity = function('intConvert', room.hotel_capacity_adult) %}
+      {% if room_capacity > 2 %}
+      <li class="room-type-family" data-room-capacity="{{ room.hotel_capacity_adult }}">{{ _e('Family Room', 'pdj_theme') }}</li>
+      <li class="room-type-team" data-room-capacity="{{ room.hotel_capacity_adult }}">{{ __('Team Room', 'pdj_theme') }}</li>
+      {% else %}
+      <li class="room-type-couple" data-room-capacity="{{ room.hotel_capacity_adult }}">{{ __('Couple Room', 'pdj_theme') }}</li>
+      {% endif %}
+    </ul>
+  </div>
+  <div class="room-service">
+    <h4 class="room-title">{{ __("Room services", "pdj_theme") }}</h4>
+    {% if room.room_facilities_services %}
+    {% set room_fac_arr = room.room_facilities_services|split(';') %}
+    <ul class="list-no-icon room-service--list">
+      {% for item in room_fac_arr %}
+        {% if loop.index <= 7 %}
+          <li class="room-service--item">{{ item }}</li>
+        {% endif %}
+      {% endfor %}
+      {% if room_fac_arr|length > 7 %}
+        <li class="room-service--item"><a class="room-view-more" href="#" data-room-id="{{ room.ID }}">{{ __("View More", "pdj_theme") }}</a></li>
+      {% endif %}
+    </ul>
+    {% endif %}
+  </div>
+  <div class="room-price">
+    <div class="room-price-number">{{ room.hotel_price_public|number_format(0, '', '.') ~ ' ' ~ __('VNĐ', 'pdj_theme') }}</div>
+    <div class="room-price-button"><a class="btn btn-primary btn-add-card" href="#" data-post-id="{{ room.ID }}">{{ __("Add to Card", "pdj_theme") }}</a></div>
+    <div class="room-price-stock">{{ __("In stock", "pdj_theme") }}</div>
+  </div>
+</div>

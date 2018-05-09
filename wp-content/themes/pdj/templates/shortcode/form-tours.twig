@@ -1,7 +1,13 @@
 <form id="form-tours" class="form-tours" name="form-tours" method="GET" action="{{ function('home_url') }}/search-service">
   <div class="form-item">
-    <label for="tour_type">{{ __('Tour Type', 'pdj_theme') }}</label>
-    <input type="text" name="tour_type" class="tour_type">
+    <label for="tour_feature">{{ __('Tour Features', 'pdj_theme') }}</label>
+    {% set tour_feature = function("get_terms", "tour_feature", 'orderby=count&hide_empty=0&order=DESC') %}
+    <select name="tour_feature" class="tour_feature js-select2">
+      <option value="" checked>{{ __('- Select -', 'pdj_theme') }}</option>
+      {% for term in tour_feature %}
+        <option value="{{ term.term_id }}">{{ term.name }}</option>
+      {% endfor %}
+    </select>
   </div>
   <div class="form-item">
     <label for="tour_start">{{ __('Start', 'pdj_theme') }}</label>
@@ -11,7 +17,43 @@
     <label for="tour_destination">{{ __('Destination', 'pdj_theme') }}</label>
     <input type="text" name="tour_destination" class="tour_destination location-complete">
   </div>
-  <div class="form-item">
+  <div class="form-hidden hidden">
+    <input type="hidden" name="search_type" value="tour">
+    <input type="hidden" name="destination_taxonomy" value="destination_taxonomy">
+  </div>
+  <div class="googlecomplete hidden">
+    {#<input name="street_address" type="hidden" value="">
+    <input name="route" type="hidden" value="">
+    <input name="intersection" type="hidden" value="">
+    <input name="political" type="hidden" value="">
+    <input name="country" type="hidden" value="">#}
+    <input name="administrative_area_level_1" type="hidden" value="">
+    {#<input name="administrative_area_level_2" type="hidden" value="">
+    <input name="administrative_area_level_3" type="hidden" value="">
+    <input name="colloquial_area" type="hidden" value="">
+    <input name="locality" type="hidden" value="">
+    <input name="sublocality" type="hidden" value="">
+    <input name="neighborhood" type="hidden" value="">
+    <input name="premise" type="hidden" value="">
+    <input name="subpremise" type="hidden" value="">
+    <input name="postal_code" type="hidden" value="">
+    <input name="natural_feature" type="hidden" value="">
+    <input name="airport" type="hidden" value="">
+    <input name="park" type="hidden" value="">
+    <input name="point_of_interest" type="hidden" value="">
+    <input name="post_box" type="hidden" value="">
+    <input name="street_number" type="hidden" value="">
+    <input name="floor" type="hidden" value="">
+    <input name="room" type="hidden" value="">
+    <input name="lat" type="hidden" value="">
+    <input name="lng" type="hidden" value="">
+    <input name="viewport" type="hidden" value="">
+    <input name="location" type="hidden" value="">
+    <input name="formatted_address" type="hidden" value="">
+    <input name="location_type" type="hidden" value="">
+    <input name="bounds" type="hidden" value="">#}
+  </div>
+  <div class="form-item form-action">
   <button class="btn btn-primary" type="submit" form="form-tours" value="Find">{{ __('Find', 'pdj_theme') }}</button>
   </div>
 </form>

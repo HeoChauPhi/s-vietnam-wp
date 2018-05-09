@@ -37,6 +37,32 @@ function pagination_callback() {
   wp_die();
 }
 
+// Room Detail.
+add_action( 'wp_ajax_roomdetailload', 'roomdetailload_callback' );
+add_action( 'wp_ajax_nopriv_roomdetailload', 'roomdetailload_callback' );
+function roomdetailload_callback() {
+  $values = $_REQUEST;
+
+  ob_start();
+  $context          = Timber::get_context();
+  $post             = Timber::get_post($values['room_id']);
+  $context['post']  = $post;
+
+  try {
+    Timber::render( array( 'room-detail.twig'), $context );
+  } catch (Exception $e) {
+    echo __('Could not find a room-detail.twig file for Shortcode.', 'pdj_theme');
+  }
+
+
+  $content = ob_get_contents();
+  ob_end_clean();
+
+  $result = json_encode($content);
+  echo $result;
+  wp_die();
+}
+
 // Tour Ajax action.
 add_action( 'wp_ajax_pagelistpagination', 'pagelistpaginationajax_callback' );
 add_action( 'wp_ajax_nopriv_pagelistpagination', 'pagelistpaginationajax_callback' );
@@ -67,6 +93,8 @@ function pagelistpaginationajax_callback() {
     'posts_per_page'  => $per_page,
     'post_status'     => 'publish',
     'offset'          => $offset,
+    'orderby'         => 'title',
+    'order'           => 'ASC',
     'paged'           => $paged,
     'meta_query'      => array(
       'relation' => 'AND',
@@ -76,98 +104,99 @@ function pagelistpaginationajax_callback() {
     ),
   );
 
-  switch ($post_type) {
-    case 'tour':
-      foreach ($sidebar_filter_tax as $tax_name => $tax) {
-        if ( $tax != '' and $tax != null ) {
-          $terms = explode("|", $tax);
-          $terms = array_filter($terms);
-          $args['tax_query'][] = array(
-            'taxonomy' => $tax_name,
-            'field'    => 'term_id',
-            'terms'    => $terms,
-            'operator' => 'IN',
+  if ( $post_type == 'tour' ) {
+    $sort_price_key = 'tour_price';
+    $sort_price_range_key = 'tour_price';
+  } elseif ( $post_type == 'hotel' ) {
+    $sort_price_key = 'hotel_price_min';
+    $sort_price_range_key = 'hotel_price_min';
+  }
+
+  foreach ($sidebar_filter_tax as $tax_name => $tax) {
+    if ( $tax != '' and $tax != null ) {
+      $terms = explode("|", $tax);
+      $terms = array_filter($terms);
+      $args['tax_query'][] = array(
+        'taxonomy' => $tax_name,
+        'field'    => 'term_id',
+        'terms'    => $terms,
+        'operator' => 'IN',
+      );
+    }
+  }
+
+  foreach ($sidebar_filter_cf as $cf_name => $cf_value) {
+    if ( $cf_value != '' and $cf_value != null ) {
+      switch ($cf_name) {
+        case 'tour_price':
+          $cf_values = explode(",", $cf_value);
+          $min_price = $cf_values[0];
+          $max_price = $cf_values[1];
+
+          $args['meta_query'][] = array(
+            'key'       => $sort_price_range_key,
+            'value'     => $cf_values,
+            'type'      => 'numeric',
+            'compare'   => 'BETWEEN'
           );
-        }
-      }
+          break;
 
-      foreach ($sidebar_filter_cf as $cf_name => $cf_value) {
-        if ( $cf_value != '' and $cf_value != null ) {
-          switch ($cf_name) {
-            case 'tour_price':
-              $cf_values = explode(",", $cf_value);
-              $min_price = $cf_values[0];
-              $max_price = $cf_values[1];
+        case 'departure_day':
+          $date = strtotime($cf_value);
+          $day_of_date = date('l', $date);
 
-              $args['meta_query'][] = array(
-                'key'       => 'tour_price',
-                'value'     => $cf_values,
-                'type'      => 'numeric',
-                'compare'   => 'BETWEEN'
-              );
-              break;
-
-            case 'departure_day':
-              $date = strtotime($cf_value);
-              $day_of_date = date('l', $date);
-
-              $args['meta_query'][] = array(
-                'key'       => 'departure_day',
-                'value'     => $day_of_date,
-                'compare'   => 'REGEXP'
-              );
-              break;
-            
-            default:
-              $cf_values = explode("|", $cf_value);
-              $cf_values = array_filter($cf_values);
-              
-              $args['meta_query'][] = array(
-                'key'       => $cf_name,
-                'value'     => $cf_values,
-                'compare'   => 'IN'
-              );
-              break;
-          }
-        }
-      }
-
-      if ($sort_by_price == 'lth') {
-        $meta_query = array(
-          'key' => 'tour_price',
-          'compare'   => 'EXISTS',
-        );
-
-        $orderby = array(
-          'tour_price_clause' => 'ASC',
-        );
-
-        $args['meta_query']['tour_price_clause'] = $meta_query;
-        $args['orderby'] = $orderby;
+          $args['meta_query'][] = array(
+            'key'       => 'departure_day',
+            'value'     => $day_of_date,
+            'compare'   => 'REGEXP'
+          );
+          break;
         
-      } else if ($sort_by_price == 'htl') {
-        $meta_query = array(
-          'key' => 'tour_price',
-          'compare'   => 'EXISTS',
-        );
-
-        $orderby = array(
-          'tour_price_clause' => 'DESC',
-        );
-
-        $args['meta_query']['tour_price_clause'] = $meta_query;
-        $args['orderby'] = $orderby;
-
-      } else {
-        $args['orderby'] = 'title';
-        $args['order'] = 'ASC';
+        default:
+          $cf_values = explode("|", $cf_value);
+          $cf_values = array_filter($cf_values);
+          
+          $args['meta_query'][] = array(
+            'key'       => $cf_name,
+            'value'     => $cf_values,
+            'compare'   => 'IN'
+          );
+          break;
       }
+    }
+  }
 
-      break;
+  if ($sort_by_price == 'lth') {
+    $meta_query = array(
+      'key'       => $sort_price_key,
+      'compare'   => 'EXISTS',
+      'type'      => 'NUMERIC',
+    );
+
+    $orderby = array(
+      'sort_price_clause' => 'ASC',
+    );
+
+    $args['meta_query']['sort_price_clause'] = $meta_query;
+    $args['orderby'] = $orderby;
     
-    default:
-      # code...
-      break;
+  } else if ($sort_by_price == 'htl') {
+    $meta_query = array(
+      'key'       => $sort_price_key,
+      'compare'   => 'EXISTS',
+      'type'      => 'NUMERIC',
+    );
+
+    $orderby = array(
+      'sort_price_clause' => 'DESC',
+    );
+
+    $args['meta_query']['sort_price_clause'] = $meta_query;
+    $args['orderby'] = $orderby;
+
+  } else {
+    $args['orderby'] = 'title';
+    $args['order'] = 'ASC';
   }
 
   //print_r($args);
@@ -176,6 +205,7 @@ function pagelistpaginationajax_callback() {
   $context['posts']             = $posts;
   $context['sort_layout']       = $sort_layout;
   $pagination                   = Timber::get_pagination();
+  $context['pagination']  = $pagination;
   $context['pagination_total']  = $pagination['total'];
 
   $context['data_test'] = $values;
@@ -264,100 +294,101 @@ function filtertest_callback() {
     'tax_query' => array(
       'relation' => 'AND',
     ),
-  );
+  ); 
 
-  switch ($post_type) {
-    case 'tour':
-      foreach ($sidebar_filter_tax as $tax_name => $tax) {
-        if ( $tax != '' and $tax != null ) {
-          $terms = explode("|", $tax);
-          $terms = array_filter($terms);
-          $args['tax_query'][] = array(
-            'taxonomy' => $tax_name,
-            'field'    => 'term_id',
-            'terms'    => $terms,
-            'operator' => 'IN',
+  if ( $post_type == 'tour' ) {
+    $sort_price_key = 'tour_price';
+    $sort_price_range_key = 'tour_price';
+  } elseif ( $post_type == 'hotel' ) {
+    $sort_price_key = 'hotel_price_min';
+    $sort_price_range_key = 'hotel_price_min';
+  }
+
+  foreach ($sidebar_filter_tax as $tax_name => $tax) {
+    if ( $tax != '' and $tax != null ) {
+      $terms = explode("|", $tax);
+      $terms = array_filter($terms);
+      $args['tax_query'][] = array(
+        'taxonomy' => $tax_name,
+        'field'    => 'term_id',
+        'terms'    => $terms,
+        'operator' => 'IN',
+      );
+    }
+  }
+
+  foreach ($sidebar_filter_cf as $cf_name => $cf_value) {
+    if ( $cf_value != '' and $cf_value != null ) {
+      switch ($cf_name) {
+        case 'tour_price':
+          $cf_values = explode(",", $cf_value);
+          $min_price = $cf_values[0];
+          $max_price = $cf_values[1];
+
+          $args['meta_query'][] = array(
+            'key'       => $sort_price_range_key,
+            'value'     => $cf_values,
+            'type'      => 'numeric',
+            'compare'   => 'BETWEEN'
           );
-        }
-      }
+          break;
 
-      foreach ($sidebar_filter_cf as $cf_name => $cf_value) {
-        if ( $cf_value != '' and $cf_value != null ) {
-          switch ($cf_name) {
-            case 'tour_price':
-              $cf_values = explode(",", $cf_value);
-              $min_price = $cf_values[0];
-              $max_price = $cf_values[1];
+        case 'departure_day':
+          $date = strtotime($cf_value);
+          $day_of_date = date('l', $date);
 
-              $args['meta_query'][] = array(
-                'key'       => 'tour_price',
-                'value'     => $cf_values,
-                'type'      => 'numeric',
-                'compare'   => 'BETWEEN'
-              );
-              break;
-
-            case 'departure_day':
-              $date = strtotime($cf_value);
-              $day_of_date = date('l', $date);
-
-              $args['meta_query'][] = array(
-                'key'       => 'departure_day',
-                'value'     => $day_of_date,
-                'compare'   => 'REGEXP'
-              );
-              break;
-            
-            default:
-              $cf_values = explode("|", $cf_value);
-              $cf_values = array_filter($cf_values);
-              
-              $args['meta_query'][] = array(
-                'key'       => $cf_name,
-                'value'     => $cf_values,
-                'compare'   => 'IN'
-              );
-              break;
-          }
-        }
-      }
-
-      if ($sort_by_price == 'lth') {
-        $meta_query = array(
-          'key' => 'tour_price',
-          'compare'   => 'EXISTS',
-        );
-
-        $orderby = array(
-          'tour_price_clause' => 'ASC',
-        );
-
-        $args['meta_query']['tour_price_clause'] = $meta_query;
-        $args['orderby'] = $orderby;
+          $args['meta_query'][] = array(
+            'key'       => 'departure_day',
+            'value'     => $day_of_date,
+            'compare'   => 'REGEXP'
+          );
+          break;
         
-      } else if ($sort_by_price == 'htl') {
-        $meta_query = array(
-          'key' => 'tour_price',
-          'compare'   => 'EXISTS',
-        );
-
-        $orderby = array(
-          'tour_price_clause' => 'DESC',
-        );
-
-        $args['meta_query']['tour_price_clause'] = $meta_query;
-        $args['orderby'] = $orderby;
-
-      } else {
-        $args['orderby'] = 'title';
-        $args['order'] = 'ASC';
+        default:
+          $cf_values = explode("|", $cf_value);
+          $cf_values = array_filter($cf_values);
+          
+          $args['meta_query'][] = array(
+            'key'       => $cf_name,
+            'value'     => $cf_values,
+            'compare'   => 'IN'
+          );
+          break;
       }
+    }
+  }
 
-      break;
+  if ($sort_by_price == 'lth') {
+    $meta_query = array(
+      'key' => $sort_price_key,
+      'compare'   => 'EXISTS',
+      'type'      => 'NUMERIC',
+    );
+
+    $orderby = array(
+      'sort_price_clause' => 'ASC',
+    );
+
+    $args['meta_query']['sort_price_clause'] = $meta_query;
+    $args['orderby'] = $orderby;
     
-    default:
-      # code...
-      break;
+  } else if ($sort_by_price == 'htl') {
+    $meta_query = array(
+      'key' => $sort_price_key,
+      'compare'   => 'EXISTS',
+      'type'      => 'NUMERIC',
+    );
+
+    $orderby = array(
+      'sort_price_clause' => 'DESC',
+    );
+
+    $args['meta_query']['sort_price_clause'] = $meta_query;
+    $args['orderby'] = $orderby;
+
+  } else {
+    $args['orderby'] = 'title';
+    $args['order'] = 'ASC';
   }
 
   //print_r($args);
@@ -366,6 +397,7 @@ function filtertest_callback() {
   $context['posts']             = $posts;
   $context['sort_layout']       = $sort_layout;
   $pagination                   = Timber::get_pagination();
+  $context['pagination']        = $pagination;
   $context['pagination_total']  = $pagination['total'];
 
   $context['data_test'] = $values;

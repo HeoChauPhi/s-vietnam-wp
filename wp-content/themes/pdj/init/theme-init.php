@@ -117,7 +117,9 @@ function shortcode($name) {
  * @return type $acffield String, Array Value of ACF field in Widget.
  *
  */
-function acfwidget($name, $widgetid) {
+function acfwidget($name, $widgetid, $post_type_filter = null) {
+  //print_r($post_type_filter);
+
   $acffield = get_field($name, 'widget_' . $widgetid);
   //print_r($acffield);
 
@@ -136,6 +138,11 @@ function acfwidget($name, $widgetid) {
           );
           $post = Timber::get_posts($arg);
           $field['post_types_' . $field['post_types']] = $post;
+          if ( $post_type_filter ) {
+            $field['template_type'] = $post_type_filter['template_type'];
+            $field['default_tour_date'] = $post_type_filter['default_tour_date'];
+            $field['tour_feature_term'] = $post_type_filter['tour_feature_term'];
+          }
 
           try {
             Timber::render($layout . '.twig', $field);
@@ -146,6 +153,9 @@ function acfwidget($name, $widgetid) {
         
         default:
           //print_r($field);
+          if ( $post_type_filter ) {
+            $field['template_type'] = $post_type_filter;
+          }
 
           try {
             Timber::render($layout . '.twig', $field);
@@ -426,9 +436,16 @@ function posts_list($fieldobj) {
 
 /* Function Hot Areas  */
 function hot_areas($fieldobj) {
+  $arrContextOptions=array(
+    "ssl"=>array(
+      "verify_peer"=>false,
+      "verify_peer_name"=>false,
+    ),
+  ); 
+
   $field = $fieldobj;
   $layout = $field['acf_fc_layout'];
-  $current_locate = json_decode(file_get_contents("http://ipinfo.io/"));
+  $current_locate = json_decode(file_get_contents("https://ipinfo.io/", false, stream_context_create($arrContextOptions)));
   $field['current_locate'] = $current_locate;
   
   return $field;
@@ -439,6 +456,8 @@ function hotels_list($fieldobj) {
   $field = $fieldobj;
   $layout = $field['acf_fc_layout'];
   $type = $field['hotels_filter_by'];
+  //echo $field['list_types'];
+  //die;
 
   if ($type == 'custom') {
     $post_ids = [];
@@ -699,8 +718,15 @@ function sub_flexible_content($name) {
  *
  */
 function convertCurrency($amount, $from, $to){
+  $arrContextOptions=array(
+    "ssl"=>array(
+      "verify_peer"=>false,
+      "verify_peer_name"=>false,
+    ),
+  ); 
+  
   $url  = "https://finance.google.com/finance/converter?a=$amount&from=$from&to=$to";
-  $data = file_get_contents($url);
+  $data = file_get_contents($url, false, stream_context_create($arrContextOptions));
   preg_match("/<span class=bld>(.*)<\/span>/",$data, $converted);
   $converted = preg_replace("/[^0-9.]/", "", $converted[1]);
   return round($converted, 3);
@@ -736,6 +762,13 @@ function preg_match_url($field, $extend = '') {
  *
  */
 function get_id_embed($url) {
+  $arrContextOptions=array(
+    "ssl"=>array(
+      "verify_peer"=>false,
+      "verify_peer_name"=>false,
+    ),
+  ); 
+
   $video_url = preg_match_url($url);
   $parsed = parse_url($video_url);
 
@@ -761,7 +794,7 @@ function get_id_embed($url) {
 
     $video_type   = 'youtube';
     $video_id     = $matches[1];
-    $json_code    = file_get_contents('https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=' . $video_id . '&format=json');
+    $json_code    = file_get_contents('https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=' . $video_id . '&format=json', false, stream_context_create($arrContextOptions));
     $video_thumb  = json_decode($json_code)->thumbnail_url;
   } else {
     $pattern = '/(https?:\/\/)?(www\.)?(player\.)?vimeo\.com\/([a-z]*\/)*([‌​0-9]{6,11})[?]?.*/';
@@ -769,7 +802,7 @@ function get_id_embed($url) {
 
     $video_type   = 'vimeo';
     $video_id     = $matches[5];
-    $json_code    = file_get_contents('http://vimeo.com/api/v2/video/' . $video_id . '.json');
+    $json_code    = file_get_contents('https://vimeo.com/api/v2/video/' . $video_id . '.json', false, stream_context_create($arrContextOptions));
     $video_thumb  = json_decode($json_code)[0]->thumbnail_large;
   }
 
@@ -828,7 +861,7 @@ function get_id_youtube($url) {
 function get_exchange_rate($from, $to) {
   $from_ex = $from;
   $to_ex = $to;
-  $url = 'http://finance.yahoo.com/d/quotes.csv?f=l1d1t1&s='.$from_ex.$to_ex.'=X';
+  $url = 'https://finance.yahoo.com/d/quotes.csv?f=l1d1t1&s='.$from_ex.$to_ex.'=X';
   $handle = fopen($url, 'r');
 
   if ($handle) {
@@ -940,9 +973,16 @@ function date_range_by_string($date_include) {
  *
  */
 function get_google_map($addr) {
+  $arrContextOptions=array(
+    "ssl"=>array(
+      "verify_peer"=>false,
+      "verify_peer_name"=>false,
+    ),
+  ); 
+
   $address = $addr; // Google HQ
   $prepAddr = str_replace(' ','+',$address);
-  $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
+  $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false', false, stream_context_create($arrContextOptions));
   $output= json_decode($geocode);
   $latitude = $output->results[0]->geometry->location->lat;
   $longitude = $output->results[0]->geometry->location->lng;

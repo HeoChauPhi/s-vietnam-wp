@@ -1,4 +1,16 @@
 <?php
+
+/**
+ * 
+ * SORT array by ASC or DESC
+ * 
+ * @param type $array Array want sort.
+ * @param type $key or $value String want sort.
+ * @param type $sort String want sort type (SORT_ASC or SORT_DESC).
+ * 
+ * @return Array sorted.
+ *
+ */
 function array_orderby() {
   $args = func_get_args();
   $data = array_shift($args);
@@ -15,6 +27,14 @@ function array_orderby() {
   return array_pop($args);
 }
 
+/**
+ * 
+ * Convert string VN type to EN type
+ * @param type $str String want convert.
+ * 
+ * @return $str converted.
+ *
+ */
 function vn_convert_to_en($str) {
   $str = preg_replace("/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/", "a", $str);
   $str = preg_replace("/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/", "e", $str);
@@ -33,6 +53,12 @@ function vn_convert_to_en($str) {
   //$str = str_replace(" ", "-", str_replace("&*#39;","",$str));
   return $str;
 }
+
+/*==============================================================================
+ *
+ * Given data from ZohoCRM
+ *
+ ==============================================================================*/
 
 function zohocrm_replace_data($data) {
   $content_replace = [];
@@ -105,6 +131,97 @@ function get_zoho_posttype() {
 
   return $zohocrm_posttype_arr;
 }
+
+/**
+ *
+ * Given the address using The Google Geocoding API V3
+ * @param type $lat  String your Address Lat.
+ * @param type $lon  String your Address Lon.
+ *
+ * @return type $address array Address information.
+ *
+ */
+
+function Get_Address_From_Google_Maps($lat, $lon) {
+
+  $url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lon&sensor=false";
+
+  // Make the HTTP request
+  $data = @file_get_contents($url);
+  // Parse the json response
+  $jsondata = json_decode($data,true);
+
+  // If the json data is invalid, return empty array
+  if (!check_status($jsondata))   return array();
+
+  $address = array(
+    'country' => google_getCountry($jsondata),
+    'province' => google_getProvince($jsondata),
+    'city' => google_getCity($jsondata),
+    'street' => google_getStreet($jsondata),
+    'postal_code' => google_getPostalCode($jsondata),
+    'country_code' => google_getCountryCode($jsondata),
+    'formatted_address' => google_getAddress($jsondata),
+  );
+
+  return $address;
+}
+
+/* 
+* Check if the json data from Google Geo is valid 
+*/
+
+function check_status($jsondata) {
+  if ($jsondata["status"] == "OK") return true;
+  return false;
+}
+
+/*
+* Given Google Geocode json, return the value in the specified element of the array
+*/
+
+function google_getCountry($jsondata) {
+  return Find_Long_Name_Given_Type("country", $jsondata["results"][0]["address_components"]);
+}
+function google_getProvince($jsondata) {
+  return Find_Long_Name_Given_Type("administrative_area_level_1", $jsondata["results"][0]["address_components"], true);
+}
+function google_getCity($jsondata) {
+  return Find_Long_Name_Given_Type("locality", $jsondata["results"][0]["address_components"]);
+}
+function google_getStreet($jsondata) {
+  return Find_Long_Name_Given_Type("street_number", $jsondata["results"][0]["address_components"]) . ' ' . Find_Long_Name_Given_Type("route", $jsondata["results"][0]["address_components"]);
+}
+function google_getPostalCode($jsondata) {
+  return Find_Long_Name_Given_Type("postal_code", $jsondata["results"][0]["address_components"]);
+}
+function google_getCountryCode($jsondata) {
+  return Find_Long_Name_Given_Type("country", $jsondata["results"][0]["address_components"], true);
+}
+function google_getAddress($jsondata) {
+  return $jsondata["results"][0]["formatted_address"];
+}
+
+/*
+* Searching in Google Geo json, return the long name given the type. 
+* (If short_name is true, return short name)
+*/
+
+function Find_Long_Name_Given_Type($type, $array, $short_name = false) {
+  foreach( $array as $value) {
+    if (in_array($type, $value["types"])) {
+      if ($short_name)    
+        return $value["short_name"];
+      return $value["long_name"];
+    }
+  }
+}
+
+/*======================================================
+ * 
+ * Ajax call data
+ * 
+ ======================================================*/
 
 add_action( 'wp_ajax_zohocrmGetProductsCategories', 'zohocrm_zohocrmGetProductsCategories' );
 function zohocrm_zohocrmGetProductsCategories() {

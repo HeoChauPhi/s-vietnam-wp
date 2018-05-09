@@ -87,8 +87,7 @@
     <div class="tour-content--images show-on-click">
       <ul>
       {% for item in post.get_field('post_gallery') %}
-        {% set img_id = item.image_link|split('/')|last %}
-        <li><img id="{{ img_id }}" src="{{ item.image_link }}" class="hidden"><a class="fancybox-image-gallery" rel="tour_gallery_{{ post_index }}" href="#{{ img_id }}" style="background-image: url({{ item.image_link }});"></a></li>
+        <li><img id="{{ img_id }}" src="{{ item.image_link }}" class="hidden"><a class="fancybox-image-gallery" rel="tour_gallery_{{ post_index }}" href="{{ item.image_link }}" data-fancybox="images-{{ post.ID }}" data-caption="{{ post.title }}" style="background-image: url({{ item.image_link }});"></a></li>
       {% endfor %}
       </ul>
     </div>

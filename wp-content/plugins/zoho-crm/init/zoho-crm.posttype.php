@@ -59,11 +59,25 @@ if (!empty($zohocrm_posttype) && $zohocrm_posttype != null) {
           ));
         });
         add_action( 'init', function() use ($key, $post_type) {
+          register_taxonomy('hotel_area', array('hotel'), array(
+            'labels'                   => array(
+              'name'          => __('Hotel Areas', 'zoho_crm'),
+              'singular'      => __('Hotel Area', 'zoho_crm'),
+              'menu_name'     => __('Hotel Area', 'zoho_crm')
+            ),
+            'hierarchical'              => true,
+            'public'                    => true,
+            'show_ui'                   => true,
+            'show_in_menu'              => true,
+            'show_admin_column'         => true,
+            'show_in_nav_menus'         => true,
+            'show_tagcloud'             => true,
+          ));
           register_taxonomy('tour_feature', array('tour'), array(
             'labels'                   => array(
-              'name'          => __('Tour Features', 'pdj_theme'),
-              'singular'      => __('Tour Feature', 'pdj_theme'),
-              'menu_name'     => __('Tour Feature', 'pdj_theme')
+              'name'          => __('Tour Features', 'zoho_crm'),
+              'singular'      => __('Tour Feature', 'zoho_crm'),
+              'menu_name'     => __('Tour Feature', 'zoho_crm')
             ),
             'hierarchical'              => true,
             'public'                    => true,
@@ -75,9 +89,9 @@ if (!empty($zohocrm_posttype) && $zohocrm_posttype != null) {
           ));
           register_taxonomy('destination_taxonomy', array('tour'), array(
             'labels'                   => array(
-              'name'          => __('Destination Taxonomies', 'pdj_theme'),
-              'singular'      => __('Destination Taxonomy', 'pdj_theme'),
-              'menu_name'     => __('Destination Taxonomy', 'pdj_theme')
+              'name'          => __('Destination Taxonomies', 'zoho_crm'),
+              'singular'      => __('Destination Taxonomy', 'zoho_crm'),
+              'menu_name'     => __('Destination Taxonomy', 'zoho_crm')
             ),
             'hierarchical'              => true,
             'public'                    => true,
@@ -89,9 +103,9 @@ if (!empty($zohocrm_posttype) && $zohocrm_posttype != null) {
           ));
           register_taxonomy('tour_tag', array('tour'), array(
             'labels'                   => array(
-              'name'          => __('Tour Tags', 'pdj_theme'),
-              'singular'      => __('Tour Tags', 'pdj_theme'),
-              'menu_name'     => __('Tour Tags', 'pdj_theme')
+              'name'          => __('Tour Tags', 'zoho_crm'),
+              'singular'      => __('Tour Tags', 'zoho_crm'),
+              'menu_name'     => __('Tour Tags', 'zoho_crm')
             ),
             'hierarchical'              => false,
             'public'                    => true,

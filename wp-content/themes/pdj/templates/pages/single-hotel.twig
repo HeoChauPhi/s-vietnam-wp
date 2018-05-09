@@ -11,7 +11,7 @@
     <div class="container">
       <div class="row">
         <div class="hero-banner-body-left col-lg-5">
-          <h1 id="page-title">{{ post.title }}</h1>
+          <h1 id="page-title">{{ post.title|lower }}</h1>
           <div class="post-description">{{ post.get_field('description') }} <span class="learn-more">{{ __('learn more', 'pdj_theme') }}</span></div>
         </div>
 
@@ -127,7 +127,7 @@
         <div class="row hotel-overview-row hotel-overview-information">
           <div class="col-md-6 hotel-overview-col hotel-information">
             <div class="block-hotel-title">
-              <h3 class="hotel-title">{{ post.title }}</h3>
+              <h3 class="hotel-title">{{ post.title|lower }}</h3>
               {% if post.get_field('hotel_star') %}
                 <ul class="hotel-star">
                 {% for item in 1..5 %}
@@ -156,42 +156,72 @@
               {% if post.get_field('internet_access_services') %}
               <h3 class="hotel-service-title internet-access-services"><span class="accordion-header">{{ __("internet access", "pdj_theme") }}</span><span class="accordion-icon-custom"></span></h3>
               <div class="hotel-service-content">
-                {{ post.get_field('internet_access_services') }}
+                {% set internet_access_services_arr = post.get_field('internet_access_services')|split(';') %}
+                <ul class="hotel-service-list">
+                {% for item in internet_access_services_arr %}
+                  <li class="hotel-service-item">{{ item|trim }}</li>
+                {% endfor %}
+                </ul>
               </div>
               {% endif %}
 
               {% if post.get_field('relax_services') %}
               <h3 class="hotel-service-title relax-services"><span class="accordion-header">{{ __("things to do, ways to relax", "pdj_theme") }}</span><span class="accordion-icon-custom"></span></h3>
               <div class="hotel-service-content">
-                {{ post.get_field('relax_services') }}
+                {% set relax_services_arr = post.get_field('relax_services')|split(';') %}
+                <ul class="hotel-service-list">
+                {% for item in relax_services_arr %}
+                  <li class="hotel-service-item">{{ item|trim }}</li>
+                {% endfor %}
+                </ul>
               </div>
               {% endif %}
               
               {% if post.get_field('dining_drinking_snacking_services') %}
               <h3 class="hotel-service-title dining-drinking-snacking-services"><span class="accordion-header">{{ __("dining, drinking and snacking", "pdj_theme") }}</span><span class="accordion-icon-custom"></span></h3>
               <div class="hotel-service-content">
-                {{ post.get_field('dining_drinking_snacking_services') }}
+                {% set dining_drinking_snacking_services_arr = post.get_field('dining_drinking_snacking_services')|split(';') %}
+                <ul class="hotel-service-list">
+                {% for item in dining_drinking_snacking_services_arr %}
+                  <li class="hotel-service-item">{{ item|trim }}</li>
+                {% endfor %}
+                </ul>
               </div>
               {% endif %}  
               
               {% if post.get_field('conveniences_services') %}
               <h3 class="hotel-service-title conveniences-services"><span class="accordion-header">{{ __("services and conveniences", "pdj_theme") }}</span><span class="accordion-icon-custom"></span></h3>
               <div class="hotel-service-content">
-                {{ post.get_field('conveniences_services') }}
+                {% set conveniences_services_arr = post.get_field('conveniences_services')|split(';') %}
+                <ul class="hotel-service-list">
+                {% for item in conveniences_services_arr %}
+                  <li class="hotel-service-item">{{ item|trim }}</li>
+                {% endfor %}
+                </ul>
               </div>
               {% endif %}  
               
               {% if post.get_field('kids_services') %}
               <h3 class="hotel-service-title kids-services"><span class="accordion-header">{{ __("for the kids", "pdj_theme") }}</span><span class="accordion-icon-custom"></span></h3>
               <div class="hotel-service-content">
-                {{ post.get_field('kids_services') }}
+                {% set kids_services_arr = post.get_field('kids_services')|split(';') %}
+                <ul class="hotel-service-list">
+                {% for item in kids_services_arr %}
+                  <li class="hotel-service-item">{{ item|trim }}</li>
+                {% endfor %}
+                </ul>
               </div>
               {% endif %}  
 
               {% if post.get_field('getting_around_services') %}
               <h3 class="hotel-service-title getting-around-services"><span class="accordion-header">{{ __("getting around", "pdj_theme") }}</span><span class="accordion-icon-custom"></span></h3>
               <div class="hotel-service-content">
-                {{ post.get_field('getting_around_services') }}
+                {% set getting_around_services_arr = post.get_field('getting_around_services')|split(';') %}
+                <ul class="hotel-service-list">
+                {% for item in getting_around_services_arr %}
+                  <li class="hotel-service-item">{{ item|trim }}</li>
+                {% endfor %}
+                </ul>
               </div>
               {% endif %}              
             </div>
@@ -207,82 +237,119 @@
       <div id="rooms">
         <h3 class="hotel-title">{{ __("Rooms", "pdj_theme") }}</h3>
         <div class="room-type">
-        {% for room in post.get_field('room_type') %}
-          <div class="room-item">
-            <div class="room-thumbnail">
-              {% for image in room.get_field('post_gallery') %}
-                {% if loop.index <= 1 %}
-                  <img src="{{ image.image_link }}" >
+          {% for room in post.get_field('room_type') %}
+            {% if loop.index < 4 %}
+              {% include 'room-item.twig' with {'room': room} %}
+            {% endif %}
+          {% endfor %}
+
+          {% if post.get_field('room_type')|length > 3 %}
+            <div class="room-type-load-more">
+              {% for room in post.get_field('room_type') %}
+                {% if loop.index > 3 %}
+                  {% include 'room-item.twig' with {'room': room} %}
                 {% endif %}
               {% endfor %}
             </div>
-            <div class="room-info">
-              <h4 class="room-title">{{ room.title }}</h4>
-              <div class="room-desciption"> <a class="info-view-more" href="{{ room.link }}">{{ __("View More", "pdj_theme") }}</a></div>
-            </div>
-            <div class="room-service">
-              <h4 class="room-title">{{ __("Room services", "pdj_theme") }}</h4>
-              {% if room.room_facilities_services %}
-              {% set room_fac_arr = room.room_facilities_services|split(';') %}
-              <ul class="list-no-icon">
-                {% for item in room_fac_arr %}
-                  {% if loop.index <= 7 %}
-                    <li>{{ item }}</li>
-                  {% endif %}
-                {% endfor %}
-                {% if room_fac_arr|length > 7 %}
-                  <li><a class="service-view-more" href="#">{{ __("View More", "pdj_theme") }}</a></li>
-                {% endif %}
-              </ul>
-              {% endif %}
-            </div>
-            <div class="room-price">
-              <label class="room-price-label">{{ __("Price", "pdj_theme") }}</label>
-              <div class="room-price-number">{{ room.hotel_price_public }}</div>
-              <div><a class="btn btn-primary" href="#">{{ __("Add to Card", "pdj_theme") }}</a></div>
-              <div class="room-stock">{{ __("In stock", "pdj_theme") }}</div>
-            </div>
-          </div>
-        {% endfor %}
+            <a href="#" class="show-more" data-text-hide="{{ __('Show Less', 'pdj_theme') }}">{{ __('Show More', 'pdj_theme') }}</a>
+          {% endif %}
         </div>
       </div>
 
       <div id="reviews">
+        {% set location_point = random(range(9, 10, 0.1)) %}
+        {% set service_point = random(range(9, 10, 0.1)) %}
+        {% set room_point = random(range(9, 10, 0.1)) %}
+        {% set bf_point = random(range(8.5, 10, 0.1)) %}
+        {% set comfort_point = random(range(8.5, 10, 0.1)) %}
+        {% set average = (location_point + service_point + room_point + bf_point + comfort_point) / 5 %}
+        {% set review_arr = [{'label': 'location', 'value': location_point}, {'label': 'service', 'value': service_point}, {'label': 'room', 'value': room_point}, {'label': 'breakfast', 'value': bf_point}, {'label': 'comfort', 'value': comfort_point}] %}
 
+        <h3 class="hotel-title">{{ __("Guest reviews of ", "pdj_theme") }} <span>{{ post.title|lower }}</span></h3>
+        <div class="hotel-reviews-comments js-quicktab">
+          <ul class="hotel-quicktab-header">
+            <li><a href="#hotel-reviews"><i class="fa fa-sticky-note-o" aria-hidden="true"></i> {{ __('Reviews', 'pdj_theme') }}</a></li>
+            <li><a href="#hotel-comments"><i class="fa fa-commenting-o" aria-hidden="true"></i> {{ __('Comments', 'pdj_theme') }}</a></li>
+          </ul>
+
+          <div class="hotel-quicktab-content">
+            <div class="row">
+              <div class="reviews-total col-lg-4">
+                <div id="hotel-average" class="process-circle" data-value="{{ average|number_format(1) }}" data-text="{{ __('Excellent', 'pdj_theme') }}">{{ average|number_format(1) }}</div>
+              </div>
+
+              <div class="col-lg-8">
+                <div id="hotel-reviews">
+                  <div class="reviews-list">
+                    {% for item in review_arr %}
+                      {% set review_label = item.label|replace('_', ' ') %}
+                      {% if item.value|number_format() > 8 %}
+                        {% set review_meassage = __('Great', 'pdj_theme') %}
+                        {% set value_status = 'process-good' %}
+                      {% else %}
+                        {% set review_meassage = __('need to improve', 'pdj_theme') %}
+                        {% set value_status = 'process-bad' %}
+                      {% endif %}
+
+                      <div class="review-{{ item.label|lower }} review-item">
+                        <label class="review-label">{{ __(review_label, 'pdj_theme') }}</label>
+                        <div class="process-bar review-process-bar"><span class="process-value {{ value_status }}" style="width: {{ item.value * 10 }}%"></span></div>
+                        <div class="review-value {{ value_status }}">{{ item.value }}</div>
+                        <div class="review-meassage">{{ review_meassage }} {{ __(review_label, 'pdj_theme') }}</div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div id="hotel-comments">
+                  {% include 'comments-facebook.twig' with {'post': post} %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div id="photos">
-
+        <h3 class="hotel-title">{{ __("Photos", "pdj_theme") }}</h3>
+        <ul class="hotel-photo-list clearfix">
+        {% for item in post.get_field('post_gallery') %}
+        <li class="hotel-photo--item">
+          <a class="hotel-photo--image" href="{{ item.image_link }}" data-fancybox="images" data-caption="{{ post.title }}" style="background-image: url({{ item.image_link }});"></a>
+        </li>
+        
+        {% endfor %}
+        </ul>
       </div>
 
       <div id="hotel-around">
-        <div class="hotel-about">
-          <h4 class="hotel-block-title">{{ __("About", "pdj_theme") }}</h4>
+        <h3 class="hotel-title">{{ __("Other hotels around", "pdj_theme") }}:</h3>
+        <div class="hotel-around-filter">
+          <select class="js-select2 filter-by-price">
+            <option>{{ __("Filter by Price", "pdj_theme") }}</option>
+            <option value="htl">{{ __("Hight to Low", "pdj_theme") }}</option>
+            <option value="lth">{{ __("Low to Hight", "pdj_theme") }}</option>
+          </select>
+          <select class="js-select2 filter-by-area">
+            <option>{{ __("Filter by Area", "pdj_theme") }}</option>
+            <option value="nearest">{{ __("Nearest", "pdj_theme") }}</option>
+          </select>
         </div>
-        <div class="hotel-other">
-          <h4 class="hotel-block-title">{{ __("Other names used to reference this hotel", "pdj_theme") }}:</h4>
-          <div class="hotel-other-filter">
-            <div class="hotel-filter-control">
-              <select class="js-select2 filter-by-price">
-                <option>{{ __("Filter by Price", "pdj_theme") }}</option>
-                <option value="htl">{{ __("Hight to Low", "pdj_theme") }}</option>
-                <option value="lth">{{ __("Low to Hight", "pdj_theme") }}</option>
-              </select>
-              <select class="js-select2 filter-by-area">
-                <option>{{ __("Filter by Area", "pdj_theme") }}</option>
-                <option value="nearest">{{ __("Nearest", "pdj_theme") }}</option>
-              </select>
+        <div class="hotel-around-content">
+          {% if function('related', 'hotel_area') %}
+            <div class="hotel-related row">
+              {% for related in function('related', 'hotel_area', 4) %}
+                {% include 'related-hotel.twig' with {'post': related, 'default_bg': default_bg} only %}
+              {% endfor %}
             </div>
-            <div class="hotel-filter-content">
-
-            </div>
-          </div>
+          {% endif %}
         </div>
       </div>
       
       <div id="map">
 
       </div>
+
+      <div id="room-detail"></div>
     </div>
   </div>
 </div>

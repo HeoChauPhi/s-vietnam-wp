@@ -653,7 +653,15 @@
                             "type": "select",
                             "instructions": "",
                             "required": 0,
-                            "conditional_logic": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_5a39e36cc9fdf",
+                                        "operator": "==",
+                                        "value": "block"
+                                    }
+                                ]
+                            ],
                             "wrapper": {
                                 "width": "",
                                 "class": "",
@@ -1483,5 +1491,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1514181240
+    "modified": 1521263192
 }

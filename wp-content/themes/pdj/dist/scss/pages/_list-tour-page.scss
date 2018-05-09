@@ -113,6 +113,7 @@
         position: absolute;
         right: rem(15px);
         top: rem(30px);
+        z-index: 2;
 
         &-close {
           text-indent: -9999em;
@@ -126,6 +127,18 @@
       }
 
       &--service {
+        &:before {
+          background-color: $white;
+          bottom: 0;
+          content: "";
+          left: 0;
+          opacity: 0;
+          position: absolute;
+          right: 0;
+          top: 0;
+          z-index: 1;
+        }
+
         .tour-content-tabs {
           margin: 0;
           padding: 0;
@@ -142,7 +155,7 @@
 
             a {
               border-bottom: rem(3px) solid transparent;
-              color: $color-light;
+              color: $color-line;
               padding-bottom: rem(5px);
 
               &:hover {
@@ -153,8 +166,29 @@
             &.ui-tabs-active {
               a {
                 border-bottom: rem(3px) solid $color-seccond;
-                color: $color-base;
+                color: $color-line;
                 font-weight: 700;
+              }
+            }
+          }
+        }
+
+        &.show-content {
+          &:before {
+            visibility: hidden;
+            z-index: -1;
+          }
+
+          .tour-content-tabs {
+            li {
+              a {
+                color: $color-light;
+              }
+
+              &.ui-tabs-active {
+                a {
+                  color: $color-base;
+                }
               }
             }
           }

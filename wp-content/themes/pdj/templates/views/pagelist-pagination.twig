@@ -1,0 +1,14 @@
+{{ pagination|print_r }}
+
+<div class="block-pagination">
+  <ul class="pagination">
+  {% for pager in pagination.pages %}
+    {% set data_offset = (function("intConvert", pager.name) - 1) * function("intConvert", per_page) %}
+    {% if pager.link %}
+    <li class="{{ pager.class }} page-number-{{ pager.name }}"><a href="{{ pager.link }}" data-paged="{{ pager.name }}" data-offset="{{ data_offset }}" class="pager-link">{{ pager.title }}</a></li>
+    {% else %}
+    <li class="active {{ pager.class }} page-number-{{ pager.name }}"><a href="#" data-paged="{{ pager.name }}" data-offset="{{ data_offset }}" class="pager-link">{{ pager.title }}</a></li>
+    {% endif %}
+  {% endfor %}
+  </ul>
+</div>

@@ -29,6 +29,24 @@
           color: $color-base;
         }
       }
+
+      &.dots {
+        > a {
+          &.expand {
+            @extend .fa;
+            border-color: $color-link;
+            text-indent: -9999em;
+
+            &:before {
+              @extend .fa-long-arrow-left;
+              color: $color-link;
+              float: left;
+              line-height: 19px;
+              text-indent: 0;
+            }
+          }
+        }
+      }
     }
   }
 }

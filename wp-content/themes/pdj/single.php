@@ -29,12 +29,22 @@ $post_type = get_post_type();
 $context = Timber::get_context();
 $post = new TimberPost();
 $context['post'] = $post;
+$context['current_time'] = $current_time;
+$context['current_day'] = $current_day;
+
+// Tour Post type
 if ( $post_type && $post_type === "tour" ) {
   $tour_filters = $_GET;
   $context['tour_filters'] = $tour_filters;
 }
-$context['current_time'] = $current_time;
-$context['current_day'] = $current_day;
+
+// Hotel Post type
+if ( $post_type && $post_type === "hotel" ) {
+  $address = get_field('address_coordinates', $post->ID);
+  $address_arr = explode(',', $address);
+
+  //$context['hotel_address'] = Get_Address_From_Google_Maps(10.3509168, 107.0982344);
+}
 
 Timber::render( 'single.twig', $context );
 

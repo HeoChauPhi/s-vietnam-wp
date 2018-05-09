@@ -55,6 +55,11 @@
     .form-item {
       margin-bottom: rem(15px);
       position: relative;
+      flex: 1;
+
+      &.form-action {
+        text-align: right;
+      }
 
       &:last-of-type {
         margin-bottom: 0;
@@ -63,6 +68,7 @@
       @include breakpoint(laptop) {
         margin-bottom: 0;
         max-width: rem(170px);
+        min-width: rem(170px);
       }
 
       label {

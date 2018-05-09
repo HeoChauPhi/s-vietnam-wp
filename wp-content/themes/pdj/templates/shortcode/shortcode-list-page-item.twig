@@ -1,7 +1,13 @@
 {% for post in posts %}
   {% if post.type == "tour" %}
     {% include 'content-item-tour.twig' with {'post' : post, 'sort_layout' : sort_layout} %}
+  {% else %}
+  	{% include 'content-item-hotel.twig' with {'post' : post, 'sort_layout' : sort_layout} %}
   {% endif %}
 {% endfor %}
 
 <input type="hidden" name="pagination_total" value="{{ pagination_total }}">
+{% if pagination_total > 4 %}
+	{% set pagination_hidden = 4 .. pagination_total %}
+{% endif %}
+<input type="hidden" name="pagination_hidden" value="{{ pagination_hidden|join(';') }}">

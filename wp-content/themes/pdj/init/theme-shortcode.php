@@ -180,7 +180,12 @@ function create_mega_menu_post($attrs) {
     );
 
     $posts = Timber::get_posts($args);
-    $context['terms'] = Timber::get_terms('tour_type');
+    if ( $post_type == 'tour' ) {
+      $context['terms'] = Timber::get_terms('tour_feature');
+    } else {
+      $context['terms'] = Timber::get_terms('hotel_area');
+    }
+    
     $context['posts'] = $posts;
 
     try {
@@ -223,10 +228,34 @@ function pdj_create_template_list_page($attrs) {
 
     query_posts($args);
     $posts = Timber::get_posts($args);
+
+    /*if ( $post_type == 'hotel' ) {
+      foreach ($posts as $post) {
+        $room_prices = [];
+        $rooms = get_field('room_type', $post->ID);
+        //print_r($rooms);
+
+        foreach ($rooms as $room) {
+          $room_price = get_field('hotel_price_public', $room->ID);
+          array_push($room_prices, array(
+            'room_id' => $room->ID,
+            'room_price' => $room_price
+          ));
+        }
+
+        usort($room_prices, function($a, $b) {
+          return (int) $a['room_price'] - (int) $b['room_price'];
+        });
+
+        $post->room_id_min = $room_prices[0]['room_id'];
+        $post->room_price_min = $room_prices[0]['room_price'];
+      }
+    }*/
+
     $context['page_post_type'] = $post_type;
     $context['posts'] = $posts;
 
-    $context['pagination']    = Timber::get_pagination();
+    $context['pagination']    = Timber::get_pagination($args_pagination['size'] = 999999999);
     $context['current_paged'] = $context['pagination']['current'];
     $context['per_page']      = $per_page;
     $context['sort_layout']   = $sort_layout;
@@ -273,6 +302,12 @@ function pdj_create_template_list_page_item($attrs) {
       ),
     );
 
+    if ( $post_type == 'tour' ) {
+      $sort_price_key = 'tour_price';
+    } elseif ( $post_type == 'hotel' ) {
+      $sort_price_key = 'hotel_price_min';
+    }
+
     if ( $tour_date ) {
       $date = strtotime($tour_date);
       $day_of_date = date('l', $date);
@@ -286,28 +321,28 @@ function pdj_create_template_list_page_item($attrs) {
 
     if ($sort_by_price == 'lth') {
       $meta_query = array(
-        'key' => 'tour_price',
+        'key' => $sort_price_key,
         'compare'   => 'EXISTS',
       );
 
       $orderby = array(
-        'tour_price_clause' => 'ASC',
+        'sort_price_clause' => 'ASC',
       );
 
-      $args['meta_query']['tour_price_clause'] = $meta_query;
+      $args['meta_query']['sort_price_clause'] = $meta_query;
       $args['orderby'] = $orderby;
       
     } else if ($sort_by_price == 'htl') {
       $meta_query = array(
-        'key' => 'tour_price',
+        'key' => $sort_price_key,
         'compare'   => 'EXISTS',
       );
 
       $orderby = array(
-        'tour_price_clause' => 'DESC',
+        'sort_price_clause' => 'DESC',
       );
 
-      $args['meta_query']['tour_price_clause'] = $meta_query;
+      $args['meta_query']['sort_price_clause'] = $meta_query;
       $args['orderby'] = $orderby;
 
     } else {

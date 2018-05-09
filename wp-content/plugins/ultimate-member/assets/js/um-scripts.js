@@ -1,3 +1,7 @@
+/*jQuery('body').on('error', '.um-avatar', function() {
+	if( jQuery(this).data('load-error') != undefined ) return;
+	jQuery(this).data('load-error', '1').attr('src', jQuery(this).data('default'));
+});*/
 jQuery(document).ready(function() {
 
 	jQuery(document).on('click', '.um-dropdown a', function(e){
@@ -113,7 +117,7 @@ jQuery(document).ready(function() {
 		});
 	});
 
-	jQuery('.um-rating').raty({
+	jQuery('.um-rating').um_raty({
 		half: 		false,
 		starType: 	'i',
 		number: 	function() {return jQuery(this).attr('data-number');},
@@ -127,7 +131,7 @@ jQuery(document).ready(function() {
 		}
 	});
 
-	jQuery('.um-rating-readonly').raty({
+	jQuery('.um-rating-readonly').um_raty({
 		half: 		false,
 		starType: 	'i',
 		number: 	function() {return jQuery(this).attr('data-number');},
@@ -147,10 +151,9 @@ jQuery(document).ready(function() {
 		parent.find('input[type=hidden]').val('empty_file');
 
 		jQuery.ajax({
-			url: um_scripts.ajaxurl,
+			url: um_scripts.remove_file,
 			type: 'post',
 			data: {
-				action: 'ultimatemember_remove_file',
 				src: src
 			}
 		});
@@ -167,10 +170,9 @@ jQuery(document).ready(function() {
 		parent.find('input[type=hidden]').val('empty_file');
 
 		jQuery.ajax({
-			url: um_scripts.ajaxurl,
+			url: um_scripts.remove_file,
 			type: 'post',
 			data: {
-				action: 'ultimatemember_remove_file',
 				src: src
 			}
 		});
@@ -245,10 +247,9 @@ jQuery(document).ready(function() {
 		var hook = jQuery(this).data('hook');
 		var container = jQuery(this).parents('.um').find('.um-ajax-items');
 		jQuery.ajax({
-			url: um_scripts.ajaxurl,
+			url: um_scripts.ajax_paginate,
 			type: 'post',
 			data: {
-				action: 'ultimatemember_ajax_paginate',
 				hook: hook,
 				args: args
 			},
@@ -274,10 +275,9 @@ jQuery(document).ready(function() {
 		}
 
 		jQuery.ajax({
-			url: um_scripts.ajaxurl,
+			url: um_scripts.muted_action,
 			type: 'post',
 			data: {
-				action: 'ultimatemember_muted_action',
 				hook: hook,
 				user_id: user_id,
 				arguments: arguments
@@ -297,9 +297,9 @@ jQuery(document).ready(function() {
 	jQuery('.um-form input[class=um-button][type=submit]').removeAttr('disabled');
 
 	jQuery(document).one('click', '.um:not(.um-account) .um-form input[class=um-button][type=submit]:not(.um-has-recaptcha)', function() {
-			jQuery(this).attr('disabled','disabled');
-			jQuery(this).parents('form').submit();
-			
+		jQuery(this).attr('disabled','disabled');
+		jQuery(this).parents('form').submit();
+
 	});
 
 	
@@ -326,10 +326,10 @@ jQuery(document).ready(function() {
 			if( parent.val() != '' && typeof um_select_options_cache[ arr_key ] != 'object' ){
 							
 				jQuery.ajax({
-					url: um_ajax_url,
+					url: um_scripts.ajax_select_options,
 					type: 'post',
 					data: {
-						action: 'ultimatemember_ajax_select_options',
+						parent_option_name: parent_option,
 						parent_option: parent.val(),
 						child_callback: um_ajax_source,
 						child_name:  me.attr('name'),

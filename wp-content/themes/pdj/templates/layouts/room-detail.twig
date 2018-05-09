@@ -1,0 +1,70 @@
+<div class="single-room">
+	<div class="row">
+		<div class="single-room-media col-lg-8">
+			{% if post.get_field('post_gallery') %}
+			<div class="row">
+				<div class="room-media--control col-md-1">
+					{% for item in post.get_field('post_gallery') %}
+						<div class="room-media--control-item" style="background-image: url({{ item.image_link }});"></div>
+					{% endfor %}
+				</div>
+
+				<div class="room-media--slider col-md-11">
+					{% for item in post.get_field('post_gallery') %}
+						<div class="room-media--slider-item"><img src="{{ item.image_link }}"></div>
+					{% endfor %}
+				</div>
+			</div>
+			{% else %}
+				<div class="room-media--noslider">
+					<div class="room-media--noslider-item"><img src="{{ default_bg }}"></div>
+				</div>
+			{% endif %}
+		</div>
+		<div class="single-room-content col-lg-4">
+			<div class="single-room-header">
+				<h2 class="room-title">{{ post.title|lower }}</h2>
+			</div>
+			<div  class="single-room-body">
+				<div class="single-room--capacity">
+					<h3 class="single-room--block-title">{{ __('Room Capacity', 'pdj_theme') }}</h3>
+					<ul class="room-capacity">
+			      {% set room_capacity = function('intConvert', post.hotel_capacity_adult) %}
+			      {% if room_capacity > 2 %}
+			      <li class="room-type-family" data-room-capacity="{{ post.hotel_capacity_adult }}">{{ __('Family Room', 'pdj_theme') }}</li>
+			      <li class="room-type-team" data-room-capacity="{{ post.hotel_capacity_adult }}">{{ __('Team Room', 'pdj_theme') }}</li>
+			      {% else %}
+			      <li class="room-type-couple" data-room-capacity="{{ post.hotel_capacity_adult }}">{{ __('Couple Room', 'pdj_theme') }}</li>
+			      {% endif %}
+			      {% if post.hotel_capacity_child %}
+			      <li class="room-type-child" data-room-capacity="{{ post.hotel_capacity_child }}">{{ __('Child Include', 'pdj_theme') }}</li>
+			      {% endif %}
+			    </ul>
+				</div>
+
+				<div class="single-room--services">
+					<h3 class="single-room--block-title">{{ __('Room Service', 'pdj_theme') }}</h3>
+					<ul class="room-service">
+						{% if post.hotel_breakfast_included == 1 %}
+						<li>{{ __('breakfast included', 'pdj_theme') }}</li>
+						{% endif %}
+						{% if post.room_facilities_services %}
+							{% set services = post.room_facilities_services|split(';') %}
+							{% for service in services %}
+								<li>{{ service }}</li>
+							{% endfor %}
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+
+			<div class="single-room-footer">
+				<div class="block-add-to-card">
+					<h3 class="room-price-label">{{ __("Price", "pdj_theme") }}</h3>
+			    <div class="room-price-number">{{ post.hotel_price_public|number_format(0, '', '.') ~ ' ' ~ __('VNĐ', 'pdj_theme') }}</div>
+			    <div><a class="btn btn-primary btn-add-card" href="#" data-post-id="{{ post.ID }}">{{ __("Add to Card", "pdj_theme") }}</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

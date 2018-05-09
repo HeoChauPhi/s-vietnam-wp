@@ -193,7 +193,7 @@
             "placeholder": "",
             "maxlength": "",
             "rows": 5,
-            "new_lines": ""
+            "new_lines": "br"
         },
         {
             "key": "field_5a320cfbc5d0f",
@@ -212,7 +212,7 @@
             "placeholder": "",
             "maxlength": "",
             "rows": "",
-            "new_lines": ""
+            "new_lines": "br"
         },
         {
             "key": "field_5a320d0dc5d10",
@@ -231,7 +231,7 @@
             "placeholder": "",
             "maxlength": "",
             "rows": "",
-            "new_lines": ""
+            "new_lines": "br"
         },
         {
             "key": "field_5a320d48c5d11",
@@ -250,7 +250,7 @@
             "placeholder": "",
             "maxlength": "",
             "rows": "",
-            "new_lines": ""
+            "new_lines": "br"
         },
         {
             "key": "field_5a320d76c5d12",
@@ -269,7 +269,7 @@
             "placeholder": "",
             "maxlength": "",
             "rows": "",
-            "new_lines": ""
+            "new_lines": "br"
         },
         {
             "key": "field_5a320f5cc5d17",
@@ -411,6 +411,48 @@
             "min": "",
             "max": "",
             "return_format": "object"
+        },
+        {
+            "key": "field_5ade9df2127a9",
+            "label": "Hotel Price Min",
+            "name": "hotel_price_min",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": 0,
+            "max": "",
+            "step": ""
+        },
+        {
+            "key": "field_5ade9f837bf4d",
+            "label": "Hotel Price Max",
+            "name": "hotel_price_max",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": 0,
+            "max": "",
+            "step": ""
         }
     ],
     "location": [
@@ -430,5 +472,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1514282468
+    "modified": 1525232856
 }

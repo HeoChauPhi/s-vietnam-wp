@@ -38,6 +38,7 @@
     text-align: center;
     visibility: hidden;
     width: 25%;
+    padding: rem(0 15px);
 
     &.slick-slide {
       visibility: visible;
@@ -50,12 +51,17 @@
     background-size: cover;
     border-radius: rem(500px);
     height: rem(220px);
-    margin: 0 auto;
+    margin: 0 auto rem(15px) auto;
     overflow: hidden;
     width: rem(220px);
 
     img {
       visibility: hidden;
     }
+  }
+
+  .node-title {
+    margin: 0;
+    text-transform: capitalize;
   }
 }

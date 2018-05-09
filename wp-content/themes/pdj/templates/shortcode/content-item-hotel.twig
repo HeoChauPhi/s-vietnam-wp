@@ -1,0 +1,86 @@
+{% set post_index = loop.index %}
+{% if sort_layout == 'grid' %}
+  {% set item_class = 'col-lg-6 list-page--content-item-column' %}
+{% else %}
+  {% set item_class = '' %}
+{% endif %}
+
+{% if post.get_field('post_gallery') %}
+	{% set hotel_image = post.get_field('post_gallery').0.image_link %}
+{% else %}
+	{% set hotel_image = default_bg %}
+{% endif %}
+
+<div class="list-page--content-item list-page--content-tour {{ item_class }}">
+	<div class="tour-header clearfix">
+		<div class="tour-image" style="background-image: url({{ hotel_image }});">
+      <img src="{{ hotel_image }}">
+    </div>
+    <div class="tour-info">
+      <h3 class="tour-title"><a href="{{ post.link }}">{{ post.title }}</a></h3>
+      <div class="tour-price">
+        <span class="price-label">{{ __('Price', 'pdj_theme') }}/{{ __('Person', 'pdj_theme') }}: </span>
+        {% if post.get_field('hotel_price_min') == 0 or post.get_field('hotel_price_min') == null %}
+        <span class="price-value">{{ __("Contact", "pdj_theme") }}</span>
+        {% else %}
+        <span class="price-value">{{ post.get_field('hotel_price_min')|number_format(0, '.', ',') }}</span>
+        {% endif %}
+      </div>
+      <div class="tour-booking">
+        <form class="form-tour-booking" action="{{ post.link }}" method="GET">
+          <div class="form-item">
+            <input type="text" name="tour-departure-day" class="date-time-picker-ignore tour-departure-day" readonly="readonly" data-showdate="0;1;2;3;4;5;6;7">
+          </div>
+          <div class="form-action">
+            <input type="submit" value="{{ __("Booking", "pdj_theme") }}" class="btn btn-primary">
+          </div>
+        </form>
+      </div>
+    </div>
+	</div>
+
+	<div class="tour-content clearfix">
+    <div class="view-more">{{ __("view more", "pdj_theme") }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+    <div class="js-quicktab tour-content--service">
+      <ul class="tour-content-tabs">
+        {% if post.get_field('cancellation_policy') %}
+          <li class="quicktab-item"><a href="#{{ loop.index }}_cancellation_policy">{{ __("Cancellation Policy", "pdj_theme") }}</a></li>
+        {% endif %}
+
+        {% if post.get_field('hotel_child_policy') %}
+          <li class="quicktab-item"><a href="#{{ loop.index }}_child_policy">{{ __("Child Policy", "pdj_theme") }}</a></li>
+        {% endif %}
+
+        {% if post.get_field('hotel_promotion') %}
+          <li class="quicktab-item"><a href="#{{ loop.index }}_hotel_promotion">{{ __("Promotion", "pdj_theme") }}</a></li>
+        {% endif %}
+      </ul>
+      <div class="tour-content-tab-content show-on-click">
+        {% if post.get_field('cancellation_policy') %}
+        <div id="{{ loop.index }}_cancellation_policy" class="quicktab-content-item">
+          {{ post.get_field('cancellation_policy') }}
+        </div>
+        {% endif %}
+
+        {% if post.get_field('hotel_child_policy') %}
+        <div id="{{ loop.index }}_child_policy" class="quicktab-content-item">
+          {{ post.get_field('hotel_child_policy') }}
+        </div>
+        {% endif %}
+
+        {% if post.get_field('hotel_promotion') %}
+        <div id="{{ loop.index }}_hotel_promotion" class="quicktab-content-item">
+          {{ post.get_field('hotel_promotion') }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="tour-content--images show-on-click">
+      <ul>
+      {% for item in post.get_field('post_gallery') %}
+        <li><img id="{{ img_id }}" src="{{ item.image_link }}" class="hidden"><a class="fancybox-image-gallery" rel="tour_gallery_{{ post_index }}" href="{{ item.image_link }}" data-fancybox="images-{{ post.ID }}" data-caption="{{ post.title }}" style="background-image: url({{ item.image_link }});"></a></li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>

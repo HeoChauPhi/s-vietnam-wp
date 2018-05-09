@@ -1,5 +1,9 @@
 .block-sidebar {
   &--filter {
+    &-list {
+      @include scrollbar(300px, black);
+    }
+
     .block-title {
       margin-right: 20%;
     }
@@ -21,15 +25,28 @@
   li.sidebar-filter {
     cursor: pointer;
     padding: rem(3px 0);
+    position: relative;
 
     .fa {
       min-width: rem(14px);
+    }
+
+    .sidebar-filter--icon {
+      position: absolute;
+      right: 0;
+      text-align: center;
+      z-index: 99;
+
+      &.active {
+        @include transform(rotate(180deg));
+      }
     }
   }
 
   &--destination_taxonomy {
     ul.tour_destination--list {
-      ul.chils-list {
+      ul.child-list {
+        display: none;
         padding-left: rem(22px);
       }
     }

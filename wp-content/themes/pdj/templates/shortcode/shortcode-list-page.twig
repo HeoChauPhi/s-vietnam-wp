@@ -23,23 +23,59 @@
     {% for post in posts %}
       {% if page_post_type == "tour" %}
         {% include 'content-item-tour.twig' with {'post' : post} %}
+      {% elseif page_post_type == "hotel" %}
+        {% include 'content-item-hotel.twig' with {'post' : post} %}
       {% endif %}
     {% endfor %}
   </div>
 
+  {#{ pagination_filter|print_r }}
+  <br>
+  {{ pagination|print_r }#}
+
   {% if pagination %}
+    {% if pagination_filter %}
+      {% set pager_count = function("intConvert", pagination_filter.total) %}
+    {% else %}
+      {% set pager_count = function("intConvert", pagination.total) %}
+    {% endif %}
+    {% set pager_style = '' %}
+    {% set pager_hidden = '' %}
+
     <div class="block-pagination">
       <ul class="pagination">
       {% for pager in pagination.pages %}
         {% set data_offset = (function("intConvert", pager.name) - 1) * function("intConvert", per_page) %}
         {% if pager.link %}
-        <li class="{{ pager.class }} page-number-{{ pager.name }}"><a href="{{ pager.link }}" data-paged="{{ pager.name }}" data-offset="{{ data_offset }}" class="pager-link">{{ pager.title }}</a></li>
+          {% set pager_class = pager.class %}
+          {% set pager_link = pager.link %}
         {% else %}
-        <li class="active {{ pager.class }} page-number-{{ pager.name }}"><a href="#" data-paged="{{ pager.name }}" data-offset="{{ data_offset }}" class="pager-link">{{ pager.title }}</a></li>
+          {% set pager_class = 'active ' ~ pager.class %}
+          {% set pager_link = '#' %}
+        {% endif %}
+
+        {% if pager_count > 4 and function('in_array', loop.index, 4..(pager_count - 1) ) %}
+          {% set pager_style = 'display: none;' %} 
+        {% else %}
+          {% set pager_style = '' %}
+        {% endif %}
+
+        {% if pagination_filter %}
+          {% if function("intConvert", pager.name) > function("intConvert", pagination_filter.total) %}
+            {% set pager_style = 'display: none;' %}
+          {% endif %}
+        {% endif %}  
+
+        <li class="{{ pager_class }} page-number-{{ pager.name }}" style="{{ pager_style }}" data-page-number="{{ pager.name }}"><a href="{{ pager_link }}" data-paged="{{ pager.name }}" data-offset="{{ data_offset }}" class="pager-link">{{ pager.title }}</a></li>
+
+        {% if loop.index == 3 and loop.index < (function("intConvert", pagination.total) - 1) %}
+          <li class="dots page-number page-numbers" style="{{ pager_style }}"><a href="#" class="pager-link pager-dots">...</a></li>
         {% endif %}
       {% endfor %}
       </ul>
     </div>
+    <input type="hidden" name="current_pagination" value="{{ pagination.total }}">
+    <input type="hidden" name="pagination_last" value="{{ pager_count }}">
   {% endif %}
 
   <input type="hidden" name="page_post_type" value="{{ page_post_type }}">

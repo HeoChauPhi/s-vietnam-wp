@@ -1,0 +1,43 @@
+<div class="hotel-related--item col-lg-3 col-md-6">
+	<div class="hotel-related--item-inner">
+		<div class="hotel-media">
+		{% if post.get_field('post_gallery') %}
+			<div class="hotel-media--thumb" style="background-image: url({{ post.get_field('post_gallery').0.image_link }});"></div>
+	  {% else %}
+	  	<div class="hotel-media--thumb" style="background-image: url({{ default_bg }});"></div>
+	  {% endif %}
+		</div>
+		<div class="hotel-content">
+			<h2 class="hotel-title"><a href="{{ post.link }}">{{ post.title|lower }}</a></h2>
+
+			{% if post.get_field('hotel_star') %}
+	      <ul class="hotel-star">
+	      {% for item in 1..5 %}
+	        {% if loop.index <= post.get_field('hotel_star') %}
+	        <li><i class="fa fa-star" aria-hidden="true"></i></li>
+	        {% else %}
+	        <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+	        {% endif %}
+	      {% endfor %}
+	      </ul>
+	    {% endif %}
+
+	    {% if post.get_field('address') %}
+	      <div class="hotel-address">
+	        {{ post.get_field('address') }}
+	      </div>
+	    {% endif %}
+
+	    {% set hotel_price = function('get_field', 'hotel_price_public', post.room_type.0) %}
+	    {% for room in post.room_type %}
+		    {% set room_price = function('get_field', 'hotel_price_public', room) %}
+		    {% if function('intConvert', hotel_price) >= function('intConvert', room_price) %}
+		    	{% set hotel_price = room_price %}
+		    {% endif %}
+	    {% endfor %}
+	    {% if hotel_price %}
+	    	<div class="hotel-price">{{ hotel_price|number_format(0, '', '.') ~ ' ' ~ __('VNĐ', 'pdj_theme') }}</div>
+	    {% endif %}
+		</div>
+	</div>
+</div>

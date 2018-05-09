@@ -57,98 +57,134 @@
   };
 
   var pageListPagination = function() {
-    var this_pager = $(this);
-    var parrent_list = $(this).parents('.list-page--content');
-    var parrent_pager = $(this).parent();
-    var offset = $(this).data('offset');
-    var per_page = parrent_list.find('input[name="per_page"]').val();
-    var page_post_type = parrent_list.find('input[name="page_post_type"]').val();
-    var sort_layout = parrent_list.find('input[name="sort_layout"]').val();
-    var sort_by_price = parrent_list.prev('.list-page--sort-view').find('select.sort-list-price').val();
-    var date_val = $('.block-sidebar--tour_date input.date-time-picker-filter').val();
+    if ( $(this).hasClass('pager-dots') ) {
+      $(this).toggleClass('expand');
+      var pagination_last = $('.list-page--content input[name="pagination_last"]').val();
 
-    if ( date_val != '' ) {
-      var date_split = $('.block-sidebar--tour_date input.date-time-picker-filter').val().split("/");
-      var tour_date = date_split[1] + "/" + date_split[0] + "/" + date_split[2];
-    } else {
-      var tour_date = '';
-    }
+      console.log(pagination_last);
 
-    $.ajax({
-      type : "post",
-      dataType : "json",
-      url : pdjCustomAjax.ajaxurl,
-      data : {
-        action: "pagelistpagination",
-        data_sidebar_filter: sidebar_filter,
-        page_post_type: page_post_type,
-        per_page: per_page,
-        offset: offset,
-        sort_layout: sort_layout,
-        tour_date: tour_date,
-        sort_by_price: sort_by_price
-      },
-      beforeSend: function() {
-        if ( parrent_pager.hasClass('active') == false ) {
-          $('.block-sidebar--filter .block-content').append('<div class="ajax-loader"><i class="fa fa-spinner" aria-hidden="true"></i></div>');
-          $('.list-page--sort-view').append('<div class="ajax-loader"><i class="fa fa-spinner" aria-hidden="true"></i></div>');
-          parrent_list.find('.list-page--content-result').append('<div class="ajax-loader"><i class="fa fa-spinner" aria-hidden="true"></i></div>');
-        }
-      },
-      success: function(response) {
-        if ( parrent_pager.hasClass('active') == false ) {
-          if ( sort_layout == 'grid' ) {
-            var resulf_class = ' row';
-          } else {
-            var resulf_class = '';
-          }
-          parrent_list.find('.list-page--content-result').remove();
-          $('.block-sidebar--filter .block-content .ajax-loader').remove();
-          $('.list-page--sort-view .ajax-loader').remove();
-          parrent_list.prepend('<div class="list-page--content-result' + resulf_class + '">' + response + '</div>');
-          //console.log(response.markup_form);
-
-          var pagination_total = parrent_list.find('.list-page--content-result input[name="pagination_total"]').val();
-          var pagination_total_curent = $('.block-pagination .pagination li').length;
-
-          if ( pagination_total == 1 ) {
-            parrent_list.find('.block-pagination').remove();
-          } else if ( pagination_total < pagination_total_curent ) {
-            for (var i = pagination_total + 1; i < pagination_total_curent; i++) {
-              $('.block-pagination .pagination li').eq(i - 1).remove();
-            }
-            $('.block-pagination .pagination li').removeClass('active');
-            parrent_pager.addClass('active');
-          } else {
-            $('.block-pagination .pagination li').removeClass('active');
-            parrent_pager.addClass('active');
-          }
-
-          $('.list-page--content-item .view-more').on('click', tour_list_view_more);
-          $('.js-quicktab').tabs();
-          $('.date-time-picker-ignore').datepicker({
-            dateFormat: "dd/mm/yy",
-            showOn: "button",
-            buttonText: "Select date",
-            minDate: "+10d",
-            //maxDate: "+1d",
-            beforeShowDay: function(day){
-              var day = day.getDay();
-              var day_str = $(this).data('showdate').toString();
-              if ( day_str.search(day.toString()) == -1  ) {
-                return [false, ""]
-              } else {
-                return [true, ""]
-              }
-            }
-          });
-          $("html, body").animate({ scrollTop: 0 }, "500");
-        }
-      },
-      error: function(response) {
-
+      for (var i = 4; i < pagination_last; i++) {
+        $('.block-pagination .pagination li.page-number-' + i).toggle( "slide" );
       }
-    });
+
+      return false;
+    } else {
+      var this_pager = $(this);
+      var parrent_list = $(this).parents('.list-page--content');
+      var parrent_pager = $(this).parent();
+      var offset = $(this).data('offset');
+      var per_page = parrent_list.find('input[name="per_page"]').val();
+      var page_post_type = parrent_list.find('input[name="page_post_type"]').val();
+      var sort_layout = parrent_list.find('input[name="sort_layout"]').val();
+      var current_pagination = parrent_list.find('input[name="current_pagination"]').val();
+      var sort_by_price = parrent_list.prev('.list-page--sort-view').find('select.sort-list-price').val();
+
+      if ( $('.block-sidebar--tour_date input.date-time-picker-filter').length > 0 ) {
+        var date_val = $('.block-sidebar--tour_date input.date-time-picker-filter').val();
+      }
+
+      if ( date_val && (date_val != '') ) {
+        var date_split = $('.block-sidebar--tour_date input.date-time-picker-filter').val().split("/");
+        var tour_date = date_split[1] + "/" + date_split[0] + "/" + date_split[2];
+      } else {
+        var tour_date = '';
+      }
+      sidebar_filter['custom_field']['departure_day'] = tour_date;
+      console.log(sidebar_filter);
+      
+      $.ajax({
+        type : "post",
+        dataType : "json",
+        url : pdjCustomAjax.ajaxurl,
+        data : {
+          action: "pagelistpagination",
+          data_sidebar_filter: sidebar_filter,
+          page_post_type: page_post_type,
+          per_page: per_page,
+          offset: offset,
+          sort_layout: sort_layout,
+          sort_by_price: sort_by_price
+        },
+        beforeSend: function() {
+          if ( parrent_pager.hasClass('active') == false ) {
+            $('.block-sidebar--filter .block-content').append('<div class="ajax-loader"><i class="fa fa-spinner" aria-hidden="true"></i></div>');
+            $('.list-page--sort-view').append('<div class="ajax-loader"><i class="fa fa-spinner" aria-hidden="true"></i></div>');
+            parrent_list.find('.list-page--content-result').append('<div class="ajax-loader"><i class="fa fa-spinner" aria-hidden="true"></i></div>');
+          }
+        },
+        success: function(response) {
+          if ( parrent_pager.hasClass('active') == false ) {
+            if ( sort_layout == 'grid' ) {
+              var resulf_class = ' row';
+            } else {
+              var resulf_class = '';
+            }
+            parrent_list.find('.list-page--content-result').remove();
+            $('.block-sidebar--filter .block-content .ajax-loader').remove();
+            $('.list-page--sort-view .ajax-loader').remove();
+            parrent_list.prepend('<div class="list-page--content-result' + resulf_class + '">' + response + '</div>');
+            //console.log(response.markup_form);
+
+            var pagination_total = parrent_list.find('.list-page--content-result input[name="pagination_total"]').val();
+            var pagination_hidden = parrent_list.find('.list-page--content-result input[name="pagination_hidden"]').val();
+            var pagination_total_curent = current_pagination;
+
+            if ( pagination_total == 1 ) {
+              parrent_list.find('.block-pagination').remove();
+            } else if ( 1 < pagination_total < pagination_total_curent ) {
+
+              if ( pagination_total <= 3 || pagination_total == 4 ) {
+                $('.block-pagination .pagination li.dots').hide();
+              }
+
+              if ( pagination_hidden && pagination_total > 4 ) {
+                var pagination_hidden_arr = pagination_hidden.split(';');
+
+                for (var i = 4; i < pagination_total; i++) {
+                  if ( $.inArray(i, pagination_hidden_arr) ) {
+                    $('.block-pagination .pagination li.page-number-' + i).hide();
+                  }
+                }
+              }
+
+              for (var i = pagination_total + 1; i < pagination_total_curent; i++) {
+                $('.block-pagination .pagination li.page-number-' + i).hide();
+              }
+              $('.block-pagination .pagination li').removeClass('active');
+              parrent_pager.addClass('active');
+            } else {
+              $('.block-pagination .pagination li').removeClass('active');
+              parrent_pager.addClass('active');
+            }
+
+            parrent_list.find('input[name="pagination_last"]').val(pagination_total);
+
+            $('.list-page--content-item .view-more').on('click', tour_list_view_more);
+            $('.js-quicktab').tabs();
+            $('.date-time-picker-ignore').datepicker({
+              dateFormat: "dd/mm/yy",
+              showOn: "button",
+              buttonText: "Select date",
+              minDate: "+10d",
+              //maxDate: "+1d",
+              beforeShowDay: function(day){
+                var day = day.getDay();
+                var day_str = $(this).data('showdate').toString();
+                if ( day_str.search(day.toString()) == -1  ) {
+                  return [false, ""]
+                } else {
+                  return [true, ""]
+                }
+              }
+            });
+            $("html, body").animate({ scrollTop: 0 }, "500");
+          }
+        },
+        error: function(response) {
+
+        }
+      });
+    }
 
     return false;
   }
@@ -229,20 +265,21 @@
     }
   }
 
-  function slider_image_control() {
-    $('.hero-banner-slider').slick({
+  function slider_image_control($main, $control) {
+    $($main).slick({
       slidesToShow: 1,
       slidesToScroll: 1,
       arrows: false,
       fade: true,
-      asNavFor: '.hero-banner-control',
+      asNavFor: $control,
       autoplay: true,
       autoplaySpeed: 2000,
+      adaptiveHeight: true,
     });
-    $('.hero-banner-control').slick({
+    $($control).slick({
       slidesToShow: 5,
       slidesToScroll: 1,
-      asNavFor: '.hero-banner-slider',
+      asNavFor: $main,
       dots: false,
       focusOnSelect: true,
       autoplay: true,
@@ -458,6 +495,7 @@
     $(this).toggleClass('view-more-close');
     $(this).find('.fa').toggleClass('fa-angle-down fa-times-circle-o');
     parent_item.find('.show-on-click').toggleClass('active');
+    parent_item.find('.js-quicktab').toggleClass('show-content');
   }
 
   // Tour Detail Date Time Picker
@@ -489,7 +527,7 @@
         $("#sidebar-tour-booking input[name=tour-hotel-price]").val(markup_form.replace(/,/g,''));
 
         var markup_hotel = response.markup_hotel;
-        console.log(markup_hotel);
+        //console.log(markup_hotel);
         if ( markup_hotel.length > 0 ) {
           var markup_hotel_split = markup_hotel.split("|");
           for (i = 0; i < markup_hotel_split.length; i++) {
@@ -522,6 +560,7 @@
     var per_page = parrent_list.find('input[name="per_page"]').val();
     var page_post_type = parrent_list.find('input[name="page_post_type"]').val();
     var sort_layout = parrent_list.find('input[name="sort_layout"]').val();
+    var current_pagination = parrent_list.find('input[name="current_pagination"]').val();
 
     if ( date != null ) {
       var date_split = date.split("/");
@@ -556,14 +595,30 @@
 
         parrent_list.find('.block-pagination ul.pagination li.page-number').show();
         var pagination_total = parrent_list.find('.list-page--content-result input[name="pagination_total"]').val();
-        var pagination_total_curent = $('.block-pagination .pagination li').length;
+        var pagination_hidden = parrent_list.find('.list-page--content-result input[name="pagination_hidden"]').val();
+        var pagination_total_curent = current_pagination;
 
         if ( pagination_total == 1 ) {
           parrent_list.find('.block-pagination').hide();
         } else if ( 1 < pagination_total < pagination_total_curent ) {
           parrent_list.find('.block-pagination').show();
+
+          if ( pagination_total <= 3 || pagination_total == 4 ) {
+            $('.block-pagination .pagination li.dots').hide();
+          }
+
+          if ( pagination_hidden && pagination_total > 4 ) {
+            var pagination_hidden_arr = pagination_hidden.split(';');
+
+            for (var i = 4; i < pagination_total; i++) {
+              if ( $.inArray(i, pagination_hidden_arr) ) {
+                $('.block-pagination .pagination li.page-number-' + i).hide();
+              }
+            }
+          }
+
           for (i = parseInt(pagination_total) + 1; i <= parseInt(pagination_total_curent); i++) {
-            $('.block-pagination .pagination li').eq(i - 1).hide();
+            $('.block-pagination .pagination li.page-number-' + i).hide();
           }
           parrent_list.find('.block-pagination ul.pagination li.page-number').removeClass('active');
           parrent_list.find('.block-pagination ul.pagination li.page-number-1').addClass('active');
@@ -572,6 +627,7 @@
           parrent_list.find('.block-pagination ul.pagination li.page-number').removeClass('active');
           parrent_list.find('.block-pagination ul.pagination li.page-number-1').addClass('active');
         }
+        parrent_list.find('input[name="pagination_last"]').val(pagination_total);
 
         $('.list-page--content-item .view-more').on('click', tour_list_view_more);
         $('.js-quicktab').tabs();
@@ -589,12 +645,13 @@
     });
   }
 
-  function sidebarFilterData(data) {
+  function sidebarFilterData(datafilter) {
     var parrent_list = $('.list-page--content');
     var sort_by_price = $('.list-page--sort-view select.sort-list-price').val();
     var per_page = parrent_list.find('input[name="per_page"]').val();
     var page_post_type = parrent_list.find('input[name="page_post_type"]').val();
     var sort_layout = parrent_list.find('input[name="sort_layout"]').val();
+    var current_pagination = parrent_list.find('input[name="current_pagination"]').val();
 
     $.ajax({
       type: "post",
@@ -602,7 +659,7 @@
       url: pdjCustomAjax.ajaxurl,
       data: {
         action: "filtertest",
-        data_sidebar_filter: data,
+        data_sidebar_filter: datafilter,
         sort_by_price: sort_by_price,
         per_page: per_page,
         page_post_type: page_post_type,
@@ -630,14 +687,30 @@
 
         parrent_list.find('.block-pagination ul.pagination li.page-number').show();
         var pagination_total = parrent_list.find('.list-page--content-result input[name="pagination_total"]').val();
-        var pagination_total_curent = $('.block-pagination .pagination li').length;
+        var pagination_hidden = parrent_list.find('.list-page--content-result input[name="pagination_hidden"]').val();
+        var pagination_total_curent = current_pagination;
 
         if ( pagination_total == 1 ) {
           parrent_list.find('.block-pagination').hide();
         } else if ( 1 < pagination_total < pagination_total_curent ) {
           parrent_list.find('.block-pagination').show();
+
+          if ( pagination_total <= 3 || pagination_total == 4 ) {
+            $('.block-pagination .pagination li.dots').hide();
+          }
+
+          if ( pagination_hidden && pagination_total > 4 ) {
+            var pagination_hidden_arr = pagination_hidden.split(';');
+
+            for (var i = 4; i < pagination_total; i++) {
+              if ( $.inArray(i, pagination_hidden_arr) ) {
+                $('.block-pagination .pagination li.page-number-' + i).hide();
+              }
+            }
+          }
+
           for (i = parseInt(pagination_total) + 1; i <= parseInt(pagination_total_curent); i++) {
-            $('.block-pagination .pagination li').eq(i - 1).hide();
+            $('.block-pagination .pagination li.page-number-' + i).hide();
           }
           parrent_list.find('.block-pagination ul.pagination li.page-number').removeClass('active');
           parrent_list.find('.block-pagination ul.pagination li.page-number-1').addClass('active');
@@ -646,6 +719,7 @@
           parrent_list.find('.block-pagination ul.pagination li.page-number').removeClass('active');
           parrent_list.find('.block-pagination ul.pagination li.page-number-1').addClass('active');
         }
+        parrent_list.find('input[name="pagination_last"]').val(pagination_total);
 
         $('.list-page--content-item .view-more').on('click', tour_list_view_more);
         $('.js-quicktab').tabs();
@@ -731,6 +805,44 @@
     }
   }
 
+  // Room Detail Ajax
+  var roomDetailLoad = function () {
+    var room_id = $(this).data('room-id');
+    //alert(room_id);
+    $('#room-detail').empty();
+
+    $.ajax({
+      type : "post",
+      dataType : "json",
+      url : pdjCustomAjax.ajaxurl,
+      data : {action: "roomdetailload", room_id: room_id},
+      beforeSend: function() {
+        //parent_views.find('.load-views').empty();
+        $('#room-detail').append('<div class="ajax-loader"><i class="fa fa-spinner" aria-hidden="true"></i></div>');
+        $.fancybox.open({
+          src  : '#room-detail',
+          type : 'inline',
+          opts : {
+            afterClose : function( instance, current ) {
+              $('#room-detail').empty();
+            }
+          }
+        });
+      },
+      success: function(response) {
+        //console.log(response);
+        $('#room-detail .ajax-loader').remove();
+        $('#room-detail').append(response);
+        slider_image_control('.room-media--slider', '.room-media--control');
+      },
+      error: function(response) {
+
+      }
+    });
+    
+    return false;
+  }
+
   /* ===========================================================
    * ===========================================================
    * ===========================================================
@@ -775,7 +887,7 @@
       collapsible: true ,
       heightStyle: "content"
     });
-    $('.location-complete').geocomplete();
+    $('.location-complete').geocomplete({details: ".googlecomplete"});
     if ( $('.jcarousel-slider').length > 0 ) {
       jcarousel_slider('.jcarousel-slider', 4);
     }
@@ -805,7 +917,7 @@
     js_spinner();
     $('.form-text-dropdown').on('click', order_dropdown);
     $('.block-video-thumbnail').on('click', video_slide);
-    slider_image_control();
+    slider_image_control('.hero-banner-slider', '.hero-banner-control');
     $('.scroll-next-block .scroll-icon').on('click', scroll_next_block);
     //booking_hotel();
     /*$('.view-full-size').fancybox({
@@ -815,28 +927,34 @@
         console.log(event);
       }
     });*/
-    $('.fancybox-image-gallery').fancybox({
-      'hideOnContentClick': false,
-      'showCloseButton' : true,
-      'enableEscapeButton' : true,
-      beforeLoad: function() {
+    /*$('.fancybox-image-gallery').fancybox({
+      buttons : [
+        "zoom",
+        "close"
+      ],
+      opts : {
+        beforeLoad: function() {
         var content_id = $(this).attr("href");
         $(content_id).removeClass('hidden');
-      },
-      afterClose: function() {
-        var content_id = $(this).attr("href");
-        $(content_id).addClass('hidden');
+        },
+        afterClose: function() {
+          var content_id = $(this).attr("href");
+          $(content_id).addClass('hidden');
+        }
       }
     });
     $('.fancybox-image-docs').fancybox({
-      'hideOnContentClick': false,
-      'showCloseButton' : true,
-      'enableEscapeButton' : true,
-      afterClose: function() {
-        var content_id = $(this).attr("href");
-        $(content_id).show();
+      buttons : [
+        "zoom",
+        "close"
+      ],
+      opts : {
+        afterClose: function() {
+          var content_id = $(this).attr("href");
+          $(content_id).show();
+        }
       }
-    });
+    });*/
 
     /* Page List */
     $('.list-page--content-item .view-more').on('click', tour_list_view_more);
@@ -879,9 +997,16 @@
       }
     });
 
-    $('li.sidebar-filter').each(function(){
-      //console.log($(this).data('value'));
+    if ($(".date-time-picker-filter").length > 0) {
+      var default_tour_date = $(".date-time-picker-filter").data('defaultdate');
+      //console.log(new Date(default_tour_date));
+      if ( default_tour_date ) {
+        $(".date-time-picker-filter").datepicker('setDate', new Date(default_tour_date));
+        sidebar_filter["custom_field"]['departure_day'] = default_tour_date;
+      }
+    }
 
+    $('li.sidebar-filter').each(function(){
       if ( $(this).data('tax') ) {
         var data_taxs = $(this).data('tax');
         sidebar_filter['taxonomy'][data_taxs] = '';
@@ -891,6 +1016,29 @@
         var data_filters = $(this).data('filter');
         sidebar_filter['custom_field'][data_filters] = '';
       }
+    });
+
+    $('li.sidebar-filter').each(function(){
+      var data_value = $(this).data('value');
+      if ( $(this).hasClass('active') ) {
+        if ( $(this).data('tax') ) {
+          sidebar_filter["taxonomy"][$(this).data('tax')] = sidebar_filter["taxonomy"][$(this).data('tax')] + '|' + data_value;
+        }
+
+        if ( $(this).data('filter') ) {
+          sidebar_filter["custom_field"][$(this).data('filter')] = sidebar_filter["custom_field"][$(this).data('filter')] + '|' + data_value;
+        }
+      }
+    });
+
+    $('.sidebar-filter--icon').on('click', function() {
+      var parent_list = $(this).parent('li.sidebar-filter');
+      var child_list = parent_list.next('ul.child-list');
+
+      $(this).toggleClass('active');
+      child_list.toggleClass('show');
+
+      return false;
     });
 
     $('li.sidebar-filter').on("click", function(){
@@ -916,6 +1064,9 @@
           sidebar_filter["custom_field"][data_filter] = sidebar_filter["custom_field"][data_filter].replace('|' + data_value, '');
         }
       }
+
+      //console.log(sidebar_filter);
+      //return false;
 
       sidebarFilterData(sidebar_filter);
     });
@@ -997,7 +1148,7 @@
         if ( term_data_tax ) {
           sidebar_filter['taxonomy'][term_data_tax] = "";
         }
-        console.log(sidebar_filter);
+        //console.log(sidebar_filter);
         sidebarFilterData(sidebar_filter);
       }
 
@@ -1010,6 +1161,39 @@
 
     /* Single Hotel call Functions */
     $('.main-single-tabs a').on('click', tabClickScroll);
+    $('.hotel-overview-information .hotel-overview-col').matchHeight();
+    $('#rooms .room-item > div').matchHeight();
+    $('.hotel-related .hotel-related--item-inner').matchHeight();
+    $('a.room-view-more').on('click', roomDetailLoad);
+
+    if ( $('#hotel-average').length > 0 ) {
+      //console.log($('#hotel-average').data('value'));
+      Circles.create({
+        id:           'hotel-average',
+        radius:       110,
+        value:        $('#hotel-average').data('value'),
+        maxValue:     10,
+        width:        7,
+        text:         function(value){return value;},
+        duration:     200,
+        wrpClass:     'circles-wrp',
+        textClass:    'circles-text',
+        styleWrapper: true,
+        styleText:    true
+      });
+    }
+
+    if ( $('.show-more').length > 0 ) {
+      $('.show-more').on('click', function() {
+        var text_hide = $(this).data('text-hide');
+        var text_show = $(this).text();
+
+        $('.room-type-load-more').toggleClass('show-rooms');
+        $(this).text(text_hide);
+        $(this).data('text-hide', text_show);
+        return false;
+      });
+    }
   });
 
   $(window).load(function() {

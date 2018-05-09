@@ -8,7 +8,6 @@
 
 {% block content %}
   {#<img src="https://drive.google.com/uc?id=0B0NjbcI5jSiLY3JOS3hlM2NETEE">#}
-
   <div class="main-content">
     <div class="container">
       <div class="main-single has-sidebar sidebar-left">
@@ -17,11 +16,14 @@
             <div id="test-data"></div>
             {{ function('the_content') }}
             {{ function('flexible_content', 'group_component') }}
+            {% if search_results %}
+              {% include 'shortcode-list-page.twig' with {'posts': results_data, 'page_post_type': template_type, 'pagination': pagination, 'per_page': per_page} %}
+            {% endif %}
           </div>
 
           <div class="sidebar col-lg-3 pull-left">
             <div class="sidebar-inner">
-              {% include 'sidebar-left.twig' %}
+              {% include 'sidebar-left.twig' with {'template_type': template_type, 'default_tour_date': tour_date, 'tour_feature_term': tour_feature_term} %}
             </div>
           </div>
         </div>

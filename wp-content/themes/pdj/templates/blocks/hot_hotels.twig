@@ -1,14 +1,14 @@
-{% if function("get_field", "post_gallery", hotel.ID) %}
-  {% set bg_url = function('get_field', 'post_gallery', hotel.ID)[0].image_link %}
-{% else %}
-  {% set bg_url = default_bg %}
-{% endif %}
-
 <div class="block block-hot-hotels {{ component_class }}">
   <h2 class="block-title">{{ hot_hotels_title }}</h2>
   <div class="block-content">
     <div class="hot-hotels--list">
     {% for hotel in hot_hotels_list_custom %}
+      {% if function("get_field", "post_gallery", hotel.ID) %}
+        {% set bg_url = function('get_field', 'post_gallery', hotel.ID)[0].image_link %}
+      {% else %}
+        {% set bg_url = default_bg %}
+      {% endif %}
+
       <div class="hot-hotels--item clearfix">
         <div class="hotel-image" style="background-image: url({{ bg_url }});"></div>
         <div class="hotel-content">

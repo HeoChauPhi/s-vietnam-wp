@@ -163,7 +163,7 @@
         @include breakpoint(laptop) {
           @include transition(padding 0.5s ease);
           background: none !important;
-          padding: rem(0 19px 30px 19px);
+          padding: rem(0 19px 42px 19px);
 
           &:hover:before {
             -webkit-animation: mymove 0.3s; /* Safari 4.0 - 8.0 */

@@ -39,7 +39,7 @@ if(!is_admin()) {
     wp_register_script('lib-youtubebackground', get_stylesheet_directory_uri() . '/dist/js/libs/jquery.youtubebackground.js', array('jquery'), '1.0.5', TRUE);
     wp_enqueue_script('lib-youtubebackground');
 
-    wp_register_script('lib-fancybox', get_stylesheet_directory_uri() . '/dist/js/libs/jquery.fancybox.pack.js', array('jquery'), '2.1.7', TRUE);
+    wp_register_script('lib-fancybox', get_stylesheet_directory_uri() . '/dist/js/libs/jquery.fancybox.min.js', array('jquery'), '3.3.1', TRUE);
     wp_enqueue_script('lib-fancybox');
 
     wp_register_script('lib-daterangepicker', get_stylesheet_directory_uri() . '/dist/js/libs/jquery.daterangepicker.js', array('jquery'), '0.15.0', TRUE);
@@ -56,6 +56,9 @@ if(!is_admin()) {
 
     wp_register_script('lib-number', get_stylesheet_directory_uri() . '/dist/js/libs/jquery.number.min.js', array('jquery'), '2.1.5', TRUE);
     wp_enqueue_script('lib-number');
+
+    wp_register_script('lib-circles', get_stylesheet_directory_uri() . '/dist/js/libs/circles.min.js', array('jquery'), '0.0.6', TRUE);
+    wp_enqueue_script('lib-circles');
 
     /*wp_register_script('lib-bootstrap-slider', get_stylesheet_directory_uri() . '/dist/js/libs/bootstrap-slider.min.js', array('jquery'), '10.0.0', TRUE);
     wp_enqueue_script('lib-bootstrap-slider');*/
