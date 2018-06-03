@@ -887,7 +887,11 @@
       collapsible: true ,
       heightStyle: "content"
     });
-    $('.location-complete').geocomplete({details: ".googlecomplete"});
+
+    $('form').each(function () {
+      $(this).find('.location-complete').geocomplete({details: "#" + $(this)[0].id + " .googlecomplete"});
+    });
+    
     if ( $('.jcarousel-slider').length > 0 ) {
       jcarousel_slider('.jcarousel-slider', 4);
     }

@@ -9,6 +9,14 @@
  * @since    Timber 0.1
  */
 
+/*$instagram_url = 'https://api.instagram.com/v1/users/nam.niem.no/media/recent?access_token=1985704956.1677ed0.84af8e8b80854a55a022bbea72c13fc5';
+$instagram_request = file_get_contents($instagram_url);
+$instagram_arr = json_decode($instagram_request);
+echo 'ok';
+print_r($instagram_arr);
+
+die();*/
+
 // https://crm.zoho.com/crm/private/json/Quotes/insertRecords
 // 04929aee313e8ca2e632e8dcc9fbe0f3
 

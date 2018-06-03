@@ -1,7 +1,13 @@
 <form id="form-hotel" class="form-hotel" name="form-hotel" method="GET" action="{{ function('home_url') }}/search-service">
   <div class="form-item">
     <label for="hotel_area">{{ __('Area', 'pdj_theme') }}</label>
-    <input type="text" name="hotel_area" class="hotel_area location-complete">
+    {% set hotel_area = function("get_terms", "hotel_area", 'orderby=count&hide_empty=0&order=DESC') %}
+    <select name="hotel_area" class="hotel_area js-select2">
+      <option value="" checked>{{ __('- Select -', 'pdj_theme') }}</option>
+      {% for term in hotel_area %}
+        <option value="{{ term.term_id }}">{{ term.name }}</option>
+      {% endfor %}
+    </select>
   </div>
 
   <div class="group-items daterange_picker">
@@ -60,6 +66,10 @@
 
       <div class="form-item hotel_childs_age_list"></div>
     </div>
+  </div>
+
+  <div class="form-hidden hidden">
+    <input type="hidden" name="search_type" value="hotel">
   </div>
 
   <div class="form-item form-action">

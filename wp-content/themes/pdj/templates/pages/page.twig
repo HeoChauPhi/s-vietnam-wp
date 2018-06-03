@@ -14,6 +14,12 @@
 
 {% block content %}
   {#<img src="https://drive.google.com/uc?id=0B0NjbcI5jSiLY3JOS3hlM2NETEE">#}
-  {{ function('the_content') }}
   {{ function('flexible_content', 'group_component') }}
+  <div class="main-content--wrapper">
+    <div class="container">
+      <div class="main-content">
+        {{ function('the_content') }}
+      </div>
+    </div>
+  </div>
 {% endblock %}

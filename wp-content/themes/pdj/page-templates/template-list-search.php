@@ -18,6 +18,7 @@ if (isset($_REQUEST['tour_feature'])) {
   $term_id = $_REQUEST['tour_feature'];
   $term = new TimberTerm($term_id);
   $term_name = $term->name;
+  $search_title = $term_name;
 }
 if (isset($_REQUEST['tour_start']) && !empty($_REQUEST['tour_start'])) {
   $date_string = $_REQUEST['tour_start'];
@@ -29,7 +30,7 @@ if (isset($_REQUEST['destination_taxonomy']) && !empty($_REQUEST['destination_ta
 }
 if (isset($_REQUEST['administrative_area_level_1']) && !empty($_REQUEST['administrative_area_level_1'])) {
   $administrative_area_level_1 = $_REQUEST['administrative_area_level_1'];
-  $tour_area = strtolower(str_replace(' ', '_', vn_convert_to_en($administrative_area_level_1)));
+  //echo $administrative_area_level_1;
 }
 
 // Fly Ticket Variables
@@ -57,7 +58,10 @@ if (isset($_REQUEST['fly_childs'])) {
 
 // Hotel Variables
 if (isset($_REQUEST['hotel_area'])) {
-  $hotel_area = $_REQUEST['hotel_area'];
+  $hotel_term_id = $_REQUEST['hotel_area'];
+  $hotel_term = new TimberTerm($hotel_term_id);
+  $hotel_term_name = $hotel_term->name;
+  $search_title = $hotel_term_name;
 }
 if (isset($_REQUEST['hotel_date_checkin'])) {
   $hotel_date_checkin = $_REQUEST['hotel_date_checkin'];
@@ -77,6 +81,8 @@ if (isset($_REQUEST['hotel_childs'])) {
 if (isset($_REQUEST['hotel_childs_age'])) {
   $hotel_childs_age = $_REQUEST['hotel_childs_age'];
 }
+
+//die();
 
 /*
  * List posts
@@ -135,7 +141,8 @@ switch ($post_type) {
       );
     }
 
-    if ( $tour_area ) {
+    if ( $administrative_area_level_1 ) {
+      $tour_area = strtolower(str_replace(' ', '_', vn_convert_to_en($administrative_area_level_1)));
       $args_data['tax_query'][] = array(
         'taxonomy' => $destination_taxonomy,
         'field'    => 'slug',
@@ -162,12 +169,38 @@ switch ($post_type) {
     //print_r($pagination_arr);
     break;
   
+  case 'hotel':
+    $args_data['post_type'] = 'hotel';
+    $args_pagination['post_type'] = 'hotel';
+
+    if ( $hotel_term_id ) {
+      $args_data['tax_query'][] = array(
+        'taxonomy' => $hotel_term->taxonomy,
+        'field'    => 'term_id',
+        'terms'    => array($hotel_term_id),
+        'operator' => 'IN',
+      );
+    }
+
+    query_posts($args_data);
+    $hotel = Timber::get_posts($args_data);
+    $pagination = Timber::get_pagination();
+
+    $context['results_data'] = $hotel;
+    $context['pagination_filter'] = $pagination;
+    $context['per_page'] = $per_page;
+
+    query_posts($args_pagination);
+    $pagination_arr = Timber::get_pagination($args_pagination_arr['size'] = 999999999);
+    $context['pagination'] = $pagination_arr;
+    break;
+
   default:
     # code...
     break;
 }
 
-$post->title = __('Search results for: ', 'pdj_theme') . $term_name;
+$post->title = __('Search results for: ', 'pdj_theme') . $search_title;
 $context['post'] = $post;
 $context['template_type'] = $post_type;
 $context['search_results'] = 1;
