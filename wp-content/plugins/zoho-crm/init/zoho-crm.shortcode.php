@@ -1,4 +1,36 @@
 <?php
+add_shortcode('zoho_author_token', 'zoho_wp_register_author_token');
+function zoho_wp_register_author_token($attrs) {
+  extract(shortcode_atts (array(
+    'app' => $app
+  ), $attrs));
+
+  ob_start();
+    $zohocrm_options = get_option('zoho_crm_board_settings');
+
+    switch ($app) {
+      case 'docs':
+        $zohodocs_author_token  = $zohocrm_options['docs_author_token'];
+        echo strrev($zohodocs_author_token);
+        break;
+
+      case 'invoice':
+        $zohoinvoice_author_token  = $zohocrm_options['invoice_author_token'];
+        echo strrev($zohoinvoice_author_token);
+        break;
+      
+      default:
+        $zohocrm_author_token  = $zohocrm_options['author_token'];
+        echo strrev($zohocrm_author_token);
+        break;
+    }
+
+  $content = ob_get_contents();
+  ob_end_clean();
+  return $content;
+  wp_reset_postdata();
+}
+
 add_shortcode('zoho_wp_login_block', 'zoho_wp_login_block_render');
 function zoho_wp_login_block_render($attrs) {
   extract(shortcode_atts (array(

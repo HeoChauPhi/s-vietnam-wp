@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 4.9.x - Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-05-17 13:04:41+0000\n"
+"PO-Revision-Date: 2018-05-29 17:37:01+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -157,7 +157,7 @@ msgstr "[%1$s] Подтвердите действие: %2$s"
 msgid "Erase Personal Data"
 msgstr "Удаление персональных данных"
 
-#: wp-includes/comment-template.php:2206
+#: wp-includes/comment-template.php:2208
 msgid "Save my name, email, and website in this browser for the next time I comment."
 msgstr "Сохранить моё имя, email и адрес сайта в этом браузере для последующих моих комментариев."
 
@@ -673,7 +673,7 @@ msgid "Unsupported value type (%s)."
 msgstr "Неподдерживаемый тип значения (%s)."
 
 #. translators: %s: register_widget()
-#: wp-includes/widgets.php:1053
+#: wp-includes/widgets.php:1054
 msgid "Widgets need to be registered using %s, before they can be displayed."
 msgstr "Виджеты должны быть зарегистрированы с помощью %s, перед тем как они будут отображаться."
 
@@ -2364,7 +2364,7 @@ msgctxt "New site notification email subject"
 msgid "[%1$s] Activate %2$s"
 msgstr "[%1$s] Активируйте %2$s"
 
-#: wp-includes/widgets.php:1398 wp-includes/widgets.php:1507
+#: wp-includes/widgets.php:1399 wp-includes/widgets.php:1508
 msgid "RSS Error:"
 msgstr "Ошибка RSS:"
 
@@ -4465,13 +4465,13 @@ msgid "1 result found. Use up and down arrow keys to navigate."
 msgstr "Найден 1 результат. Для перемещения используйте клавиши вверх/вниз."
 
 #. translators: %s: user name
-#: wp-includes/comment-template.php:2234
+#: wp-includes/comment-template.php:2236
 msgid "Logged in as %s. Edit your profile."
 msgstr "Вы вошли как %s. Изменить профиль."
 
 #. translators: 1: edit user link, 2: accessibility text, 3: user name, 4:
 #. logout URL
-#: wp-includes/comment-template.php:2231
+#: wp-includes/comment-template.php:2233
 msgid "<a href=\"%1$s\" aria-label=\"%2$s\">Logged in as %3$s</a>. <a href=\"%4$s\">Log out?</a>"
 msgstr "<a href=\"%1$s\" aria-label=\"%2$s\">Вы вошли как %3$s</a>. <a href=\"%4$s\">Выйти?</a>"
 
@@ -4704,7 +4704,7 @@ msgstr "<strong>ОШИБКА</strong>: Извините, это имя поль�
 
 #: wp-includes/rest-api/class-wp-rest-request.php:861
 msgid "Invalid parameter."
-msgstr "Неверный параметер."
+msgstr "Неверный параметр."
 
 #. translators: %s: menu name
 #: wp-includes/customize/class-wp-customize-nav-menu-locations-control.php:77
@@ -9631,7 +9631,7 @@ msgstr "<strong>Конфликт значений VHOST и SUBDOMAIN_INSTALL.</s
 msgid "<strong>ERROR</strong>: This username is invalid because it uses illegal characters. Please enter a valid username."
 msgstr "<strong>ОШИБКА</strong>: Это имя пользователя некорректно, поскольку оно содержит недопустимые символы. Пожалуйста, введите корректное имя пользователя."
 
-#: wp-includes/comment-template.php:2209
+#: wp-includes/comment-template.php:2211
 msgid "Required fields are marked %s"
 msgstr "Обязательные поля помечены %s"
 
@@ -9793,7 +9793,7 @@ msgstr "При добавлении вас к этому сайту произо
 msgid "This file is too big. Files must be less than %d KB in size."
 msgstr "Файл слишком велик. Размер файлов должен быть менее %d КБ."
 
-#: wp-includes/comment-template.php:2238
+#: wp-includes/comment-template.php:2240
 msgid "Your email address will not be published."
 msgstr "Ваш e-mail не будет опубликован."
 
@@ -10595,7 +10595,7 @@ msgstr "закрыть теги"
 msgid "Close all open tags"
 msgstr "Закрыть все открытые теги"
 
-#: wp-includes/rss.php:917 wp-includes/widgets.php:1413
+#: wp-includes/rss.php:917 wp-includes/widgets.php:1414
 msgid "An error has occurred, which probably means the feed is down. Try again later."
 msgstr "Произошла ошибка; возможно, лента недоступна. Повторите попытку позже."
 
@@ -11581,31 +11581,31 @@ msgstr "новый цикл WordPress"
 msgid "Tag Cloud"
 msgstr "Облако меток"
 
-#: wp-includes/widgets.php:1535
+#: wp-includes/widgets.php:1536
 msgid "Display item date?"
 msgstr "Отображать дату элемента?"
 
-#: wp-includes/widgets.php:1532
+#: wp-includes/widgets.php:1533
 msgid "Display item author if available?"
 msgstr "Отображать автора элемента (если есть)?"
 
-#: wp-includes/widgets.php:1529
+#: wp-includes/widgets.php:1530
 msgid "Display item content?"
 msgstr "Отображать содержимое элемента?"
 
-#: wp-includes/widgets.php:1519
+#: wp-includes/widgets.php:1520
 msgid "How many items would you like to display?"
 msgstr "Сколько элементов отображать?"
 
-#: wp-includes/widgets.php:1516
+#: wp-includes/widgets.php:1517
 msgid "Give the feed a title (optional):"
 msgstr "Назовите ленту (необязательно):"
 
-#: wp-includes/widgets.php:1513
+#: wp-includes/widgets.php:1514
 msgid "Enter the RSS feed URL here:"
 msgstr "Введите адрес RSS-ленты:"
 
-#: wp-includes/widgets.php:1429
+#: wp-includes/widgets.php:1430
 msgid "Untitled"
 msgstr "Без названия"
 
@@ -11731,19 +11731,19 @@ msgstr "Обнаружен дубликат комментария. Кажетс
 msgid "Unapproved"
 msgstr "Не одобрен"
 
-#: wp-includes/comment-template.php:2253
+#: wp-includes/comment-template.php:2255
 msgid "Post Comment"
 msgstr "Отправить комментарий"
 
-#: wp-includes/comment-template.php:2252
+#: wp-includes/comment-template.php:2254
 msgid "Cancel reply"
 msgstr "Отменить ответ"
 
-#: wp-includes/comment-template.php:1874 wp-includes/comment-template.php:2247
+#: wp-includes/comment-template.php:1874 wp-includes/comment-template.php:2249
 msgid "Leave a Reply to %s"
 msgstr "Добавить комментарий для %s"
 
-#: wp-includes/comment-template.php:1873 wp-includes/comment-template.php:2246
+#: wp-includes/comment-template.php:1873 wp-includes/comment-template.php:2248
 msgid "Leave a Reply"
 msgstr "Добавить комментарий"
 
@@ -11836,7 +11836,7 @@ msgid "Tags: "
 msgstr "Метки: "
 
 #. translators: %s: login URL
-#: wp-includes/comment-template.php:2225
+#: wp-includes/comment-template.php:2227
 msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
 msgstr "Для отправки комментария вам необходимо <a href=\"%s\">авторизоваться</a>."
 
@@ -11894,7 +11894,7 @@ msgstr "По какой-то странной и неприятной причи
 msgid "Widgets"
 msgstr "Виджеты"
 
-#: wp-includes/comment-template.php:2203
+#: wp-includes/comment-template.php:2205
 msgid "Website"
 msgstr "Сайт"
 
@@ -11950,7 +11950,7 @@ msgstr "Формат даты"
 msgid "Allow people to post comments on new articles"
 msgstr "Разрешить оставлять комментарии на новые статьи"
 
-#: wp-includes/comment-template.php:2201 wp-login.php:810
+#: wp-includes/comment-template.php:2203 wp-login.php:810
 msgid "Email"
 msgstr "E-mail"
 
@@ -12411,7 +12411,7 @@ msgstr "Нет"
 msgid "Description"
 msgstr "Описание"
 
-#: wp-includes/comment-template.php:2199
+#: wp-includes/comment-template.php:2201
 msgid "Name"
 msgstr "Имя"
 
@@ -12499,7 +12499,7 @@ msgstr "Нет"
 msgid "Are you sure you want to do this?"
 msgstr "Вы уверены, что хотите это сделать?"
 
-#: wp-includes/comment-template.php:1082 wp-includes/comment-template.php:2221
+#: wp-includes/comment-template.php:1082 wp-includes/comment-template.php:2223
 msgctxt "noun"
 msgid "Comment"
 msgstr "Комментарий"

@@ -24,6 +24,9 @@ require_once('init/options/option.php');
 if(!is_admin()) {
   // Add scripts
   function ct_libs_scripts() {
+    wp_register_script('cookie', get_stylesheet_directory_uri() . '/dist/js/libs/jquery.cookie.js', array('jquery'), '1.4.1');
+    wp_enqueue_script('cookie');
+
     wp_register_script('moment', get_stylesheet_directory_uri() . '/dist/js/libs/moment.min.js', array('jquery'), '2.16.0');
     wp_enqueue_script('moment');
 

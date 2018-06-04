@@ -90,7 +90,7 @@
         var tour_date = '';
       }
       sidebar_filter['custom_field']['departure_day'] = tour_date;
-      console.log(sidebar_filter);
+      //console.log(sidebar_filter);
       
       $.ajax({
         type : "post",
@@ -490,6 +490,68 @@
     });
   }
 
+  // Add to card
+  var addToCard = function () {
+    var data = {
+      'hotel_data' : {},
+      'tour_data' : {}
+    };
+    
+    var date = new Date();
+    date.setTime(date.getTime() + (5 * 1000));
+    $.cookie('card_data', 1, { expires: date, path: '/' });
+
+    var form_parrent = $(this).parents('form');
+    var post_type = $(this).data('type');
+
+    if ( post_type == 'tour' ) {
+      var tour_id = form_parrent.find('input[name=tour-post-id]').val();
+      var tour_date = form_parrent.find('input[name=tour-departure-day]').val();
+      var tour_adults = form_parrent.find('select[name=tour-adults]').val();
+      var tour_child_less = form_parrent.find('select[name=tour-child-less]').val();
+      var tour_child_fromto = form_parrent.find('select[name=tour-child-fromto]').val();
+      var tour_child_more = form_parrent.find('select[name=tour-child-more]').val();
+      var tour_hotel_id = form_parrent.find('input[name=tour-hotel-id]').val();
+
+      //data['tour_data'] = tour_id + '|' + tour_date + '|' + tour_adults + '|' + tour_child_less + '|' + tour_child_fromto + '|' + tour_child_more + '|' + tour_hotel_id;
+      data['tour_data']['tour_post_id']       = tour_id;
+      data['tour_data']['tour_date']          = tour_date;
+      data['tour_data']['tour_adults']        = tour_adults;
+      data['tour_data']['tour_child_less']    = tour_child_less;
+      data['tour_data']['tour_child_fromto']  = tour_child_fromto;
+      data['tour_data']['tour_child_more']    = tour_child_more;
+      data['tour_data']['tour_hotel_id']      = tour_hotel_id;
+    } else {
+      return false;
+    }
+
+    $.ajax({
+      type: "post",
+      dataType : "json",
+      url: pdjCustomAjax.ajaxurl,
+      data: {
+        action: "addtocard",
+        data: data
+      },
+      beforeSend: function() {
+        form_parrent.append('<div class="ajax-loader"><i class="fa fa-spinner" aria-hidden="true"></i></div>');
+        $('.block-card').append('<div class="ajax-loader"><i class="fa fa-spinner" aria-hidden="true"></i></div>');
+      },
+      success: function(response) {
+        console.log(response);
+        console.log($.cookie('card_data'));
+        $('.block-card .order-resulf').append(response);
+        form_parrent.find('.ajax-loader').remove();
+        $('.block-card .ajax-loader').remove();
+      },
+      error: function(response) {
+
+      }
+    });
+
+    return false;
+  }
+
   var tour_list_view_more = function() {
     var parent_item = $(this).parent();
     $(this).toggleClass('view-more-close');
@@ -843,6 +905,13 @@
     return false;
   }
 
+  /* Tour Detail */
+  var bookingSubmit = function () {
+    console.log('booked');
+
+    return false;
+  }
+
   /* ===========================================================
    * ===========================================================
    * ===========================================================
@@ -959,6 +1028,8 @@
         }
       }
     });*/
+
+    $('.btn-add-cart').on('click', addToCard);
 
     /* Page List */
     $('.list-page--content-item .view-more').on('click', tour_list_view_more);
@@ -1198,6 +1269,9 @@
         return false;
       });
     }
+
+    /* Single Tour call functions */
+    $('#sidebar-tour-booking .form-action button[type="submit"]').on('click', bookingSubmit);
   });
 
   $(window).load(function() {

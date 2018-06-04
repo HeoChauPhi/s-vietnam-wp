@@ -86,9 +86,9 @@ $response = curl_exec($ch);
 $response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
-var_dump($response);
-
-$estimate_url = 'https://invoice.zoho.com/api/v3/estimates?authtoken=d863578a6488191640945f4b5729c8cc&organization_id=654389817';
+var_dump($response);*/
+// 53c02016da6ce06984ffc03f7c8b1b31
+/*$estimate_url = 'https://invoice.zoho.com/api/v3/items?authtoken=53c02016da6ce06984ffc03f7c8b1b31&organization_id=653588696&name_startswith=A%20LA%20CARTE%20DANANG%20BEACH%20HOTEL';
 $estimate_request = file_get_contents($estimate_url);
 $estimate_arr = json_decode($estimate_request);
 print_r($estimate_arr);
@@ -98,9 +98,9 @@ foreach ($estimate_arr->estimates as $key => $value) {
   if ( $value->reference_number == $reference_number ) {
     $estimate_id = $value->estimate_id;
   }
-}
+}*/
 
-echo $estimate_id;*/
+//echo $estimate_id;
 
 //$estimate_sent = 'https://invoice.zoho.com/api/v3/estimates/'.$estimate_id.'/status/sent/';
 /*$json_string = '{"send_from_org_email_id":false,"to_mail_ids":["linhthuy.hanu@gmail.com"]}';

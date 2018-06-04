@@ -418,6 +418,47 @@ function filtertest_callback() {
   wp_die();
 }
 
+// Date Filter Ajax action.
+add_action( 'wp_ajax_addtocard', 'addtocardajax_callback' );
+add_action( 'wp_ajax_nopriv_addtocard', 'addtocardajax_callback' );
+function addtocardajax_callback() {
+  //setcookie('card_data', serialize($card_data), time()+3600);
+
+  $card_data = array(
+    'hotel_data'  => array(),
+    'tour_data'   => array()
+  );
+
+  $reset_card_data = $card_data;
+
+  $values = $_REQUEST;
+
+  if ( $values['data']['hotel_data'] ) {
+    array_push($card_data['hotel_data'], $values['data']['hotel_data']);
+  }
+
+  if ( $values['data']['tour_data'] ) {
+    array_push($card_data['tour_data'], $values['data']['tour_data']);
+  }
+
+  if ( $_COOKIE['card_data'] == 1 ) {
+    $content = $card_data;
+  } else {
+    $content = $reset_card_data;
+  }
+
+  /*try {
+    Timber::render( array( 'card-item.twig'), $context );
+  } catch (Exception $e) {
+    echo __('Could not find a card-item.twig file for Shortcode.', 'pdj_theme');
+  }*/
+
+  $result = json_encode($content);
+  echo $result;
+  wp_die();
+}
+
+
 // menu
 add_theme_support( 'menus' );
 add_action('init', 'rhm_menu');

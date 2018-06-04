@@ -19334,6 +19334,17 @@ main .block-title {
 .hotel-map .google-build-map {
   height: 100% !important; }
 
+.block-card {
+  background: #fff;
+  border: 1px solid;
+  bottom: 0;
+  -webkit-box-shadow: 0 0 5px 0 #000;
+  box-shadow: 0 0 5px 0 #000;
+  left: 0;
+  min-width: 350px;
+  position: fixed;
+  z-index: 99; }
+
 .block-timezone--list {
   margin: -0.5rem 0rem; }
 
