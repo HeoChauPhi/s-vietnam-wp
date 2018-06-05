@@ -418,40 +418,32 @@ function filtertest_callback() {
   wp_die();
 }
 
-// Date Filter Ajax action.
-add_action( 'wp_ajax_addtocard', 'addtocardajax_callback' );
-add_action( 'wp_ajax_nopriv_addtocard', 'addtocardajax_callback' );
-function addtocardajax_callback() {
-  //setcookie('card_data', serialize($card_data), time()+3600);
-
-  $card_data = array(
-    'hotel_data'  => array(),
-    'tour_data'   => array()
-  );
-
-  $reset_card_data = $card_data;
+// Add To cart Ajax
+add_action( 'wp_ajax_addtocart', 'addtocartajax_callback' );
+add_action( 'wp_ajax_nopriv_addtocart', 'addtocartajax_callback' );
+function addtocartajax_callback() {
+  //setcookie('cart_data', serialize($cart_data), time()+3600);
+  ob_start();
 
   $values = $_REQUEST;
 
-  if ( $values['data']['hotel_data'] ) {
-    array_push($card_data['hotel_data'], $values['data']['hotel_data']);
-  }
+  $data_tour = $values['data']['tour_data'];
 
-  if ( $values['data']['tour_data'] ) {
-    array_push($card_data['tour_data'], $values['data']['tour_data']);
-  }
+  //$content = $data_tour;
 
-  if ( $_COOKIE['card_data'] == 1 ) {
-    $content = $card_data;
-  } else {
-    $content = $reset_card_data;
-  }
+  setcookie('cart_data', serialize($values['data']), time()+50);
 
-  /*try {
-    Timber::render( array( 'card-item.twig'), $context );
+  $context    = Timber::get_context();
+  $context['data_tour'] = $data_tour;
+
+  try {
+    Timber::render( array( 'cart-item.twig'), $context );
   } catch (Exception $e) {
-    echo __('Could not find a card-item.twig file for Shortcode.', 'pdj_theme');
-  }*/
+    echo __('Could not find a cart-item.twig file for Shortcode.', 'pdj_theme');
+  }
+
+  $content = ob_get_contents();
+  ob_end_clean();
 
   $result = json_encode($content);
   echo $result;

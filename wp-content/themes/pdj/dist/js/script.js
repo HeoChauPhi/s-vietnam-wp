@@ -490,17 +490,13 @@
     });
   }
 
-  // Add to card
-  var addToCard = function () {
-    var data = {
-      'hotel_data' : {},
-      'tour_data' : {}
-    };
-    
-    var date = new Date();
-    date.setTime(date.getTime() + (5 * 1000));
-    $.cookie('card_data', 1, { expires: date, path: '/' });
+  // Add to cart
 
+  var data_cart = {
+    'hotel_data' : [],
+    'tour_data' : []
+  };
+  var addToCart = function () {
     var form_parrent = $(this).parents('form');
     var post_type = $(this).data('type');
 
@@ -514,13 +510,16 @@
       var tour_hotel_id = form_parrent.find('input[name=tour-hotel-id]').val();
 
       //data['tour_data'] = tour_id + '|' + tour_date + '|' + tour_adults + '|' + tour_child_less + '|' + tour_child_fromto + '|' + tour_child_more + '|' + tour_hotel_id;
-      data['tour_data']['tour_post_id']       = tour_id;
-      data['tour_data']['tour_date']          = tour_date;
-      data['tour_data']['tour_adults']        = tour_adults;
-      data['tour_data']['tour_child_less']    = tour_child_less;
-      data['tour_data']['tour_child_fromto']  = tour_child_fromto;
-      data['tour_data']['tour_child_more']    = tour_child_more;
-      data['tour_data']['tour_hotel_id']      = tour_hotel_id;
+
+      data_cart['tour_data'].push({
+              'tour_post_id'      : tour_id,
+              'tour_date'         : tour_date,
+              'tour_adults'       : tour_adults,
+              'tour_child_less'   : tour_child_less,
+              'tour_child_fromto' : tour_child_fromto,
+              'tour_child_more'   : tour_child_more,
+              'tour_hotel_id'     : tour_hotel_id,
+            });
     } else {
       return false;
     }
@@ -530,19 +529,19 @@
       dataType : "json",
       url: pdjCustomAjax.ajaxurl,
       data: {
-        action: "addtocard",
-        data: data
+        action: "addtocart",
+        data: data_cart
       },
       beforeSend: function() {
         form_parrent.append('<div class="ajax-loader"><i class="fa fa-spinner" aria-hidden="true"></i></div>');
-        $('.block-card').append('<div class="ajax-loader"><i class="fa fa-spinner" aria-hidden="true"></i></div>');
+        $('.block-cart').append('<div class="ajax-loader"><i class="fa fa-spinner" aria-hidden="true"></i></div>');
       },
       success: function(response) {
         console.log(response);
-        console.log($.cookie('card_data'));
-        $('.block-card .order-resulf').append(response);
+        //console.log($.cookie('cart_data'));
+        $('.block-cart .order-resulf').append(response);
         form_parrent.find('.ajax-loader').remove();
-        $('.block-card .ajax-loader').remove();
+        $('.block-cart .ajax-loader').remove();
       },
       error: function(response) {
 
@@ -1029,7 +1028,7 @@
       }
     });*/
 
-    $('.btn-add-cart').on('click', addToCard);
+    $('.btn-add-cart').on('click', addToCart);
 
     /* Page List */
     $('.list-page--content-item .view-more').on('click', tour_list_view_more);
